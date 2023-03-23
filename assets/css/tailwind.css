@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.input {
+  --tw-input-background-color: white;
+  --tw-input-border-radius: 4px;
+  --tw-input-font-size: 13px;
+  --tw-input-ring-color: theme(colors.gray.200);
+  --tw-input-ring-width: 1px;
+  --tw-input-padding-x: 1.5rem;
+  --tw-input-padding-y: 14px;
+  background-color: var(--tw-input-background-color);
+  border-radius: var(--tw-input-border-radius);
+  box-shadow: 0 0 0 var(--tw-input-ring-width) var(--tw-input-ring-color);
+  display: block;
+  font-size: var(--tw-input-font-size);
+  height: var(--tw-input-height);
+  padding: var(--tw-input-padding-y) var(--tw-input-padding-x);
+  transition-duration: 300ms;
+  width: 100%;
+}
+.input:autofill {
+  box-shadow:
+    inset 1000px 1000px 1000px var(--tw-input-background-color), 0 0 0 var(--tw-input-ring-width) var(--tw-input-ring-color);
+  font-size: var(--tw-input-font-size);
+}
+
+.input-lg {
+  --tw-input-padding-y: 1rem;
+}
+
+.input-sm {
+  --tw-input-padding-x: 0.5rem;
+  --tw-input-padding-y: 0.5rem;
+}
+
+.input-textarea {
+  --tw-input-height: 12.5rem;
+}
+
+.input::placeholder {
+  @apply text-gray-400;
+}
+
+.input:hover {
+  --tw-input-ring-color: theme(colors.blue.300);
+}
+.input:focus, .input:focus-within {
+  --tw-input-ring-color: theme(colors.blue.500);
+  outline: none;
+}
+.input:is(.has-input-error *) {
+  --tw-input-ring-color: theme(colors.red.200);
+}
+.input:is(.has-input-error *):hover {
+  --tw-input-ring-color: theme(colors.red.300);
+}
+.input:is(.has-input-error *):focus {
+  --tw-input-ring-color: theme(colors.red.500);
+}
+.input.px-0 {
+  --tw-input-padding-x: 0;
+}
+
+.input[readonly] {
+  --tw-input-background-color: theme(colors.gray.100);
+}
