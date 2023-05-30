@@ -112,9 +112,10 @@ const paginationLinks = computed(() => {
   ];
 });
 const paginatedData = computed(() => {
-  const items = mode.value === 'server'
-    ? serverPaginatedItems.value
-    : locallyPaginatedItems.value;
+  const items =
+    mode.value === 'server'
+      ? serverPaginatedItems.value
+      : locallyPaginatedItems.value;
 
   return items.map((row, index) => ({
     row,
@@ -216,14 +217,13 @@ const isFilterApplied = (filterName: string) => {
   return props.activeFilters.includes(filterName);
 };
 const toggleFilter = (filterName: string) => {
-  
   let activeFilters = [...props.activeFilters];
   ((index: number) => {
     index > -1
-    ? activeFilters.splice(index, 1)
-    : activeFilters.push(filterName);
+      ? activeFilters.splice(index, 1)
+      : activeFilters.push(filterName);
   })(activeFilters.indexOf(filterName));
-  
+
   emit('update:activeFilters', activeFilters);
 };
 // ========================================================================================================================
@@ -246,11 +246,13 @@ const getSelectionIndex = (item: any) => {
   });
 };
 const selectAll = (state: boolean) =>
-  mode.value === 'server' ? selectAllFromServer(state) : selectAllFromLocal(state);
+  mode.value === 'server'
+    ? selectAllFromServer(state)
+    : selectAllFromLocal(state);
 const toggleSelection = (item: any) => {
   const index = getSelectionIndex(item);
   index > -1 ? selection.value.splice(index, 1) : selection.value.push(item);
-  
+
   emit('update:selection', selection.value);
 };
 const clearSelection = () => emit('update:selection', (selection.value = []));
@@ -298,7 +300,10 @@ const locallyPaginatedItems = computed(() => {
   return locallyModifiedItems.value.splice(start.value, end.value);
 });
 const selectAllFromLocal = (state: boolean) => {
-  return emit('update:selection', (selection.value = state ? [...localItems.value] : []));
+  return emit(
+    'update:selection',
+    (selection.value = state ? [...localItems.value] : [])
+  );
 };
 watch(
   () => props.data,
@@ -316,7 +321,10 @@ const controller = ref(new AbortController());
 const serverItems = ref<any[]>([]);
 const serverPaginatedItems = computed(() => serverItems.value);
 const selectAllFromServer = (state: boolean) => {
-  return emit('update:selection', (selection.value = state ? [...serverItems.value] : []));
+  return emit(
+    'update:selection',
+    (selection.value = state ? [...serverItems.value] : [])
+  );
 };
 const serverQuery = computed(() => {
   return {
@@ -337,11 +345,9 @@ const { isLoading, error, load } = useApiRequest<any[]>({
   signal: controller.value.signal,
   onSuccess: (response) => {
     if (!response?.data) return;
-    const {
-      data,
-      meta: { size, limit, page, total, lastPage },
-    } = response;
+    const { data } = response;
     serverItems.value = data || [];
+    const { size, limit, page, lastPage, total } = response.meta!;
     meta.count = size;
     meta.limit = limit;
     meta.page = page;
@@ -442,13 +448,13 @@ provide<DatatableProvision>('datatable', {
       <CommonDatatableSearch />
     </div>
     <div class="flex gap-4" v-if="filterable && filters.length">
-      <template v-for="(filter) in filters">
+      <template v-for="filter in filters">
         <CommonTag
           :is-active="isFilterApplied(filter.name)"
           :right-icon="isFilterApplied(filter.name) ? 'close' : undefined"
           @click="toggleFilter(filter.name)"
         >
-          {{ filter.title || filter.name}}
+          {{ filter.title || filter.name }}
         </CommonTag>
       </template>
       <span>{{ selection.length }}</span>
@@ -476,7 +482,10 @@ provide<DatatableProvision>('datatable', {
           <thead>
             <tr class="bg-gray-50">
               <CommonDatatableTH v-if="selectable">
-                <CommonFormCheckbox class="mb-0" @update:modelValue="selectAll" />
+                <CommonFormCheckbox
+                  class="mb-0"
+                  @update:modelValue="selectAll"
+                />
               </CommonDatatableTH>
               <slot name="heading" />
             </tr>
