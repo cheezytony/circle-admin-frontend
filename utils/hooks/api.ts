@@ -57,6 +57,7 @@ export const useApiRequest = <T = object>({
     return await new Promise((resolve, reject) => {
       if (authorize) {
         headers.Authorization = `Bearer ${token}`;
+        headers.Accept = 'application/json';
       }
 
       return axios<HTTPResponseData<T>>({

@@ -328,10 +328,7 @@ const serverQuery = computed(() => {
     limit: meta.limit,
   };
 });
-const { isLoading, error, load } = useApiRequest<{
-  data: any[];
-  meta: Record<string, any>;
-}>({
+const { isLoading, error, load } = useApiRequest<any[]>({
   baseURL: props.baseURL,
   url: props.url || '',
   authorize: true,
@@ -341,16 +338,14 @@ const { isLoading, error, load } = useApiRequest<{
   onSuccess: (response) => {
     if (!response?.data) return;
     const {
-      data: {
-        data,
-        meta: { size, limit, page, total, pages },
-      },
+      data,
+      meta: { size, limit, page, total, lastPage },
     } = response;
     serverItems.value = data || [];
     meta.count = size;
     meta.limit = limit;
     meta.page = page;
-    meta.pages = pages;
+    meta.pages = lastPage;
     meta.total = total;
   },
 });
