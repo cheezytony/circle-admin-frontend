@@ -5,7 +5,7 @@ import { numberFormat } from "~~/utils/filters/numbers";
 import { useApiRequest } from "~~/utils/hooks/api";
 
 useHead({
-  title: "Flexi Savings",
+  title: "Goal Savings",
 });
 
 const columns = [
@@ -17,7 +17,7 @@ const columns = [
 ];
 const column = ref("id");
 const { data } = useApiRequest<Array<Savings>>({
-  url: `http://127.0.0.1:4000/admin/flexi`,
+  url: `http://127.0.0.1:4000/admin/goals?challenge_type=PERSONAL`,
   authorize: true,
   autoLoad: true,
 });
@@ -26,7 +26,7 @@ const { data } = useApiRequest<Array<Savings>>({
 <template>
   <div>
     <CommonPageHeading>
-      <CommonHeading level="2">Flexi Savings</CommonHeading>
+      <CommonHeading level="2">Goal Savings</CommonHeading>
     </CommonPageHeading>
 
     <CommonDatatable
@@ -43,22 +43,17 @@ const { data } = useApiRequest<Array<Savings>>({
           >Phone Number</CommonDatatableTH
         >
         <CommonDatatableTH name="id">Savings ID</CommonDatatableTH>
-        <CommonDatatableTH name="frequency">Frequency</CommonDatatableTH>
-        <CommonDatatableTH name="amount_to_debit"
-          >Amount to Save</CommonDatatableTH
+        <CommonDatatableTH name="description">Goal Details</CommonDatatableTH>
+        <CommonDatatableTH name="name">Name</CommonDatatableTH>
+        <CommonDatatableTH name="target_amount"
+          >Target Amount</CommonDatatableTH
         >
-        <CommonDatatableTH name="funding_source"
-          >Payment Method</CommonDatatableTH
+        <CommonDatatableTH name="end_date">Maturity Date</CommonDatatableTH>
+        <CommonDatatableTH name="amount_saved"
+          >Current Balance</CommonDatatableTH
         >
-        <CommonDatatableTH name="total_earnings"
-          >Total Amount Accured Balance</CommonDatatableTH
-        >
-        <CommonDatatableTH name="total_earnings"
-          >Total Amount Saved</CommonDatatableTH
-        >
-        <CommonDatatableTH name="earnings"
-          >Total Interest Earned</CommonDatatableTH
-        >
+        <CommonDatatableTH name="earnings">Accrued Interest</CommonDatatableTH>
+
         <CommonDatatableTH name="status">Status </CommonDatatableTH>
 
         <CommonDatatableTH name="created_at">Date Created</CommonDatatableTH>
@@ -78,13 +73,13 @@ const { data } = useApiRequest<Array<Savings>>({
             row.saving_extra_details.phone || "N/A"
           }}</CommonDatatableTD>
           <CommonDatatableTD>{{ row.id }}</CommonDatatableTD>
-          <CommonDatatableTD>{{ row.frequency }}</CommonDatatableTD>
+          <CommonDatatableTD>{{ row.description }}</CommonDatatableTD>
+          <CommonDatatableTD>{{ row.name }}</CommonDatatableTD>
           <CommonDatatableTD>{{
-            numberFormat(row.amount_to_debit, "currency")
+            numberFormat(row.target_amount, "currency")
           }}</CommonDatatableTD>
-          <CommonDatatableTD>{{ row.funding_source }}</CommonDatatableTD>
           <CommonDatatableTD>{{
-            numberFormat(row.total_earnings, "currency")
+            dateTimeFormat(row.end_date, "date:compact")
           }}</CommonDatatableTD>
           <CommonDatatableTD>{{
             numberFormat(row.amount_saved, "currency")

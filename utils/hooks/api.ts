@@ -1,15 +1,15 @@
-import { Ref, ComputedRef } from 'vue';
+import { Ref, ComputedRef } from "vue";
 import {
   Form,
   getRawFormData,
   getFormData,
   setFormErrors,
   validateForm,
-} from 'vue3-form';
-import toastr from 'toastr';
-import axios, { AxiosRequestConfig } from 'axios';
-import { HTTPError, HTTPErrorData, HTTPResponseData } from '~~/types/http';
-import { useAuth } from '~~/store/auth';
+} from "vue3-form";
+import toastr from "toastr";
+import axios, { AxiosRequestConfig } from "axios";
+import { HTTPError, HTTPErrorData, HTTPResponseData } from "~~/types/http";
+import { useAuth } from "~~/store/auth";
 
 export type APIRequestConfig<T> = {
   url: Ref<string> | ComputedRef<string> | string;
@@ -63,7 +63,7 @@ export const useApiRequest = <T = object>({
         ...config,
         ...payload,
         headers,
-        url: typeof url === 'object' ? (url as Ref<string>).value : url,
+        url: typeof url === "object" ? (url as Ref<string>).value : url,
         baseURL: baseURL || apiBaseUrl,
       })
         .then((response) => {
@@ -109,7 +109,7 @@ export const useFormRequest = <T>(
     ...config,
     onSuccess: (data) => {
       form.value.success = data?.message || null;
-      toastr.success(data?.message || 'Operation Successful');
+      toastr.success(data?.message || "Operation Successful");
       onSuccess?.(data);
     },
     onError: (error) => {

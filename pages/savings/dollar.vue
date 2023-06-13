@@ -5,7 +5,7 @@ import { numberFormat } from "~~/utils/filters/numbers";
 import { useApiRequest } from "~~/utils/hooks/api";
 
 useHead({
-  title: "Flexi Savings",
+  title: "Dollar Savings",
 });
 
 const columns = [
@@ -17,7 +17,7 @@ const columns = [
 ];
 const column = ref("id");
 const { data } = useApiRequest<Array<Savings>>({
-  url: `http://127.0.0.1:4000/admin/flexi`,
+  url: `http://127.0.0.1:4000/admin/dollar`,
   authorize: true,
   autoLoad: true,
 });
@@ -26,7 +26,7 @@ const { data } = useApiRequest<Array<Savings>>({
 <template>
   <div>
     <CommonPageHeading>
-      <CommonHeading level="2">Flexi Savings</CommonHeading>
+      <CommonHeading level="2">Dollar Savings</CommonHeading>
     </CommonPageHeading>
 
     <CommonDatatable
@@ -64,7 +64,7 @@ const { data } = useApiRequest<Array<Savings>>({
         <CommonDatatableTH name="created_at">Date Created</CommonDatatableTH>
       </template>
       <template #default="{ row }: { row: Savings }">
-        <CommonDatatableRow>
+        <CommonDatatableRow :to="`/savings/transactions/${row.id}`">
           <CommonDatatableTD>
             <div class="flex items-center gap-3">
               <span
@@ -80,17 +80,17 @@ const { data } = useApiRequest<Array<Savings>>({
           <CommonDatatableTD>{{ row.id }}</CommonDatatableTD>
           <CommonDatatableTD>{{ row.frequency }}</CommonDatatableTD>
           <CommonDatatableTD>{{
-            numberFormat(row.amount_to_debit, "currency")
+            numberFormat(row.amount_to_debit, "currency", "USD")
           }}</CommonDatatableTD>
           <CommonDatatableTD>{{ row.funding_source }}</CommonDatatableTD>
           <CommonDatatableTD>{{
-            numberFormat(row.total_earnings, "currency")
+            numberFormat(row.total_earnings, "currency", "USD")
           }}</CommonDatatableTD>
           <CommonDatatableTD>{{
-            numberFormat(row.amount_saved, "currency")
+            numberFormat(row.amount_saved, "currency", "USD")
           }}</CommonDatatableTD>
           <CommonDatatableTD>{{
-            numberFormat(row.earnings, "currency")
+            numberFormat(row.earnings, "currency", "USD")
           }}</CommonDatatableTD>
           <CommonDatatableTD>{{ row.status }}</CommonDatatableTD>
 

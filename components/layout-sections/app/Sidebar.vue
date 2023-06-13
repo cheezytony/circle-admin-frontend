@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { NuxtLink } from '#components';
-import { useAuth } from '~~/store/auth';
-import { useTheme } from '~~/store/theme';
-import { storeToRefs } from 'pinia';
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { NuxtLink } from "#components";
+import { useAuth } from "~~/store/auth";
+import { useTheme } from "~~/store/theme";
+import { storeToRefs } from "pinia";
 
 interface SidebarLink {
   exact?: boolean;
@@ -28,49 +28,55 @@ const { toggleSidebar } = useTheme();
 const { logout } = useAuth();
 const sections: Array<SidebarSection> = [
   {
-    title: '',
+    title: "",
     links: [
       {
-        title: 'Dashboard',
-        href: '/',
-        icon: 'fas fa-table-columns',
+        title: "Dashboard",
+        href: "/",
+        icon: "fas fa-table-columns",
         exact: true,
       },
-      { title: 'Admins', href: '/admins', icon: 'fas fa-user-tie' },
+      { title: "Admins", href: "/admins", icon: "fas fa-user-tie" },
     ],
   },
   {
-    title: '',
+    title: "",
     links: [
-      { title: 'Users', href: '/users', icon: 'far fa-user' },
+      { title: "Users", href: "/users", icon: "far fa-user" },
       {
-        title: 'Transactions',
-        href: '/transactions',
-        icon: 'fas fa-money-bill-transfer',
+        title: "Transactions",
+        href: "/transactions",
+        icon: "fas fa-money-bill-transfer",
       },
-      { title: 'Stocks', href: '/stocks', icon: 'fas fa-chart-line' },
-      { title: 'Savings', href: '/savings', icon: 'fas fa-piggy-bank' },
-      { title: 'Insurance', href: '/insurance', icon: 'fas fa-shield-halved' },
-      { title: 'Loans', href: '/loans', icon: 'fas fa-receipt' },
-    ],
-  },
-  {
-    title: '',
-    links: [
+      { title: "Stocks", href: "/stocks", icon: "fas fa-chart-line" },
+      { title: "Savings", href: "/savings", icon: "fas fa-piggy-bank" },
+
       {
-        title: 'Configurations',
-        href: '/configurations',
-        icon: 'fas fa-sliders',
+        title: "Share and Earn",
+        href: "/share-and-earn",
+        icon: "fas fa-piggy-bank",
       },
-      { title: 'Settings', href: '/settings', icon: 'fas fa-gear' },
+      { title: "Loans", href: "/loans", icon: "fas fa-piggy-bank" },
+      { title: "Insurance", href: "/insurance", icon: "fas fa-shield-halved" },
     ],
   },
   {
-    title: '',
+    title: "",
     links: [
       {
-        title: 'Logout',
-        icon: 'fas fa-arrow-right-from-bracket',
+        title: "Configurations",
+        href: "/configurations",
+        icon: "fas fa-sliders",
+      },
+      { title: "Settings", href: "/settings", icon: "fas fa-gear" },
+    ],
+  },
+  {
+    title: "",
+    links: [
+      {
+        title: "Logout",
+        icon: "fas fa-arrow-right-from-bracket",
         isLogout: true,
       },
     ],
@@ -86,7 +92,7 @@ const isActiveRoute = ({ href, exact = false }: SidebarLink) => {
 const handleLinkClick = ({ isLogout }: SidebarLink) => {
   if (isLogout) {
     logout();
-    router.push('/login');
+    router.push("/login");
   }
 };
 </script>
