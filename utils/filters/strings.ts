@@ -20,9 +20,7 @@ export const camelCase = (string: string) => {
 
 export const pascalCase = (string: string) => {
   return breakString(string)
-    .map((word: string) => {
-      return ucFirst(word);
-    })
+    .map((word: string) => ucFirst(word))
     .join('');
 };
 
@@ -44,7 +42,7 @@ export const sentenceCase = (string: string) => {
 
 export const titleCase = (string: string) => {
   return breakString(string)
-    .map((word: string, index) => ucFirst(word))
+    .map((word: string) => ucFirst(word))
     .join(' ');
 };
 
@@ -63,7 +61,7 @@ export const truncate = (
 
 export const reverse = (string: string) => string.split('').reverse().join('');
 
-export const queryToObject = (string: string) => {
+export const queryToObject = <T = Record<string, string>>(string: string): T => {
   return string
     .trim()
     .replace(/^\?/, '')
@@ -72,9 +70,10 @@ export const queryToObject = (string: string) => {
       const [key, value] = pair.split('=');
       query[key] = decodeURIComponent(value);
       return query;
-    }, {});
+    }, {}) as T;
 };
 
+/*#__PURE__*/
 export const objectToQuery = (object: Record<string, any>) => {
   return Object.keys(object)
     .map((key) => `${key}=${encodeURIComponent(object[key])}`)
