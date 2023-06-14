@@ -118,66 +118,56 @@ export interface ShareAndEarn extends Model {
 
 export interface Admin extends User {}
 
-export interface Configuration extends Model {
-  configuration_group?: ConfigurationGroup;
-  title: string;
-  slug: string;
-  options?: Array<{ title: string; value: string }>;
-  default: string;
-  value?: string;
-  input_type: ConfigurationInputType;
-  value_type: ConfigurationValueType;
-  unit_type?: ConfigurationValueUnit;
-}
-
 export interface Permission extends Model {
   name: string;
   slug: string;
   description: string;
 }
 
-export enum ConfigurationGroup {
-  SAVINGS = "SAVINGS",
-  INSURANCE = "INSURANCE",
-  STOCK_TRADING = "STOCK_TRADING",
-  LOAN = "LOAN",
-  INVESTMENT = "INVESTMENT",
-  CREDIT_CARD = "CREDIT_CARD",
-  PAYMENT = "PAYMENT",
-  WALLET = "WALLET",
-  AUTH = "AUTH",
-  USER = "USER",
-  NOTIFICATION = "NOTIFICATION",
-  AUDIT = "AUDIT",
-  ACCOUNT_STATEMENT = "ACCOUNT_STATEMENT",
-  ADMIN = "ADMIN",
+export interface Configuration extends Model {
+  last_edited_by?: string;
+  title: string;
+  slug: string;
+  description?: string;
+  default: string;
+  value?: string;
+  options?: Array<ConfigurationOption>;
+  input_type: ConfigurationInputType;
+  value_type: ConfigurationValueType;
+  unit_type?: ConfigurationValueUnit;
+}
+
+export interface ConfigurationOption {
+  title: string;
+  value: string;
 }
 
 export enum ConfigurationInputType {
-  SWITCH = "SWITCH",
-  CHECKBOX = "CHECKBOX",
-  CHECKBOX_GROUP = "CHECKBOX_GROUP",
-  RADIO = "RADIO",
-  RADIO_GROUP = "RADIO_GROUP",
-  TEXT = "TEXT",
-  CURRENCY = "CURRENCY",
-  NUMBER = "NUMBER",
-  SELECT = "SELECT",
+  CHECKBOX = 'CHECKBOX',
+  CHECKBOX_GROUP = 'CHECKBOX_GROUP',
+  CURRENCY = 'CURRENCY',
+  NUMBER = 'NUMBER',
+  RADIO = 'RADIO',
+  RADIO_GROUP = 'RADIO_GROUP',
+  RANGE = 'RANGE',
+  SELECT = 'SELECT',
+  SWITCH = 'SWITCH',
+  TEXT = 'TEXT',
 }
 
 export enum ConfigurationValueType {
-  BOOLEAN = "BOOLEAN",
-  STRING = "STRING",
-  NUMBER = "NUMBER",
-  PERCENTAGE = "PERCENTAGE",
-  CURRENCY = "CURRENCY",
+  BOOLEAN = 'BOOLEAN',
+  CURRENCY = 'CURRENCY',
+  NUMBER = 'NUMBER',
+  PERCENTAGE = 'PERCENTAGE',
+  STRING = 'STRING',
 }
 
 export enum ConfigurationValueUnit {
-  YEARS = "YEARS",
-  MONTHS = "MONTHS",
-  DAYS = "DAYS",
-  HOURS = "HOURS",
-  MINUTES = "MINUTES",
-  SECONDS = "SECONDS",
+  DAYS = 'DAYS',
+  HOURS = 'HOURS',
+  MINUTES = 'MINUTES',
+  MONTHS = 'MONTHS',
+  SECONDS = 'SECONDS',
+  YEARS = 'YEARS',
 }

@@ -1,13 +1,22 @@
 export type HTTPResponse<APIResource = any> = {
-  data?: {
-    message: string,
-    success: boolean,
-    data: APIResource,
-  },
-  status: number,
-  statusText: string,
+  data?: APIResource;
+  meta?: {
+    lastPage: number;
+    limit: number;
+    next?: number;
+    page: number;
+    prev?: number;
+    search_column: string;
+    search_value: string;
+    size: number;
+    sort_order: 'asc' | 'desc';
+    total: number;
+  };
+  message?: string;
+  status: number;
+  statusText: string;
 };
-export type HTTPResponseData<APIResource = any> = HTTPResponse<APIResource>['data'];
+export type HTTPResponseData<APIResource = any> = HTTPResponse<APIResource>;
 
 export type HTTPResourceResponse<APIResource> = {
   data?: {
