@@ -49,14 +49,18 @@ const sections: Array<SidebarSection> = [
         icon: "fas fa-money-bill-transfer",
       },
       { title: "Stocks", href: "/stocks", icon: "fas fa-chart-line" },
-      { title: "Savings", href: "/savings", icon: "fas fa-piggy-bank" },
+      {
+        title: "Savings",
+        href: "/savings",
+        icon: "fas fa-file-invoice-dollar",
+      },
 
       {
         title: "Share and Earn",
         href: "/share-and-earn",
-        icon: "fas fa-piggy-bank",
+        icon: "fas fa-share-alt",
       },
-      { title: "Loans", href: "/loans", icon: "fas fa-piggy-bank" },
+      { title: "Loans", href: "/loans", icon: "fas fa-money-bill" },
       { title: "Insurance", href: "/insurance", icon: "fas fa-shield-halved" },
     ],
   },
