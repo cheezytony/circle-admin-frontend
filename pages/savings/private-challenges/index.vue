@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Savings } from "~~/types/models";
+import { Saving } from "~~/types/models";
 import { dateTimeFormat } from "~~/utils/filters/dates";
 import { numberFormat } from "~~/utils/filters/numbers";
 import { useApiRequest } from "~~/utils/hooks/api";
@@ -15,9 +15,12 @@ const columns = [
   { name: "email", title: "Email Address" },
   { name: "phone", title: "Phone Number" },
 ];
+const {
+  public: { savingsBaseUrl },
+} = useRuntimeConfig();
 const column = ref("id");
-const { data } = useApiRequest<Array<Savings>>({
-  url: `http://127.0.0.1:4000/admin/goals?challenge_type=PRIVATE`,
+const { data } = useApiRequest<Array<Saving[]>>({
+  url: `${savingsBaseUrl}admin/goals?challenge_type=PRIVATE`,
   authorize: true,
   autoLoad: true,
 });
@@ -45,8 +48,8 @@ const { data } = useApiRequest<Array<Savings>>({
         >
         <CommonDatatableTH name="end_date">Maturity Date</CommonDatatableTH>
       </template>
-      <template #default="{ row }: { row: Savings }">
-        <CommonDatatableRow :to="`/admins/${row.id}`">
+      <template #default="{ row }: { row: Saving }">
+        <CommonDatatableRow :to="`/savings/group-savings/${row.id}`">
           <CommonDatatableTD>{{ row.id }}</CommonDatatableTD>
           <CommonDatatableTD>{{ row.name }}</CommonDatatableTD>
           <CommonDatatableTD>{{

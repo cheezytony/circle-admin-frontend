@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-import { ComputedRef } from "vue";
-import GroupSavingsCard from "~~/components/saving-sections/GroupSavingsCard.vue";
-import { SavingGoalMember, User } from "~~/types/models";
+import { LoanRepayments } from "~~/types/models";
+import { dateTimeFormat } from "~~/utils/filters/dates";
 import { numberFormat } from "~~/utils/filters/numbers";
 import { useApiRequest } from "~~/utils/hooks/api";
 
@@ -11,13 +10,14 @@ definePageMeta({
 });
 
 const route = useRoute();
-const groupSavingsId = computed(() => route.params.id as string);
-const url = computed(
-  () => `http://127.0.0.1:4000/admin/goals/participants/${groupSavingsId.value}`
-);
+const loanId = computed(() => route.params.id as string);
+const {
+  public: { loanBaseUrl },
+} = useRuntimeConfig();
+const url = `${loanBaseUrl}admin/loans/users`;
 
-const { data, isLoading } = useApiRequest<User>({
-  url: url as ComputedRef<string> & string,
+const { data, isLoading } = useApiRequest<LoanRepayments[]>({
+  url,
   autoLoad: true,
   authorize: true,
 });
@@ -29,39 +29,56 @@ useHead({
 
 <template>
   <div>
-    <GroupSavingsCard
-      :groupName="data?.data?.saving?.name"
-      :memberCount="data?.data?.saving?.saving_goal_members?.length"
-      :totalAmountSaved="data?.data?.saving?.amount_saved"
-      :targetAmount="data?.data?.saving?.target_amount"
-    />
-    <CommonDatatable :data="data?.data?.saving?.saving_goal_members">
+    <CommonPageHeading>
+      <CommonHeading level="2">Loan History</CommonHeading>
+    </CommonPageHeading>
+    <CommonDatatable :data="data?.data?.data">
       <template #heading>
-        <CommonDatatableTH name="saving_extra_details.firstName"
-          >User Name</CommonDatatableTH
-        >
+        <CommonDatatableTH name="id">ID</CommonDatatableTH>
+
+        <CommonDatatableTH name="loan_id">loan Id</CommonDatatableTH>
         <CommonDatatableTH name="user_id">User ID</CommonDatatableTH>
-
-        <CommonDatatableTH name="amount_saved">Amount Saved</CommonDatatableTH>
-
+        <CommonDatatableTH name="amount">Amount</CommonDatatableTH>
+        <CommonDatatableTH name="overdue_fee">Over Due Fee</CommonDatatableTH>
+        <CommonDatatableTH name="due_date">Due Date </CommonDatatableTH>
         <CommonDatatableTH name="status">Status </CommonDatatableTH>
+        <CommonDatatableTH name="created_at">Date </CommonDatatableTH>
       </template>
-      <template #default="{ row }: { row: SavingGoalMember }">
+      <template #default="{ row }: { row: LoanRepayments }">
         <CommonDatatableRow>
           <CommonDatatableTD>
             <div class="flex items-center gap-3">
-              <span
-                >{{ row?.saving_extra_details?.first_name }}
-                {{ row?.saving_extra_details?.last_name }}</span
-              >
+              <span>{{ row?.id }} </span>
             </div>
           </CommonDatatableTD>
-          <CommonDatatableTD>{{ row.user_id }}</CommonDatatableTD>
           <CommonDatatableTD>
-            {{ numberFormat(row.amount_saved, "currency") }}</CommonDatatableTD
+            <div class="flex items-center gap-3">
+              <span>{{ row?.loan_id }} </span>
+            </div>
+          </CommonDatatableTD>
+          <CommonDatatableTD>
+            <div class="flex items-center gap-3">
+              <span>{{ row?.user_id }} </span>
+            </div>
+          </CommonDatatableTD>
+          <CommonDatatableTD>{{
+            numberFormat(row.amount, "currency")
+          }}</CommonDatatableTD>
+          <CommonDatatableTD>{{
+            numberFormat(row.overdue_fee, "currency")
+          }}</CommonDatatableTD>
+          <CommonDatatableTD>
+            {{
+              dateTimeFormat(row.due_date, "date:compact")
+            }}</CommonDatatableTD
           >
 
           <CommonDatatableTD> {{ row.status }}</CommonDatatableTD>
+          <CommonDatatableTD>
+            {{
+              dateTimeFormat(row.created_at, "date:compact")
+            }}</CommonDatatableTD
+          >
         </CommonDatatableRow>
       </template>
     </CommonDatatable>

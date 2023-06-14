@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Savings } from "~~/types/models";
+import { Saving } from "~~/types/models";
 import { dateTimeFormat } from "~~/utils/filters/dates";
 import { numberFormat } from "~~/utils/filters/numbers";
 import { useApiRequest } from "~~/utils/hooks/api";
@@ -15,9 +15,12 @@ const columns = [
   { name: "email", title: "Email Address" },
   { name: "phone", title: "Phone Number" },
 ];
+const {
+  public: { savingsBaseUrl },
+} = useRuntimeConfig();
 const column = ref("id");
-const { data } = useApiRequest<Array<Savings>>({
-  url: `http://127.0.0.1:4000/admin/goals?challenge_type=PERSONAL`,
+const { data } = useApiRequest<Array<Saving[]>>({
+  url: `${savingsBaseUrl}admin/goals?challenge_type=PERSONAL`,
   authorize: true,
   autoLoad: true,
 });
@@ -58,8 +61,12 @@ const { data } = useApiRequest<Array<Savings>>({
 
         <CommonDatatableTH name="created_at">Date Created</CommonDatatableTH>
       </template>
-      <template #default="{ row }: { row: Savings }">
-        <CommonDatatableRow>
+      <template #default="{ row }: { row: Saving }">
+        <CommonDatatableRow
+          :to="`/savings/history/${
+            row.saving_goal_members[0].id
+          }?type=${'GOAL'}`"
+        >
           <CommonDatatableTD>
             <div class="flex items-center gap-3">
               <span
@@ -70,7 +77,7 @@ const { data } = useApiRequest<Array<Savings>>({
           </CommonDatatableTD>
           <CommonDatatableTD>{{ row.user_id }}</CommonDatatableTD>
           <CommonDatatableTD>{{
-            row.saving_extra_details.phone || "N/A"
+            row.saving_extra_details?.phone || "N/A"
           }}</CommonDatatableTD>
           <CommonDatatableTD>{{ row.id }}</CommonDatatableTD>
           <CommonDatatableTD>{{ row.description }}</CommonDatatableTD>

@@ -1,7 +1,5 @@
 <script lang="ts" setup>
-import { Savings, ShareAndEarn } from "~~/types/models";
-import { dateTimeFormat } from "~~/utils/filters/dates";
-import { numberFormat } from "~~/utils/filters/numbers";
+import { ShareAndEarn } from "~~/types/models";
 import { useApiRequest } from "~~/utils/hooks/api";
 
 useHead({
@@ -16,8 +14,11 @@ const columns = [
   { name: "phone", title: "Phone Number" },
 ];
 const column = ref("id");
-const { data } = useApiRequest<Array<Savings>>({
-  url: `http://127.0.0.1:4003/api/referral-wallets/successful-referrals`,
+const {
+  public: { shareAndEarnBaseUrl },
+} = useRuntimeConfig();
+const { data } = useApiRequest<Array<ShareAndEarn[]>>({
+  url: `${shareAndEarnBaseUrl}successful-referrals`,
   authorize: true,
   autoLoad: true,
 });
@@ -35,19 +36,15 @@ const { data } = useApiRequest<Array<Savings>>({
       :column="column"
     >
       <template #heading>
-        <CommonDatatableTH name="user_id">User ID</CommonDatatableTH>
-        <CommonDatatableTH name="saving_extra_details.firstName"
-          >User Name</CommonDatatableTH
-        >
-        <CommonDatatableTH name="saving_extra_details.phoneNo"
-          >Email</CommonDatatableTH
-        >
-        <CommonDatatableTH name="id"
+        <CommonDatatableTH name="userId._id">User ID</CommonDatatableTH>
+        <CommonDatatableTH name="userId.firstName">User Name</CommonDatatableTH>
+        <CommonDatatableTH name="userId.email">Email</CommonDatatableTH>
+        <CommonDatatableTH name="referrerId._id"
           >Number of Successful Referrals</CommonDatatableTH
         >
       </template>
       <template #default="{ row }: { row: ShareAndEarn }">
-        <CommonDatatableRow :to="`/admins/${row.id}`">
+        <CommonDatatableRow>
           <CommonDatatableTD>
             <div class="flex items-center gap-3">
               <span>{{ row.referrerId?._id }}</span>

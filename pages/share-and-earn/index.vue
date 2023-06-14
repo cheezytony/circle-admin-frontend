@@ -13,9 +13,12 @@ const columns = [
   { name: "lastName", title: "Last Name" },
   { name: "email", title: "Email Address" },
 ];
+const {
+  public: { shareAndEarnBaseUrl },
+} = useRuntimeConfig();
 const column = ref("id");
 const { data } = useApiRequest<Array<ShareAndEarn>>({
-  url: `http://127.0.0.1:4003/api/referral-wallets/referees`,
+  url: `${shareAndEarnBaseUrl}referees`,
   authorize: true,
   autoLoad: true,
 });
@@ -36,7 +39,7 @@ const { data } = useApiRequest<Array<ShareAndEarn>>({
         <CommonDatatableTH name="userId._id">User ID</CommonDatatableTH>
         <CommonDatatableTH name="userId.firstName">User Name</CommonDatatableTH>
         <CommonDatatableTH name="userId.email">Email</CommonDatatableTH>
-        <CommonDatatableTH name="referrerId._ id"
+        <CommonDatatableTH name="referrerId._id"
           >UserId(Referrer)</CommonDatatableTH
         >
         <CommonDatatableTH name="createdAt">Date Signed Up</CommonDatatableTH>

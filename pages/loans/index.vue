@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Loans } from "~~/types/models";
+import { Loan } from "~~/types/models";
 import { dateTimeFormat } from "~~/utils/filters/dates";
 import { numberFormat } from "~~/utils/filters/numbers";
 import { useApiRequest } from "~~/utils/hooks/api";
@@ -14,9 +14,12 @@ const columns = [
   { name: "lastName", title: "Last Name" },
   { name: "email", title: "Email Address" },
 ];
+const {
+  public: { loanBaseUrl },
+} = useRuntimeConfig();
 const column = ref("id");
-const { data } = useApiRequest<Array<Loans>>({
-  url: `http://127.0.0.1:4003/api/referral-wallets/referees`,
+const { data } = useApiRequest<Array<Loan[]>>({
+  url: `${loanBaseUrl}admin/loans/users`,
   authorize: true,
   autoLoad: true,
 });
@@ -28,11 +31,7 @@ const { data } = useApiRequest<Array<Loans>>({
       <CommonHeading level="2">Loans</CommonHeading>
     </CommonPageHeading>
 
-    <CommonDatatable
-      :data="data?.data"
-      :search-columns="columns"
-      :column="column"
-    >
+    <CommonDatatable :data="[]" :search-columns="columns" :column="column">
       <template #heading>
         <CommonDatatableTH name="id">User ID</CommonDatatableTH>
         <CommonDatatableTH name="firstName">User Name</CommonDatatableTH>
@@ -43,8 +42,8 @@ const { data } = useApiRequest<Array<Loans>>({
         <CommonDatatableTH name="request_amount">Loan Amount</CommonDatatableTH>
         <CommonDatatableTH name="created_at">Date Created</CommonDatatableTH>
       </template>
-      <template #default="{ row }: { row: Loans }">
-        <CommonDatatableRow to="">
+      <template #default="{ row }: { row: Loan }">
+        <CommonDatatableRow>
           <CommonDatatableTD>
             <div class="flex items-center gap-3">
               <span>{{ row.user_id }}</span>

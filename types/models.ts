@@ -35,14 +35,18 @@ export interface Saving extends Model {
   description?: string;
   name?: string;
   end_date: Date;
-  saving_goal_members: [];
+  saving_goal_members: [
+    {
+      amount_saved: number;
+      id: string;
+    }
+  ];
   saving_extra_details: {
     first_name: string;
     last_name: string;
     email: string;
     phone: string;
   };
-  password_changed_at?: string;
 }
 
 export interface SavingGoalMember {
@@ -75,6 +79,15 @@ export interface Loan extends Model {
   tenure: number;
   user_id?: string;
 }
+export interface LoanRepayments extends Model {
+  loan_id: string;
+  user_id: string;
+  amount: number;
+  overdue_fee: number;
+  due_date: Date;
+  status: string;
+}
+
 export interface Transaction extends Model {
   amount: number;
   reference: string;
@@ -82,6 +95,7 @@ export interface Transaction extends Model {
   currency: string;
   status: number;
   type: string;
+  category: string;
 }
 export interface ShareAndEarn extends Model {
   _id?: string;

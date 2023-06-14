@@ -12,8 +12,11 @@ definePageMeta({
 
 const route = useRoute();
 const groupSavingsId = computed(() => route.params.id as string);
+const {
+  public: { savingsBaseUrl },
+} = useRuntimeConfig();
 const url = computed(
-  () => `http://127.0.0.1:4000/admin/goals/participants/${groupSavingsId.value}`
+  () => `${savingsBaseUrl}admin/goals/participants/${groupSavingsId.value}`
 );
 
 const { data, isLoading } = useApiRequest<User>({
