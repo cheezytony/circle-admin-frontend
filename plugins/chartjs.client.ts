@@ -1,13 +1,13 @@
 import {
-  Chart,
   BarController,
   BarElement,
   CategoryScale,
-  LinearScale,
+  Chart,
+  Filler,
   LineController,
   LineElement,
+  LinearScale,
   PointElement,
-  Filler,
 } from 'chart.js';
 
 Chart.register(
@@ -18,7 +18,7 @@ Chart.register(
   LineController,
   LineElement,
   PointElement,
-  Filler
+  Filler,
 );
 
 export default defineNuxtPlugin(() => {});

@@ -1,5 +1,5 @@
+import { ComputedRef, Ref } from 'vue';
 import { NuxtLinkProps } from '#app';
-import { Ref, ComputedRef } from 'vue';
 import { DateTimeFormat } from '~~/utils/filters/dates';
 import { NumberFormat } from '~~/utils/filters/numbers';
 
@@ -47,15 +47,15 @@ export interface DatatableMeta {
   page: number;
   pages: number;
   total: number;
-};
+}
 export interface DatatableSort {
   column?: string;
   orderByAscending: boolean;
-};
+}
 export interface DataTableSearch {
   key: string;
   column?: string;
-};
+}
 export type DatatableSearchColumn = string | { title: string; name: string };
 export type DatatableFilter = {
   title?: string;
@@ -66,7 +66,7 @@ export type DatatablePaginationLink = {
   isActive?: boolean;
   isDisabled?: boolean;
   title: string | number;
-  action?: (() => void);
+  action?: () => void;
 };
 
 export interface DropdownProvision {
@@ -98,7 +98,7 @@ export type TabLink =
   | string
   | { title: string; name?: string; href?: string; exact?: true };
 
-export interface LinkProps {
+export interface LinkProperties {
   namespace?: string;
   title: string;
   to?: NuxtLinkProps['to'];

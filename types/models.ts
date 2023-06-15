@@ -15,7 +15,7 @@ export interface User extends Model {
   password_changed_at?: string;
 }
 
-export interface Admin extends User {}
+export type Admin = User;
 
 export interface Permission extends Model {
   name: string;

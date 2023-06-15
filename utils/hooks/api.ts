@@ -1,13 +1,15 @@
-import { Ref, ComputedRef } from 'vue';
+// eslint-disable-next-line import/named
+import { ComputedRef, Ref } from 'vue';
 import {
   Form,
-  getRawFormData,
   getFormData,
+  getRawFormData,
   setFormErrors,
   validateForm,
 } from 'vue3-form';
 import toastr from 'toastr';
-import axios, { AxiosRequestConfig } from 'axios';
+// eslint-disable-next-line import/named
+import axios, { AxiosRequestConfig, isCancel } from 'axios';
 import { HTTPError, HTTPErrorData, HTTPResponseData } from '~~/types/http';
 import { useAuth } from '~~/store/auth';
 
@@ -49,7 +51,7 @@ export const useApiRequest = <T = object>({
   } = useRuntimeConfig();
   const { token } = useAuth();
 
-  const isLoading = ref(false);
+  const isLoading = ref(initialLoadingState);
   const data = ref<HTTPResponseData<T>>();
   const error = ref<Error>();
   const load = async (payload?: APIRequestPayload) => {
@@ -60,12 +62,12 @@ export const useApiRequest = <T = object>({
         headers.Accept = 'application/json';
       }
 
-      return axios<HTTPResponseData<T>>({
+      axios<HTTPResponseData<T>>({
         ...config,
         ...payload,
         headers,
         url: typeof url === 'object' ? (url as Ref<string>).value : url,
-        baseURL: baseURL || apiBaseUrl,
+        baseURL: baseURL ?? apiBaseUrl,
       })
         .then((response) => {
           data.value = response?.data;
@@ -75,14 +77,14 @@ export const useApiRequest = <T = object>({
           return response.data;
         })
         .catch((error: HTTPError) => {
-          if (axios.isCancel(error)) return;
-          const err: HTTPErrorData = {
-            ...error?.response?.data!,
+          if (isCancel(error)) return;
+          const error_: HTTPErrorData = {
+            ...error?.response?.data,
             status: error.response?.status,
             statusText: error.response?.statusText,
           };
-          reject(err);
-          onError?.(err);
+          reject(error_);
+          onError?.(error_);
         })
         .finally(() => {
           isLoading.value = false;
@@ -104,13 +106,13 @@ export const useFormRequest = <T>(
     onFinish,
     onError,
     ...config
-  }: APIRequestConfig<HTTPResponseData<T>> & { useFormData?: boolean }
+  }: APIRequestConfig<HTTPResponseData<T>> & { useFormData?: boolean },
 ) => {
   const { load, ...data } = useApiRequest<T>({
     ...config,
     onSuccess: (data) => {
-      form.value.success = data?.message || null;
-      toastr.success(data?.message || 'Operation Successful');
+      form.value.success = data?.message ?? null;
+      toastr.success(data?.message ?? 'Operation Successful');
       onSuccess?.(data);
     },
     onError: (error) => {
@@ -124,15 +126,15 @@ export const useFormRequest = <T>(
       onFinish?.();
     },
   });
-  const submit = (data?: FormData | any) => {
+  const submit = async (data?: FormData | object) => {
     if (!validateForm(form)) return;
 
     form.value.loading = true;
     form.value.error = null;
     form.value.success = null;
 
-    load({
-      data: getRawFormData(form),
+    await load({
+      data: data ?? (useFormData ? getFormData(form) : getRawFormData(form)),
     });
   };
 

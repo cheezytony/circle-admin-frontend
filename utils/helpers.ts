@@ -9,9 +9,9 @@ export const isEmpty = (data: any) => {
   switch (data?.constructor) {
     case Array:
     case String:
-      return !data.length;
+      return data.length === 0;
     case Object:
-      return !Object.keys(data).length;
+      return Object.keys(data).length === 0;
     case Number:
       return data === 0;
     default:
@@ -21,8 +21,8 @@ export const isEmpty = (data: any) => {
 
 export const optional = (
   value: any,
-  transforms: ((...args: any[]) => any)[] = [],
-  replacement = 'N/A'
+  transforms: ((...arguments_: any[]) => any)[] = [],
+  replacement = 'N/A',
 ) => {
   if (!value) return replacement;
   let currentValue = value;
