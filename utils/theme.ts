@@ -29,7 +29,7 @@ export const controlColorsSchemes = {
 
 export const getColorScheme = (
   colorScheme: keyof typeof colorsSchemes = 'black',
-  useControlColors = false
+  useControlColors = false,
 ) => {
   return (
     colorsSchemes[colorScheme] +

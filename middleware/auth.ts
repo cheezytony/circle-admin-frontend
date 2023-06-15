@@ -2,13 +2,13 @@ import { useAuth } from '../store/auth';
 
 export default defineNuxtRouteMiddleware(async ({ path }) => {
   const { $pinia } = useNuxtApp();
-  const { isLoggedIn, user, token, refresh } = useAuth($pinia);
+  const { isLoggedIn, user } = useAuth($pinia);
 
   if (!isLoggedIn) {
     // if (token) {
     //   const data = await refresh<{ user: User; token: string }>();
     // }
-    
+
     return navigateTo('/login', { replace: true });
   }
 

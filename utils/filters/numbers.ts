@@ -4,7 +4,7 @@ export type NumberFormat = NumberStyle | `${NumberStyle}:compact`;
 export const numberFormat = (
   number: number | string,
   type: NumberFormat = 'number',
-  currency = 'NGN'
+  currency = 'NGN',
 ) => {
   const compactFormat: Intl.NumberFormatOptions = {
     notation: 'compact',
@@ -44,7 +44,6 @@ export const numberFormat = (
         return percentageCompactFormat;
       case 'number:compact':
         return numberCompactFormat;
-      case 'number':
       default:
         return numberFormat;
     }

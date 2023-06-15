@@ -1,12 +1,16 @@
-import { reactive, ComputedRef, Ref, ref, watch } from 'vue';
+// eslint-disable-next-line import/named
+import { ComputedRef, Ref, reactive, ref, watch } from 'vue';
 
 export const useAsset = (uri: ComputedRef<string | undefined>) => {
   const {
     public: { assetsBaseURL },
   } = useRuntimeConfig();
 
-  return computed(() => {    
-    return uri.value?.replace(/(^|^\/)/, assetsBaseURL?.replace(/($|\/$)/, '/'));
+  return computed(() => {
+    return uri.value?.replace(
+      /(^|^\/)/,
+      assetsBaseURL?.replace(/($|\/$)/, '/'),
+    );
   });
 };
 
@@ -29,11 +33,10 @@ export const useCountdown = (duration = 30, autoStart = true) => {
   const timeLeftFormatted = computed(() => {
     const seconds = timeLeft.value % 60;
     const minutes = Math.floor(timeLeft.value / 60);
-    const hours = Math.floor(timeLeft.value / 3600);
-    const days = Math.floor(timeLeft.value / 86400);
-    return `${minutes < 10 ? `0${minutes}` : minutes}:${
-      seconds < 10 ? `0${seconds}` : seconds
-    }`;
+    return [
+      minutes < 10 ? `0${minutes}` : minutes,
+      seconds < 10 ? `0${seconds}` : seconds,
+    ].join(':');
   });
   const resume = () => {
     if (timeLeft.value <= 0) {
@@ -65,7 +68,7 @@ export const useCountdown = (duration = 30, autoStart = true) => {
   onMounted(() => {
     if (autoStart) start();
   });
-  
+
   return {
     duration,
     timeLeft,
@@ -80,14 +83,15 @@ export const useCountdown = (duration = 30, autoStart = true) => {
 };
 
 export const useDebounce = (
-  func: (...args: any[]) => unknown,
-  timeout = 300
+  function_: (...parameters: any[]) => unknown,
+  timeout = 300,
 ) => {
-  let allowFunc = true;
-  return (...args: unknown[]) => {
-    if (!allowFunc) return;
-    func(...args), (allowFunc = false);
-    setTimeout(() => (allowFunc = true), timeout);
+  let allowFunction = true;
+  return (...parameters: unknown[]) => {
+    if (!allowFunction) return;
+    function_(...parameters);
+    allowFunction = false;
+    setTimeout(() => (allowFunction = true), timeout);
   };
 };
 
@@ -109,7 +113,7 @@ export interface Disclosure {
   onToggle: (callback: DisclosureEventListener) => void;
 }
 
-export const useDisclosure = (initialValue: boolean = false) => {
+export const useDisclosure = (initialValue = false) => {
   const listeners: DisclosureEventListenerRegistry = reactive({
     close: [],
     open: [],
@@ -132,10 +136,10 @@ export const useDisclosure = (initialValue: boolean = false) => {
   watch(isOpen, (state) => {
     listeners.toggle.forEach((callback) => callback(state));
 
-    if (!state) {
-      listeners.close.forEach((callback) => callback());
-    } else {
+    if (state) {
       listeners.open.forEach((callback) => callback());
+    } else {
+      listeners.close.forEach((callback) => callback());
     }
   });
 
