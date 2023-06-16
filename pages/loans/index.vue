@@ -1,24 +1,24 @@
 <script lang="ts" setup>
-import { Loan } from "~~/types/models";
-import { dateTimeFormat } from "~~/utils/filters/dates";
-import { numberFormat } from "~~/utils/filters/numbers";
-import { useApiRequest } from "~~/utils/hooks/api";
+import { Loan } from '~~/types/models';
+import { dateTimeFormat } from '~~/utils/filters/dates';
+import { numberFormat } from '~~/utils/filters/numbers';
+import { useApiRequest } from '~~/utils/hooks/api';
 
 useHead({
-  title: "Loans",
+  title: 'Loans',
 });
 
 const columns = [
-  { name: "_id", title: "User ID" },
-  { name: "firstName", title: "First Name" },
-  { name: "lastName", title: "Last Name" },
-  { name: "email", title: "Email Address" },
+  { name: '_id', title: 'User ID' },
+  { name: 'firstName', title: 'First Name' },
+  { name: 'lastName', title: 'Last Name' },
+  { name: 'email', title: 'Email Address' },
 ];
 const {
   public: { loanBaseUrl },
 } = useRuntimeConfig();
-const column = ref("id");
-const { data } = useApiRequest<Array<Loan[]>>({
+const column = ref('id');
+const { data } = useApiRequest<Array<Loan>>({
   url: `${loanBaseUrl}admin/loans/users`,
   authorize: true,
   autoLoad: true,
@@ -36,30 +36,30 @@ const { data } = useApiRequest<Array<Loan[]>>({
         <CommonDatatableTH name="id">User ID</CommonDatatableTH>
         <CommonDatatableTH name="firstName">User Name</CommonDatatableTH>
         <CommonDatatableTH name="phone_number">Phone No.</CommonDatatableTH>
-
         <CommonDatatableTH name="id">Loan Id</CommonDatatableTH>
         <CommonDatatableTH name="status">Status</CommonDatatableTH>
         <CommonDatatableTH name="request_amount">Loan Amount</CommonDatatableTH>
         <CommonDatatableTH name="created_at">Date Created</CommonDatatableTH>
       </template>
+
       <template #default="{ row }: { row: Loan }">
         <CommonDatatableRow>
           <CommonDatatableTD>
-            <div class="flex items-center gap-3">
-              <span>{{ row.user_id }}</span>
-            </div>
+            {{ row.user_id }}
           </CommonDatatableTD>
-          <CommonDatatableTD
-            >{{ row?.first_name }} {{ row?.last_name }}</CommonDatatableTD
-          >
-          <CommonDatatableTD>{{ row.phone_number || "N/A" }}</CommonDatatableTD>
-          <CommonDatatableTD>{{ row?.id || "N/A" }}</CommonDatatableTD>
+
+          <CommonDatatableTD>
+            {{ row?.first_name }} {{ row?.last_name }}
+          </CommonDatatableTD>
+
+          <CommonDatatableTD>{{ row.phone_number || 'N/A' }}</CommonDatatableTD>
+          <CommonDatatableTD>{{ row?.id || 'N/A' }}</CommonDatatableTD>
           <CommonDatatableTD>{{ row.status }}</CommonDatatableTD>
           <CommonDatatableTD>{{
-            numberFormat(row.loan_amount, "currency")
+            numberFormat(row.loan_amount, 'currency')
           }}</CommonDatatableTD>
           <CommonDatatableTD>{{
-            row.created_at ? dateTimeFormat(row.created_at, "date") : "N/A"
+            row.created_at ? dateTimeFormat(row.created_at, 'date') : 'N/A'
           }}</CommonDatatableTD>
         </CommonDatatableRow>
       </template>

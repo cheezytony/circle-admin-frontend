@@ -1,13 +1,13 @@
 <script lang="ts" setup>
-import { ComputedRef } from "vue";
-import GroupSavingsCard from "~~/components/saving-sections/GroupSavingsCard.vue";
-import { SavingGoalMember, User } from "~~/types/models";
-import { numberFormat } from "~~/utils/filters/numbers";
-import { useApiRequest } from "~~/utils/hooks/api";
+import { ComputedRef } from 'vue';
+import GroupSavingsCard from '~~/components/saving-sections/GroupSavingsCard.vue';
+import { Saving, SavingGoalMember } from '~~/types/models';
+import { numberFormat } from '~~/utils/filters/numbers';
+import { useApiRequest } from '~~/utils/hooks/api';
 
 definePageMeta({
   layout: false,
-  middleware: ["auth"],
+  middleware: ['auth'],
 });
 
 const route = useRoute();
@@ -19,14 +19,14 @@ const url = computed(
   () => `${savingsBaseUrl}admin/goals/participants/${groupSavingsId.value}`
 );
 
-const { data, isLoading } = useApiRequest<User>({
+const { data, isLoading } = useApiRequest<Saving>({
   url: url as ComputedRef<string> & string,
   autoLoad: true,
   authorize: true,
 });
 
 useHead({
-  title: "Group savings",
+  title: 'Group savings',
 });
 </script>
 
@@ -61,7 +61,7 @@ useHead({
           </CommonDatatableTD>
           <CommonDatatableTD>{{ row.user_id }}</CommonDatatableTD>
           <CommonDatatableTD>
-            {{ numberFormat(row.amount_saved, "currency") }}</CommonDatatableTD
+            {{ numberFormat(row.amount_saved, 'currency') }}</CommonDatatableTD
           >
 
           <CommonDatatableTD> {{ row.status }}</CommonDatatableTD>

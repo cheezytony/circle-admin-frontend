@@ -19,7 +19,7 @@ const column = ref("id");
 const {
   public: { savingsBaseUrl },
 } = useRuntimeConfig();
-const { data } = useApiRequest<Array<Saving[]>>({
+const { data } = useApiRequest<Array<Saving>>({
   url: `${savingsBaseUrl}admin/vault`,
   authorize: true,
   autoLoad: true,

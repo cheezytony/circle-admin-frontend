@@ -19,7 +19,7 @@ const {
   public: { savingsBaseUrl },
 } = useRuntimeConfig();
 const column = ref("id");
-const { data } = useApiRequest<Array<Saving[]>>({
+const { data } = useApiRequest<Array<Saving>>({
   url: `${savingsBaseUrl}admin/goals?challenge_type=PRIVATE`,
   authorize: true,
   autoLoad: true,

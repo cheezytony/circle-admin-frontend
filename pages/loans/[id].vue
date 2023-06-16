@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { LoanRepayments } from "~~/types/models";
-import { dateTimeFormat } from "~~/utils/filters/dates";
-import { numberFormat } from "~~/utils/filters/numbers";
-import { useApiRequest } from "~~/utils/hooks/api";
+import { LoanRepayment } from '~~/types/models';
+import { dateTimeFormat } from '~~/utils/filters/dates';
+import { numberFormat } from '~~/utils/filters/numbers';
+import { useApiRequest } from '~~/utils/hooks/api';
 
 definePageMeta({
   layout: false,
-  middleware: ["auth"],
+  middleware: ['auth'],
 });
 
 const route = useRoute();
@@ -16,14 +16,14 @@ const {
 } = useRuntimeConfig();
 const url = `${loanBaseUrl}admin/loans/users`;
 
-const { data, isLoading } = useApiRequest<LoanRepayments[]>({
+const { data, isLoading } = useApiRequest<LoanRepayment[]>({
   url,
   autoLoad: true,
   authorize: true,
 });
 
 useHead({
-  title: "Loan Details",
+  title: 'Loan Details',
 });
 </script>
 
@@ -44,41 +44,37 @@ useHead({
         <CommonDatatableTH name="status">Status </CommonDatatableTH>
         <CommonDatatableTH name="created_at">Date </CommonDatatableTH>
       </template>
-      <template #default="{ row }: { row: LoanRepayments }">
+      <template #default="{ row }: { row: LoanRepayment }">
         <CommonDatatableRow>
           <CommonDatatableTD>
-            <div class="flex items-center gap-3">
-              <span>{{ row?.id }} </span>
-            </div>
+            {{ row?.id }}
           </CommonDatatableTD>
+
           <CommonDatatableTD>
-            <div class="flex items-center gap-3">
-              <span>{{ row?.loan_id }} </span>
-            </div>
+            {{ row?.loan_id }}
           </CommonDatatableTD>
+
           <CommonDatatableTD>
-            <div class="flex items-center gap-3">
-              <span>{{ row?.user_id }} </span>
-            </div>
+            {{ row?.user_id }}
           </CommonDatatableTD>
-          <CommonDatatableTD>{{
-            numberFormat(row.amount, "currency")
-          }}</CommonDatatableTD>
-          <CommonDatatableTD>{{
-            numberFormat(row.overdue_fee, "currency")
-          }}</CommonDatatableTD>
+
           <CommonDatatableTD>
-            {{
-              dateTimeFormat(row.due_date, "date:compact")
-            }}</CommonDatatableTD
-          >
+            {{ numberFormat(row.amount, 'currency') }}
+          </CommonDatatableTD>
+
+          <CommonDatatableTD>
+            {{ numberFormat(row.overdue_fee, 'currency') }}
+          </CommonDatatableTD>
+
+          <CommonDatatableTD>
+            {{ dateTimeFormat(row.due_date, 'date:compact') }}
+          </CommonDatatableTD>
 
           <CommonDatatableTD> {{ row.status }}</CommonDatatableTD>
+
           <CommonDatatableTD>
-            {{
-              dateTimeFormat(row.created_at, "date:compact")
-            }}</CommonDatatableTD
-          >
+            {{ dateTimeFormat(row.created_at, 'date:compact') }}
+          </CommonDatatableTD>
         </CommonDatatableRow>
       </template>
     </CommonDatatable>

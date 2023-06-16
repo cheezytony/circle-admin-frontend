@@ -79,7 +79,7 @@ export interface Loan extends Model {
   tenure: number;
   user_id?: string;
 }
-export interface LoanRepayments extends Model {
+export interface LoanRepayment extends Model {
   loan_id: string;
   user_id: string;
   amount: number;
@@ -88,7 +88,7 @@ export interface LoanRepayments extends Model {
   status: string;
 }
 
-export interface Transaction extends Model {
+export interface SavingsTransaction extends Model {
   amount: number;
   reference: string;
   description: string;

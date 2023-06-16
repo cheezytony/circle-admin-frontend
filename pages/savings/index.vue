@@ -1,29 +1,22 @@
 <script lang="ts" setup>
-import { Saving } from "~~/types/models";
-import { dateTimeFormat } from "~~/utils/filters/dates";
-import { numberFormat } from "~~/utils/filters/numbers";
-import { useApiRequest } from "~~/utils/hooks/api";
+import { Saving } from '~~/types/models';
+import { dateTimeFormat } from '~~/utils/filters/dates';
+import { numberFormat } from '~~/utils/filters/numbers';
+import { useApiRequest } from '~~/utils/hooks/api';
 
 useHead({
-  title: "Flexi Savings",
+  title: 'Flexi Savings',
 });
 
 const columns = [
-  { name: "id", title: "User ID" },
-  { name: "first_name", title: "First Name" },
-  { name: "last_name", title: "Last Name" },
-  { name: "email", title: "Email Address" },
-  { name: "phone", title: "Phone Number" },
+  { name: 'id', title: 'User ID' },
+  { name: 'reference', title: 'Reference' },
+  { name: 'description', title: 'Description' },
 ];
-const column = ref("id");
+const column = ref('id');
 const {
   public: { savingsBaseUrl },
 } = useRuntimeConfig();
-const { data, isLoading } = useApiRequest<Array<Saving[]>>({
-  url: `${savingsBaseUrl}admin/flexi`,
-  authorize: true,
-  autoLoad: true,
-});
 </script>
 
 <template>
@@ -33,7 +26,9 @@ const { data, isLoading } = useApiRequest<Array<Saving[]>>({
     </CommonPageHeading>
 
     <CommonDatatable
-      :data="data?.data?.data"
+      :url="`/admin/flexi`"
+      :base-u-r-l="`http://127.0.0.1:4000`"
+      :paginatable="true"
       :search-columns="columns"
       :column="column"
     >
@@ -78,27 +73,27 @@ const { data, isLoading } = useApiRequest<Array<Saving[]>>({
           </CommonDatatableTD>
           <CommonDatatableTD>{{ row.user_id }}</CommonDatatableTD>
           <CommonDatatableTD>{{
-            row?.saving_extra_details?.phone || "N/A"
+            row?.saving_extra_details?.phone || 'N/A'
           }}</CommonDatatableTD>
           <CommonDatatableTD>{{ row.id }}</CommonDatatableTD>
           <CommonDatatableTD>{{ row.frequency }}</CommonDatatableTD>
           <CommonDatatableTD>{{
-            numberFormat(row.amount_to_debit, "currency")
+            numberFormat(row.amount_to_debit, 'currency')
           }}</CommonDatatableTD>
           <CommonDatatableTD>{{ row.funding_source }}</CommonDatatableTD>
           <CommonDatatableTD>{{
-            numberFormat(row.total_earnings, "currency")
+            numberFormat(row.total_earnings, 'currency')
           }}</CommonDatatableTD>
           <CommonDatatableTD>{{
-            numberFormat(row.amount_saved, "currency")
+            numberFormat(row.amount_saved, 'currency')
           }}</CommonDatatableTD>
           <CommonDatatableTD>{{
-            numberFormat(row.earnings, "currency")
+            numberFormat(row.earnings, 'currency')
           }}</CommonDatatableTD>
           <CommonDatatableTD>{{ row.status }}</CommonDatatableTD>
 
           <CommonDatatableTD>
-            {{ dateTimeFormat(row.created_at, "date:compact") }}
+            {{ dateTimeFormat(row.created_at, 'date:compact') }}
           </CommonDatatableTD>
         </CommonDatatableRow>
       </template>
