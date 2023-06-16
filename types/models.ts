@@ -116,7 +116,7 @@ export interface ShareAndEarn extends Model {
   completedReferrals?: number;
 }
 
-export interface Admin extends User {}
+export type Admin = User;
 
 export interface Permission extends Model {
   name: string;

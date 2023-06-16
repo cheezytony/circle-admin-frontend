@@ -1,12 +1,13 @@
 <script lang="ts" setup>
-import { DatatableProvision, DataTableSearch } from '~~/types/components';
-import { useApiRequest } from '~~/utils/hooks/api';
 import {
+  DatatableProvision,
+  DataTableSearch,
   DatatableSearchColumn,
   DatatableFilter,
   DatatableMeta,
   DatatableSort,
 } from '~~/types/components';
+import { useApiRequest } from '~~/utils/hooks/api';
 
 defineExpose();
 const emit = defineEmits<{
@@ -188,7 +189,7 @@ const searchColumnNames = computed(() => {
 });
 const search = reactive<DataTableSearch>({
   key: props.searchKey,
-  column: props.searchColumn || searchColumnNames.value[0],
+  column: props.searchColumn ?? searchColumnNames.value[0],
 });
 const searchExpression = computed(() => new RegExp(search.key, 'i'));
 const setSearchKey = (key: string) => {
@@ -290,7 +291,13 @@ const localSort = (items: any[]) => {
   return [...items].sort((itemA, itemB) => {
     const columnA = itemA[column];
     const columnB = itemB[column];
-    return 1;
+    if (typeof columnA === 'string' && typeof columnB === 'string') {
+      return columnA.localeCompare(columnB);
+    }
+    if (typeof columnA === 'number' && typeof columnB === 'number') {
+      return columnA - columnB;
+    }
+    return 0;
   });
 };
 const locallyModifiedItems = computed(() => {
@@ -338,7 +345,7 @@ const serverQuery = computed(() => {
 });
 const { isLoading, error, load } = useApiRequest<any[]>({
   baseURL: props.baseURL,
-  url: props.url || '',
+  url: props.url ?? '',
   authorize: true,
   autoLoad: false,
   initialLoadingState: true,

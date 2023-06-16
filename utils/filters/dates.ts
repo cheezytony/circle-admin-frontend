@@ -7,10 +7,10 @@ export type DateTimeFormat =
 
 export const dateTimeFormat = (
   dateValue: Date | string,
-  type: DateTimeFormat = 'date:time'
+  type: DateTimeFormat = 'date:time',
 ) => {
   const date = new Date(dateValue);
-  if (date.toDateString().match(/Invalid/)) return 'Invalid date provided';
+  if (/Invalid/.test(date.toDateString())) return 'Invalid date provided';
 
   const dateFormat: Intl.DateTimeFormatOptions = { dateStyle: 'long' };
   const dateCompactFormat: Intl.DateTimeFormatOptions = {
@@ -39,7 +39,6 @@ export const dateTimeFormat = (
         return timeFormat;
       case 'date:compact':
         return dateCompactFormat;
-      case 'date':
       default:
         return dateFormat;
     }
@@ -66,6 +65,6 @@ export const getMonths = (start = 0, end = 12) => {
 };
 
 export const isLeapYear = (y?: number) => {
-  const year = y || new Date().getFullYear();
+  const year = y ?? new Date().getFullYear();
   return year % 4 === 0;
 };

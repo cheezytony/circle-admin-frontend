@@ -11,7 +11,7 @@ export type Country = {
     emoji: string;
     unicode: string;
   };
-}
+};
 
 export const useCountries = defineStore('countries', () => {
   const countries = Object.keys(allCountries).map((countryCode) => {
