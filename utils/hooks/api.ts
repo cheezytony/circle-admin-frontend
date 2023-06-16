@@ -126,7 +126,7 @@ export const useFormRequest = <T>(
       onFinish?.();
     },
   });
-  const submit = async (data?: FormData | object) => {
+  const submit = async () => {
     if (!validateForm(form)) return;
 
     form.value.loading = true;
@@ -134,7 +134,7 @@ export const useFormRequest = <T>(
     form.value.success = null;
 
     await load({
-      data: data ?? (useFormData ? getFormData(form) : getRawFormData(form)),
+      data: useFormData ? getFormData(form) : getRawFormData(form),
     });
   };
 
