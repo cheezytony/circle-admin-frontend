@@ -19,7 +19,7 @@ const emit = defineEmits<{
 const props = withDefaults(
   defineProps<{
     activeFilters?: string[];
-    baseURL?: string;
+    baseUrl?: string;
     data?: any[];
     filterable?: boolean;
     filters?: Array<DatatableFilter>;
@@ -344,7 +344,7 @@ const serverQuery = computed(() => {
   };
 });
 const { isLoading, error, load } = useApiRequest<any[]>({
-  baseURL: props.baseURL,
+  baseURL: props.baseUrl,
   url: props.url ?? '',
   authorize: true,
   autoLoad: false,
