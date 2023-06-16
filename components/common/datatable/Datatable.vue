@@ -348,7 +348,7 @@ const { isLoading, error, load } = useApiRequest<any[]>({
   url: props.url ?? '',
   authorize: true,
   autoLoad: false,
-  initialLoadingState: true,
+  initialLoadingState: false,
   signal: controller.value.signal,
   onSuccess: (response) => {
     if (!response?.data) return;
