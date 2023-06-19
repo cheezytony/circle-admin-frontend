@@ -99,13 +99,13 @@ export interface SavingsTransaction extends Model {
 }
 export interface ShareAndEarn extends Model {
   _id?: string;
-  referrerId?: {
+  referrer_id?: {
     firstName: string;
     lastName: string;
     email: string;
     _id: string;
   };
-  userId?: {
+  user_id?: {
     firstName: string;
     lastName: string;
     email: string;

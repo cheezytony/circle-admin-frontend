@@ -32,14 +32,16 @@ const column = ref('id');
       :column="column"
     >
       <template #heading>
-        <CommonDatatableTH name="userId._id">User ID</CommonDatatableTH>
+        <CommonDatatableTH name="user_id._id">User ID</CommonDatatableTH>
 
-        <CommonDatatableTH name="userId.firstName">User Name</CommonDatatableTH>
+        <CommonDatatableTH name="user_id.firstName"
+          >User Name</CommonDatatableTH
+        >
 
-        <CommonDatatableTH name="userId.email">Email</CommonDatatableTH>
+        <CommonDatatableTH name="user_id.email">Email</CommonDatatableTH>
 
         <CommonDatatableTH name="referrerId._id">
-          UserId(Referrer)
+          User_id(Referrer)
         </CommonDatatableTH>
 
         <CommonDatatableTH name="createdAt">Date Signed Up</CommonDatatableTH>
@@ -51,21 +53,21 @@ const column = ref('id');
         <CommonDatatableRow :to="`/admins/${row.id}`">
           <CommonDatatableTD>
             <div class="flex items-center gap-3">
-              <span>{{ row.userId?._id }}</span>
+              <span>{{ row.user_id?._id }}</span>
             </div>
           </CommonDatatableTD>
 
           <CommonDatatableTD>
-            {{ row?.userId?.firstName }}
-            {{ row?.userId?.lastName }}
+            {{ row?.user_id?.firstName }}
+            {{ row?.user_id?.lastName }}
           </CommonDatatableTD>
 
           <CommonDatatableTD>
-            {{ row.userId?.email || 'N/A' }}
+            {{ row.user_id?.email || 'N/A' }}
           </CommonDatatableTD>
 
           <CommonDatatableTD>
-            {{ row.referrerId?._id || 'N/A' }}
+            {{ row.referrer_id?._id || 'N/A' }}
           </CommonDatatableTD>
 
           <CommonDatatableTD>

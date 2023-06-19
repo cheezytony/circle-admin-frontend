@@ -43,17 +43,17 @@ const {
         <CommonDatatableRow>
           <CommonDatatableTD>
             <div class="flex items-center gap-3">
-              <span>{{ row.referrerId?._id }}</span>
+              <span>{{ row.referrer_id?._id }}</span>
             </div>
           </CommonDatatableTD>
 
           <CommonDatatableTD>
-            {{ row?.referrerId?.firstName }}
-            {{ row?.referrerId?.lastName }}
+            {{ row?.referrer_id?.firstName }}
+            {{ row?.referrer_id?.lastName }}
           </CommonDatatableTD>
 
           <CommonDatatableTD>
-            {{ row.referrerId?.email || 'N/A' }}
+            {{ row.referrer_id?.email || 'N/A' }}
           </CommonDatatableTD>
 
           <CommonDatatableTD>{{ row.completedReferrals }}</CommonDatatableTD>
