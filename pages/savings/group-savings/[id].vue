@@ -40,7 +40,6 @@ useHead({
       :base-url="savingsBaseUrl"
       :search-columns="columns"
       :column="column"
-      :page="1"
     >
       <template #heading>
         <CommonDatatableTH name="saving_extra_details.firstName">
