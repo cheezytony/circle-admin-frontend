@@ -29,7 +29,7 @@ const column = ref('id');
     </CommonPageHeading>
 
     <CommonDatatable
-      :url="'laans/users'"
+      :url="'loans/users'"
       :base-url="loanBaseUrl"
       :search-columns="columns"
       :column="column"
@@ -65,7 +65,9 @@ const column = ref('id');
           </CommonDatatableTD>
 
           <CommonDatatableTD>
-            {{row.created_at ? dateTimeFormat(row.created_at, 'date') : 'N/A'}}
+            {{
+              row.created_at ? dateTimeFormat(row.created_at, 'date') : 'N/A'
+            }}
           </CommonDatatableTD>
         </CommonDatatableRow>
       </template>
