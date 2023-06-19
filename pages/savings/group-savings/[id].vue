@@ -6,7 +6,6 @@ import { numberFormat } from '~~/utils/filters/numbers';
 import { useApiRequest } from '~~/utils/hooks/api';
 
 definePageMeta({
-  layout: false,
   middleware: ['auth'],
 });
 
@@ -16,10 +15,10 @@ const {
   public: { savingsBaseUrl },
 } = useRuntimeConfig();
 const url = computed(
-  () => `${savingsBaseUrl}admin/goals/participants/${groupSavingsId.value}`
+  () => `${savingsBaseUrl}goals/participants/${groupSavingsId.value}`
 );
 
-const { data, isLoading } = useApiRequest<Saving>({
+const { data } = useApiRequest<Saving>({
   url: url as ComputedRef<string> & string,
   autoLoad: true,
   authorize: true,
@@ -40,9 +39,9 @@ useHead({
     />
     <CommonDatatable :data="data?.data?.saving?.saving_goal_members">
       <template #heading>
-        <CommonDatatableTH name="saving_extra_details.firstName"
-          >User Name</CommonDatatableTH
-        >
+        <CommonDatatableTH name="saving_extra_details.firstName">
+          User Name
+        </CommonDatatableTH>
         <CommonDatatableTH name="user_id">User ID</CommonDatatableTH>
 
         <CommonDatatableTH name="amount_saved">Amount Saved</CommonDatatableTH>
@@ -53,16 +52,16 @@ useHead({
         <CommonDatatableRow>
           <CommonDatatableTD>
             <div class="flex items-center gap-3">
-              <span
-                >{{ row?.saving_extra_details?.first_name }}
-                {{ row?.saving_extra_details?.last_name }}</span
-              >
+              <span>
+                {{ row?.saving_extra_details?.first_name }}
+                {{ row?.saving_extra_details?.last_name }}
+              </span>
             </div>
           </CommonDatatableTD>
           <CommonDatatableTD>{{ row.user_id }}</CommonDatatableTD>
           <CommonDatatableTD>
-            {{ numberFormat(row.amount_saved, 'currency') }}</CommonDatatableTD
-          >
+            {{ numberFormat(row.amount_saved, 'currency') }}
+          </CommonDatatableTD>
 
           <CommonDatatableTD> {{ row.status }}</CommonDatatableTD>
         </CommonDatatableRow>

@@ -2,10 +2,8 @@
 import { LoanRepayment } from '~~/types/models';
 import { dateTimeFormat } from '~~/utils/filters/dates';
 import { numberFormat } from '~~/utils/filters/numbers';
-import { useApiRequest } from '~~/utils/hooks/api';
 
 definePageMeta({
-  layout: false,
   middleware: ['auth'],
 });
 
@@ -15,12 +13,6 @@ const {
   public: { loanBaseUrl },
 } = useRuntimeConfig();
 const url = `${loanBaseUrl}admin/loans/users`;
-
-const { data, isLoading } = useApiRequest<LoanRepayment[]>({
-  url,
-  autoLoad: true,
-  authorize: true,
-});
 
 useHead({
   title: 'Loan Details',
@@ -32,10 +24,9 @@ useHead({
     <CommonPageHeading>
       <CommonHeading level="2">Loan History</CommonHeading>
     </CommonPageHeading>
-    <CommonDatatable :data="data?.data?.data">
+    <CommonDatatable :data="[]">
       <template #heading>
         <CommonDatatableTH name="id">ID</CommonDatatableTH>
-
         <CommonDatatableTH name="loan_id">loan Id</CommonDatatableTH>
         <CommonDatatableTH name="user_id">User ID</CommonDatatableTH>
         <CommonDatatableTH name="amount">Amount</CommonDatatableTH>

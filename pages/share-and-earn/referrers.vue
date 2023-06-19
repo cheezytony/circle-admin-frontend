@@ -1,27 +1,21 @@
 <script lang="ts" setup>
-import { ShareAndEarn } from "~~/types/models";
-import { useApiRequest } from "~~/utils/hooks/api";
+import { ShareAndEarn } from '~~/types/models';
 
 useHead({
-  title: "Share and Earn - Referrers",
+  title: ' Referrers',
 });
 
 const columns = [
-  { name: "id", title: "User ID" },
-  { name: "first_name", title: "First Name" },
-  { name: "last_name", title: "Last Name" },
-  { name: "email", title: "Email Address" },
-  { name: "phone", title: "Phone Number" },
+  { name: 'id', title: 'User ID' },
+  { name: 'first_name', title: 'First Name' },
+  { name: 'last_name', title: 'Last Name' },
+  { name: 'email', title: 'Email Address' },
+  { name: 'phone', title: 'Phone Number' },
 ];
-const column = ref("id");
+const column = ref('id');
 const {
   public: { shareAndEarnBaseUrl },
 } = useRuntimeConfig();
-const { data } = useApiRequest<Array<ShareAndEarn[]>>({
-  url: `${shareAndEarnBaseUrl}successful-referrals`,
-  authorize: true,
-  autoLoad: true,
-});
 </script>
 
 <template>
@@ -31,7 +25,9 @@ const { data } = useApiRequest<Array<ShareAndEarn[]>>({
     </CommonPageHeading>
 
     <CommonDatatable
-      :data="data?.data"
+      :url="'successful-referrals'"
+      :base-url="shareAndEarnBaseUrl"
+      :paginatable="true"
       :search-columns="columns"
       :column="column"
     >
@@ -39,9 +35,9 @@ const { data } = useApiRequest<Array<ShareAndEarn[]>>({
         <CommonDatatableTH name="userId._id">User ID</CommonDatatableTH>
         <CommonDatatableTH name="userId.firstName">User Name</CommonDatatableTH>
         <CommonDatatableTH name="userId.email">Email</CommonDatatableTH>
-        <CommonDatatableTH name="referrerId._id"
-          >Number of Successful Referrals</CommonDatatableTH
-        >
+        <CommonDatatableTH name="referrerId._id">
+          Number of Successful Referrals
+        </CommonDatatableTH>
       </template>
       <template #default="{ row }: { row: ShareAndEarn }">
         <CommonDatatableRow>
@@ -50,13 +46,16 @@ const { data } = useApiRequest<Array<ShareAndEarn[]>>({
               <span>{{ row.referrerId?._id }}</span>
             </div>
           </CommonDatatableTD>
-          <CommonDatatableTD
-            >{{ row?.referrerId?.firstName }}
-            {{ row?.referrerId?.lastName }}</CommonDatatableTD
-          >
-          <CommonDatatableTD>{{
-            row.referrerId?.email || "N/A"
-          }}</CommonDatatableTD>
+
+          <CommonDatatableTD>
+            {{ row?.referrerId?.firstName }}
+            {{ row?.referrerId?.lastName }}
+          </CommonDatatableTD>
+
+          <CommonDatatableTD>
+            {{ row.referrerId?.email || 'N/A' }}
+          </CommonDatatableTD>
+
           <CommonDatatableTD>{{ row.completedReferrals }}</CommonDatatableTD>
         </CommonDatatableRow>
       </template>

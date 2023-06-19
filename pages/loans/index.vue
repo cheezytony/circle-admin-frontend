@@ -2,10 +2,12 @@
 import { Loan } from '~~/types/models';
 import { dateTimeFormat } from '~~/utils/filters/dates';
 import { numberFormat } from '~~/utils/filters/numbers';
-import { useApiRequest } from '~~/utils/hooks/api';
 
 useHead({
   title: 'Loans',
+});
+definePageMeta({
+  middleware: ['auth'],
 });
 
 const columns = [
@@ -18,11 +20,6 @@ const {
   public: { loanBaseUrl },
 } = useRuntimeConfig();
 const column = ref('id');
-const { data } = useApiRequest<Array<Loan>>({
-  url: `${loanBaseUrl}admin/loans/users`,
-  authorize: true,
-  autoLoad: true,
-});
 </script>
 
 <template>
@@ -31,7 +28,13 @@ const { data } = useApiRequest<Array<Loan>>({
       <CommonHeading level="2">Loans</CommonHeading>
     </CommonPageHeading>
 
-    <CommonDatatable :data="[]" :search-columns="columns" :column="column">
+    <CommonDatatable
+      :url="'laans/users'"
+      :base-url="loanBaseUrl"
+      :paginatable="true"
+      :search-columns="columns"
+      :column="column"
+    >
       <template #heading>
         <CommonDatatableTH name="id">User ID</CommonDatatableTH>
         <CommonDatatableTH name="firstName">User Name</CommonDatatableTH>
@@ -53,14 +56,20 @@ const { data } = useApiRequest<Array<Loan>>({
           </CommonDatatableTD>
 
           <CommonDatatableTD>{{ row.phone_number || 'N/A' }}</CommonDatatableTD>
+
           <CommonDatatableTD>{{ row?.id || 'N/A' }}</CommonDatatableTD>
+
           <CommonDatatableTD>{{ row.status }}</CommonDatatableTD>
-          <CommonDatatableTD>{{
-            numberFormat(row.loan_amount, 'currency')
-          }}</CommonDatatableTD>
-          <CommonDatatableTD>{{
-            row.created_at ? dateTimeFormat(row.created_at, 'date') : 'N/A'
-          }}</CommonDatatableTD>
+
+          <CommonDatatableTD>
+            {{ numberFormat(row.loan_amount, 'currency') }}
+          </CommonDatatableTD>
+
+          <CommonDatatableTD>
+            {{
+              row.created_at ? dateTimeFormat(row.created_at, 'date') : 'N/A'
+            }}
+          </CommonDatatableTD>
         </CommonDatatableRow>
       </template>
     </CommonDatatable>
