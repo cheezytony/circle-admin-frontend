@@ -27,7 +27,6 @@ const {
     <CommonDatatable
       :url="'successful-referrals'"
       :base-url="shareAndEarnBaseUrl"
-      :paginatable="true"
       :search-columns="columns"
       :column="column"
     >
@@ -48,8 +47,8 @@ const {
           </CommonDatatableTD>
 
           <CommonDatatableTD>
-            {{ row?.referrer_id?.firstName }}
-            {{ row?.referrer_id?.lastName }}
+            {{ row.referrer_id?.firstName }}
+            {{ row.referrer_id?.lastName }}
           </CommonDatatableTD>
 
           <CommonDatatableTD>

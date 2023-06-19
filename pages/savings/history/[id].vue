@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { SavingsTransaction } from "~~/types/models";
-import { dateTimeFormat } from "~~/utils/filters/dates";
-import { numberFormat } from "~~/utils/filters/numbers";
+import { SavingsTransaction } from '~~/types/models';
+import { dateTimeFormat } from '~~/utils/filters/dates';
+import { numberFormat } from '~~/utils/filters/numbers';
 
 definePageMeta({
-  middleware: ["auth"],
+  middleware: ['auth'],
 });
 
 const route = useRoute();
@@ -15,17 +15,17 @@ const {
 } = useRuntimeConfig();
 
 const filters = [
-  { name: "DEPOSIT", title: "Deposits" },
-  { name: "WITHDRAWAL", title: "Withdrawals" },
+  { name: 'DEPOSIT', title: 'Deposits' },
+  { name: 'WITHDRAWAL', title: 'Withdrawals' },
 ];
 const columns = [
-  { name: "id", title: "ID" },
-  { name: "reference", title: "Reference" },
-  { name: "description", title: "Description" },
+  { name: 'id', title: 'ID' },
+  { name: 'reference', title: 'Reference' },
+  { name: 'description', title: 'Description' },
 ];
 
 useHead({
-  title: "Savings tranaction history",
+  title: 'Savings tranaction history',
 });
 </script>
 
@@ -38,8 +38,6 @@ useHead({
     <CommonDatatable
       :url="`saving-history?savingsId=${savingsId}&type=${type}`"
       :base-url="savingsBaseUrl"
-      :searchable="true"
-      :filterable="true"
       :filters="filters"
       :search-columns="columns"
     >
@@ -58,12 +56,16 @@ useHead({
         <CommonDatatableRow>
           <CommonDatatableTD>
             <div class="flex items-center gap-3">
-              {{ row?.id }}
+              {{ row.id }}
             </div>
           </CommonDatatableTD>
           <CommonDatatableTD>
             {{
-              numberFormat(row.amount, "currency", row?.type == "DOLLAR" ? "USD" : "NGN")
+              numberFormat(
+                row.amount,
+                'currency',
+                row.type == 'DOLLAR' ? 'USD' : 'NGN'
+              )
             }}
           </CommonDatatableTD>
           <CommonDatatableTD> {{ row.currency }}</CommonDatatableTD>
@@ -73,7 +75,7 @@ useHead({
 
           <CommonDatatableTD> {{ row.status }}</CommonDatatableTD>
           <CommonDatatableTD>
-            {{ dateTimeFormat(row.created_at, "date:compact") }}
+            {{ dateTimeFormat(row.created_at, 'date:compact') }}
           </CommonDatatableTD>
         </CommonDatatableRow>
       </template>

@@ -7,7 +7,7 @@ definePageMeta({
 
 useHead({
   titleTemplate: (title) =>
-    title ? `${title} - Circle Admin` : 'Share and Earn',
+    title ? `${title} - Share and Earn` : 'Share and Earn',
 });
 
 const links: Array<TabLink> = [

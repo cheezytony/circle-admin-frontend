@@ -27,7 +27,6 @@ const column = ref('id');
     <CommonDatatable
       :url="`goals?challenge_type=PERSONAL`"
       :base-url="savingsBaseUrl"
-      :paginatable="true"
       :search-columns="columns"
       :column="column"
     >
@@ -66,15 +65,13 @@ const column = ref('id');
       </template>
       <template #default="{ row }: { row: Saving }">
         <CommonDatatableRow
-          :to="`/savings/history/${
-            row.saving_goal_members[0].id
-          }?type=${'GOAL'}`"
+          :to="`/savings/history/${row.saving_goal_members[0].id}?type=GOAL`"
         >
           <CommonDatatableTD>
             <div class="flex items-center gap-3">
               <span>
-                {{ row?.saving_extra_details?.first_name }}
-                {{ row?.saving_extra_details?.last_name }}
+                {{ row.saving_extra_details?.first_name }}
+                {{ row.saving_extra_details?.last_name }}
               </span>
             </div>
           </CommonDatatableTD>

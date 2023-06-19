@@ -26,7 +26,6 @@ const {
     <CommonDatatable
       :url="`flexi`"
       :base-url="savingsBaseUrl"
-      :paginatable="true"
       :search-columns="columns"
       :column="column"
     >
@@ -49,8 +48,8 @@ const {
         <CommonDatatableTH name="total_earnings">
           Total Amount Accured Balance
         </CommonDatatableTH>
-        <CommonDatatableTH name="total_earnings"
-          >Total Amount Saved
+        <CommonDatatableTH name="total_earnings">
+          Total Amount Saved
         </CommonDatatableTH>
         <CommonDatatableTH name="earnings">
           Total Interest Earned
@@ -63,14 +62,14 @@ const {
           <CommonDatatableTD>
             <div class="flex items-center gap-3">
               <span>
-                {{ row?.saving_extra_details?.first_name }}
-                {{ row?.saving_extra_details?.last_name }}
+                {{ row.saving_extra_details?.first_name }}
+                {{ row.saving_extra_details?.last_name }}
               </span>
             </div>
           </CommonDatatableTD>
           <CommonDatatableTD>{{ row.user_id }}</CommonDatatableTD>
           <CommonDatatableTD>
-            {{ row?.saving_extra_details?.phone || 'N/A' }}
+            {{ row.saving_extra_details?.phone || 'N/A' }}
           </CommonDatatableTD>
           <CommonDatatableTD>{{ row.id }}</CommonDatatableTD>
           <CommonDatatableTD>{{ row.frequency }}</CommonDatatableTD>

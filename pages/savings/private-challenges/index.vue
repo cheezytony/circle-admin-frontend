@@ -29,7 +29,6 @@ const column = ref('id');
     <CommonDatatable
       :url="'goals?challenge_type=PRIVATE'"
       :base-url="savingsBaseUrl"
-      :paginatable="true"
       :search-columns="columns"
       :column="column"
     >

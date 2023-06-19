@@ -1,30 +1,16 @@
 <script lang="ts" setup>
-import { numberFormat } from '~~/utils/filters/numbers';
-import { computed } from 'vue';
+import { numberFormat } from "~~/utils/filters/numbers";
+import { computed } from "vue";
 
-const props = defineProps({
-  groupName: {
-    type: String,
-    required: true,
-  },
-  memberCount: {
-    type: Number,
-    required: true,
-  },
-  totalAmountSaved: {
-    type: Number,
-    required: true,
-  },
-  targetAmount: {
-    type: Number,
-    required: true,
-  },
-});
+const props = defineProps<{
+  groupName: string;
+  memberCount: number;
+  totalAmountSaved: number;
+  targetAmount: number;
+}>();
 
 const progressLabel = computed(() => {
-  const percentage = Math.floor(
-    (props.totalAmountSaved / props.targetAmount) * 100
-  );
+  const percentage = Math.floor((props.totalAmountSaved / props.targetAmount) * 100);
   return `Saved ${percentage}%`;
 });
 
@@ -34,14 +20,14 @@ const progressBarWidth = computed(() => {
 });
 
 const groupTotalAmountSaved = computed(() =>
-  numberFormat(props.totalAmountSaved, 'currency')
+  numberFormat(props.totalAmountSaved, "currency")
 );
 
 const progressDetails = computed(
   () =>
-    `${numberFormat(props.totalAmountSaved, 'currency')}/${numberFormat(
+    `${numberFormat(props.totalAmountSaved, "currency")}/${numberFormat(
       props.targetAmount,
-      'currency'
+      "currency"
     )}`
 );
 </script>
@@ -57,14 +43,12 @@ const progressDetails = computed(
           <h3 class="group-savings-amount text-white text-2xl font-bold mb-1">
             {{ groupTotalAmountSaved }}
           </h3>
-          <span class="card-members text-white text-sm"
-            >{{ memberCount }} member(s)</span
-          >
+          <span class="card-members text-white text-sm">
+            {{ memberCount }} member(s)
+          </span>
         </div>
         <div class="card-body">
-          <div
-            class="card-saving-details flex items-center justify-between mb-6"
-          >
+          <div class="card-saving-details flex items-center justify-between mb-6">
             <div class="progress-label text-white text-sm">
               {{ progressLabel }}
             </div>
@@ -72,9 +56,7 @@ const progressDetails = computed(
               {{ progressDetails }}
             </div>
           </div>
-          <div
-            class="card-progress bg-white rounded h-2 mt-0 mb-2 overflow-hidden"
-          >
+          <div class="card-progress bg-white rounded h-2 mt-0 mb-2 overflow-hidden">
             <div
               class="progress-bar bg-blue-500 h-full transition-width duration-300 ease-in-out"
               :style="{ width: progressBarWidth }"

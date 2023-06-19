@@ -29,7 +29,6 @@ const {
     <CommonDatatable
       :url="'goals?challenge_type=PUBLIC'"
       :base-url="savingsBaseUrl"
-      :paginatable="true"
       :search-columns="columns"
       :column="column"
     >

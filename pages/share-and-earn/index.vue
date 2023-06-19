@@ -27,16 +27,15 @@ const column = ref('id');
     <CommonDatatable
       :url="'referees'"
       :base-url="shareAndEarnBaseUrl"
-      :paginatable="true"
       :search-columns="columns"
       :column="column"
     >
       <template #heading>
         <CommonDatatableTH name="user_id._id">User ID</CommonDatatableTH>
 
-        <CommonDatatableTH name="user_id.firstName"
-          >User Name</CommonDatatableTH
-        >
+        <CommonDatatableTH name="user_id.firstName">
+          User Name
+        </CommonDatatableTH>
 
         <CommonDatatableTH name="user_id.email">Email</CommonDatatableTH>
 
@@ -58,8 +57,8 @@ const column = ref('id');
           </CommonDatatableTD>
 
           <CommonDatatableTD>
-            {{ row?.user_id?.firstName }}
-            {{ row?.user_id?.lastName }}
+            {{ row.user_id?.firstName }}
+            {{ row.user_id?.lastName }}
           </CommonDatatableTD>
 
           <CommonDatatableTD>
