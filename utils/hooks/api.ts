@@ -59,7 +59,6 @@ export const useApiRequest = <T = object>({
     return await new Promise((resolve, reject) => {
       if (authorize) {
         headers.Authorization = `Bearer ${token}`;
-        headers.Accept = 'application/json';
       }
 
       axios<HTTPResponseData<T>>({
@@ -106,7 +105,7 @@ export const useFormRequest = <T>(
     onFinish,
     onError,
     ...config
-  }: APIRequestConfig<HTTPResponseData<T>> & { useFormData?: boolean },
+  }: APIRequestConfig<HTTPResponseData<T>> & { useFormData?: boolean }
 ) => {
   const { load, ...data } = useApiRequest<T>({
     ...config,

@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     '@/node_modules/toastr/build/toastr.min.css',
     '@fortawesome/fontawesome-svg-core/styles.css',
   ],
+
   app: {
     head: {
       link: [
@@ -28,8 +29,18 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      apiBaseUrl: 'http://localhost:4002/api',
-      assetsBaseURL: 'http://localhost:4002',
+      apiBaseUrl: 'http://localhost:4005/api',
+      savingsBaseUrl:
+        process.env.SAVINGS_BASE_URL ||
+        'https://test-savings-api.circlenow.app/admin',
+
+      loanBaseUrl:
+        process.env.LOAN_BASE_URL ||
+        'https://test-loan-api.circlenow.app/admin',
+      shareAndEarnBaseUrl:
+        process.env.SHARE_AND_EARN_BASE_URL ||
+        'https://test-auth-api.circlenow.app/api/referral-wallets/',
+      assetsBaseURL: 'http://localhost:4005',
       apiTokenStorageKey: 'circle-admin:token',
     },
   },
