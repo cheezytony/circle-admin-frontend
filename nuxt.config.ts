@@ -32,10 +32,11 @@ export default defineNuxtConfig({
       apiBaseUrl: 'http://localhost:4005/api',
       savingsBaseUrl:
         process.env.SAVINGS_BASE_URL ||
-        'https://test-savings-api.circlenow.app/',
+        'https://test-savings-api.circlenow.app/admin',
 
       loanBaseUrl:
-        process.env.LOAN_BASE_URL || 'https://test-loan-api.circlenow.app/',
+        process.env.LOAN_BASE_URL ||
+        'https://test-loan-api.circlenow.app/admin',
       shareAndEarnBaseUrl:
         process.env.SHARE_AND_EARN_BASE_URL ||
         'https://test-auth-api.circlenow.app/api/referral-wallets/',
