@@ -10,13 +10,11 @@ definePageMeta({
 });
 
 const route = useRoute();
-const groupSavingsId = computed(() => route.params.id as string);
+const groupSavingsId = computed(() => route.params.id as string).value;
 const {
   public: { savingsBaseUrl },
 } = useRuntimeConfig();
-const url = computed(
-  () => `${savingsBaseUrl}goals/participants/${groupSavingsId.value}`
-);
+const url = computed(() => `${savingsBaseUrl}goals/${groupSavingsId}`);
 
 const { data } = useApiRequest<Saving>({
   url: url as ComputedRef<string> & string,
@@ -32,12 +30,18 @@ useHead({
 <template>
   <div>
     <GroupSavingsCard
-      :groupName="data?.data?.saving?.name"
-      :memberCount="data?.data?.saving?.saving_goal_members?.length"
-      :totalAmountSaved="data?.data?.saving?.amount_saved"
-      :targetAmount="data?.data?.saving?.target_amount"
+      :groupName="data?.data?.name"
+      :memberCount="data?.data?.saving_goal_members"
+      :totalAmountSaved="data?.data?.amount_saved"
+      :targetAmount="data?.data?.target_amount"
     />
-    <CommonDatatable :data="data?.data?.saving?.saving_goal_members">
+    <CommonDatatable
+      :url="`goals/participants/${groupSavingsId}`"
+      :base-url="savingsBaseUrl"
+      :search-columns="columns"
+      :column="column"
+      :page="1"
+    >
       <template #heading>
         <CommonDatatableTH name="saving_extra_details.firstName">
           User Name
