@@ -70,8 +70,8 @@ const column = ref('id');
           <CommonDatatableTD>
             <div class="flex items-center gap-3">
               <span>
-                {{ row.saving_extra_details?.first_name }}
-                {{ row.saving_extra_details?.last_name }}
+                {{ row.saving_extra_details.first_name }}
+                {{ row.saving_extra_details.last_name }}
               </span>
             </div>
           </CommonDatatableTD>

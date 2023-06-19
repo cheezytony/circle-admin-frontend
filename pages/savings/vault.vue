@@ -1,19 +1,19 @@
 <script lang="ts" setup>
-import { Saving } from "~~/types/models";
-import { dateTimeFormat } from "~~/utils/filters/dates";
-import { numberFormat } from "~~/utils/filters/numbers";
-import { useApiRequest } from "~~/utils/hooks/api";
+import { Saving } from '~~/types/models';
+import { dateTimeFormat } from '~~/utils/filters/dates';
+import { numberFormat } from '~~/utils/filters/numbers';
+import { useApiRequest } from '~~/utils/hooks/api';
 
 useHead({
-  title: "Vault Savings",
+  title: 'Vault Savings',
 });
 
 const columns = [
-  { name: "id", title: "ID" },
-  { name: "user_id", title: "User ID" },
-  { name: "name", title: "Name" },
+  { name: 'id', title: 'ID' },
+  { name: 'user_id', title: 'User ID' },
+  { name: 'name', title: 'Name' },
 ];
-const column = ref("id");
+const column = ref('id');
 const {
   public: { savingsBaseUrl },
 } = useRuntimeConfig();
@@ -45,7 +45,9 @@ const {
 
         <CommonDatatableTH name="id">Savings ID</CommonDatatableTH>
 
-        <CommonDatatableTH name="funding_source"> Payment Method </CommonDatatableTH>
+        <CommonDatatableTH name="funding_source">
+          Payment Method
+        </CommonDatatableTH>
         <CommonDatatableTH name="start_date">Start Date</CommonDatatableTH>
         <CommonDatatableTH name="end_date">End Date</CommonDatatableTH>
         <CommonDatatableTH name="amount_saved">Amount Saved</CommonDatatableTH>
@@ -64,35 +66,35 @@ const {
           <CommonDatatableTD>
             <div class="flex items-center gap-3">
               <span>
-                {{ row.saving_extra_details?.first_name }}
-                {{ row.saving_extra_details?.last_name }}
+                {{ row.saving_extra_details.first_name }}
+                {{ row.saving_extra_details.last_name }}
               </span>
             </div>
           </CommonDatatableTD>
           <CommonDatatableTD>{{ row.user_id }}</CommonDatatableTD>
           <CommonDatatableTD>
-            {{ row.saving_extra_details?.phone || "N/A" }}
+            {{ row.saving_extra_details?.phone || 'N/A' }}
           </CommonDatatableTD>
           <CommonDatatableTD>{{ row.id }}</CommonDatatableTD>
           <CommonDatatableTD>{{ row.funding_source }}</CommonDatatableTD>
           <CommonDatatableTD>
-            {{ dateTimeFormat(row.created_at, "date:compact") }}
+            {{ dateTimeFormat(row.created_at, 'date:compact') }}
           </CommonDatatableTD>
           <CommonDatatableTD>
-            {{ dateTimeFormat(row.end_date, "date:compact") }}
+            {{ dateTimeFormat(row.end_date, 'date:compact') }}
           </CommonDatatableTD>
           <CommonDatatableTD>
-            {{ numberFormat(row.amount_saved, "currency") }}
+            {{ numberFormat(row.amount_saved, 'currency') }}
           </CommonDatatableTD>
           <CommonDatatableTD>
-            {{ numberFormat(row.earnings, "currency") }}
+            {{ numberFormat(row.earnings, 'currency') }}
           </CommonDatatableTD>
           <CommonDatatableTD>
-            {{ row.earnings_withdrawn === null ? "Pending" : "Withdrawn" }}
+            {{ row.earnings_withdrawn === null ? 'Pending' : 'Withdrawn' }}
           </CommonDatatableTD>
           <CommonDatatableTD> {{ row.status }}</CommonDatatableTD>
           <CommonDatatableTD>
-            {{ dateTimeFormat(row.created_at, "date:compact") }}
+            {{ dateTimeFormat(row.created_at, 'date:compact') }}
           </CommonDatatableTD>
         </CommonDatatableRow>
       </template>
