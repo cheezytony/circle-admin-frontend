@@ -46,6 +46,10 @@ export const titleCase = (string: string) => {
     .join(' ');
 };
 
+export const uppercase = (string: string) => string?.toUpperCase();
+
+export const lowercase = (string: string) => string?.toLowerCase();
+
 export const ucFirst = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1, string.length);
 };
