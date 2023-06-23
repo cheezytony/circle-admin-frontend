@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
-import { useApiRequest } from '~~/utils/hooks/api';
 import { User } from '../types/models';
+import { useApiRequest } from '~~/utils/hooks/api';
 
 export type AuthState = {
   token?: string;
@@ -15,7 +15,7 @@ export type AuthState = {
 export const useAuth = defineStore(
   'auth',
   () => {
-    const { load: refresh, isLoading } = useApiRequest<{
+    const { load: refresh } = useApiRequest<{
       user: User;
       token: string;
     }>({
@@ -77,7 +77,7 @@ export const useAuth = defineStore(
       token.value = undefined;
       user.value = undefined;
     };
-    
+
     /*
     --------------------------------------------------------------------------------------------------------
     | Data to be made accessible to the application.
@@ -102,5 +102,5 @@ export const useAuth = defineStore(
       storage: persistedState.cookies,
       // paths: ['token'],
     },
-  }
+  },
 );

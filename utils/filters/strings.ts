@@ -1,7 +1,7 @@
 export const breakString = (string: string) => {
   return string
-    .replace(/([-_\sA-Z])/g, (match) => {
-      if (/[-_]/.test(match)) return ' ';
+    .replace(/([\sA-Z_-])/g, (match) => {
+      if (/[_-]/.test(match)) return ' ';
       if (match === ' ') return match;
       return ` ${match}`;
     })
@@ -46,22 +46,24 @@ export const titleCase = (string: string) => {
     .join(' ');
 };
 
+export const uppercase = (string: string) => string?.toUpperCase();
+
+export const lowercase = (string: string) => string?.toLowerCase();
+
 export const ucFirst = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1, string.length);
 };
 
-export const truncate = (
-  string: string,
-  length = 30,
-  after: string = '...'
-) => {
+export const truncate = (string: string, length = 30, after = '...') => {
   if (string.length <= length) return string;
   return string.slice(0, length) + after;
 };
 
-export const reverse = (string: string) => string.split('').reverse().join('');
+export const reverse = (string: string) => [...string].reverse().join('');
 
-export const queryToObject = <T = Record<string, string>>(string: string): T => {
+export const queryToObject = <T = Record<string, string>>(
+  string: string,
+): T => {
   return string
     .trim()
     .replace(/^\?/, '')
@@ -73,7 +75,7 @@ export const queryToObject = <T = Record<string, string>>(string: string): T => 
     }, {}) as T;
 };
 
-/*#__PURE__*/
+/* #__PURE__ */
 export const objectToQuery = (object: Record<string, any>) => {
   return Object.keys(object)
     .map((key) => `${key}=${encodeURIComponent(object[key])}`)

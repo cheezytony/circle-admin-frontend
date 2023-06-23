@@ -1,12 +1,13 @@
 <script lang="ts" setup>
-import { DatatableProvision, DataTableSearch } from '~~/types/components';
-import { useApiRequest } from '~~/utils/hooks/api';
 import {
+  DatatableProvision,
+  DataTableSearch,
   DatatableSearchColumn,
   DatatableFilter,
   DatatableMeta,
   DatatableSort,
 } from '~~/types/components';
+import { useApiRequest } from '~~/utils/hooks/api';
 
 defineExpose();
 const emit = defineEmits<{
@@ -18,7 +19,7 @@ const emit = defineEmits<{
 const props = withDefaults(
   defineProps<{
     activeFilters?: string[];
-    baseURL?: string;
+    baseUrl?: string;
     data?: any[];
     filterable?: boolean;
     filters?: Array<DatatableFilter>;
@@ -31,6 +32,7 @@ const props = withDefaults(
     searchColumn?: string;
     searchColumns?: Array<DatatableSearchColumn>;
     searchKey?: string;
+    selection?: any[];
     selectable?: boolean;
     showSearchColumns?: boolean;
     uniqueKey?: string;
@@ -188,7 +190,7 @@ const searchColumnNames = computed(() => {
 });
 const search = reactive<DataTableSearch>({
   key: props.searchKey,
-  column: props.searchColumn || searchColumnNames.value[0],
+  column: props.searchColumn ?? searchColumnNames.value[0],
 });
 const searchExpression = computed(() => new RegExp(search.key, 'i'));
 const setSearchKey = (key: string) => {
@@ -231,7 +233,7 @@ const toggleFilter = (filterName: string) => {
 // ========================================================================================================================
 //
 // ========================================================================================================================
-const selection = ref<any[]>([]);
+const selection = ref<any[]>(props.selection ?? []);
 // const isAllSelected = computed(() => {
 //   // return selection.value.every();
 // });
@@ -256,6 +258,12 @@ const toggleSelection = (item: any) => {
   emit('update:selection', selection.value);
 };
 const clearSelection = () => emit('update:selection', (selection.value = []));
+watch(
+  () => props.selection,
+  (value) => {
+    selection.value = value ?? [];
+  }
+);
 // ========================================================================================================================
 
 // ========================================================================================================================
@@ -290,7 +298,13 @@ const localSort = (items: any[]) => {
   return [...items].sort((itemA, itemB) => {
     const columnA = itemA[column];
     const columnB = itemB[column];
-    return 1;
+    if (typeof columnA === 'string' && typeof columnB === 'string') {
+      return columnA.localeCompare(columnB);
+    }
+    if (typeof columnA === 'number' && typeof columnB === 'number') {
+      return columnA - columnB;
+    }
+    return 0;
   });
 };
 const locallyModifiedItems = computed(() => {
@@ -337,11 +351,11 @@ const serverQuery = computed(() => {
   };
 });
 const { isLoading, error, load } = useApiRequest<any[]>({
-  baseURL: props.baseURL,
-  url: props.url || '',
+  baseURL: props.baseUrl,
+  url: props.url ?? '',
   authorize: true,
   autoLoad: false,
-  initialLoadingState: true,
+  initialLoadingState: false,
   signal: controller.value.signal,
   onSuccess: (response) => {
     if (!response?.data) return;
@@ -457,7 +471,7 @@ provide<DatatableProvision>('datatable', {
           {{ filter.title || filter.name }}
         </CommonTag>
       </template>
-      <span>{{ selection.length }}</span>
+      <span v-if="selectable">{{ selection.length }} Selected</span>
     </div>
     <slot
       name="table"

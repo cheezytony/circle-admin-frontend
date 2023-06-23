@@ -5,9 +5,12 @@
     "build": "nuxt build",
     "generate": "nuxt generate",
     "preview": "nuxt preview --port=4101",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "lint": "eslint --cache \"{assets,components,layouts,middleware,pages,plugins,store,types,utils}/**/*.ts\"",
+    "lint:fix": "eslint --cache \"{assets,components,layouts,middleware,pages,plugins,store,types,utils}/**/*.ts\" --fix"
   },
   "devDependencies": {
+    "@circle-ng/eslint-config": "^0.0.23",
     "@fortawesome/fontawesome-svg-core": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
     "@fortawesome/vue-fontawesome": "^3.0.2",
@@ -15,6 +18,7 @@
     "@pinia-plugin-persistedstate/nuxt": "^1.0.0",
     "@types/toastr": "^2.1.40",
     "@types/uuid": "^9.0.0",
+    "eslint": "^8.32.0",
     "nuxt": "^3.1.0"
   },
   "dependencies": {
