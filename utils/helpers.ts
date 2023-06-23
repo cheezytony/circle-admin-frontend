@@ -19,13 +19,19 @@ export const isEmpty = (data: any) => {
   }
 };
 
+type TransformFunction = (...arguments_: any[]) => any;
+
 export const optional = (
   value: any,
-  transforms: ((...arguments_: any[]) => any)[] = [],
+  transforms: (TransformFunction | [TransformFunction, ...any[]])[] = [],
   replacement = 'N/A',
 ) => {
   if (!value) return replacement;
-  let currentValue = value;
-  transforms.forEach((fun) => (currentValue = fun(currentValue)));
-  return currentValue;
+  return transforms.reduce((v, fun) => {
+    if (Array.isArray(fun)) {
+      const [f, ...arguments_] = fun;
+      return f(v, ...arguments_);
+    }
+    return fun(v);
+  }, value);
 };

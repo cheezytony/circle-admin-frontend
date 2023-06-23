@@ -32,6 +32,7 @@ const props = withDefaults(
     searchColumn?: string;
     searchColumns?: Array<DatatableSearchColumn>;
     searchKey?: string;
+    selection?: any[];
     selectable?: boolean;
     showSearchColumns?: boolean;
     uniqueKey?: string;
@@ -232,7 +233,7 @@ const toggleFilter = (filterName: string) => {
 // ========================================================================================================================
 //
 // ========================================================================================================================
-const selection = ref<any[]>([]);
+const selection = ref<any[]>(props.selection ?? []);
 // const isAllSelected = computed(() => {
 //   // return selection.value.every();
 // });
@@ -257,6 +258,12 @@ const toggleSelection = (item: any) => {
   emit('update:selection', selection.value);
 };
 const clearSelection = () => emit('update:selection', (selection.value = []));
+watch(
+  () => props.selection,
+  (value) => {
+    selection.value = value ?? [];
+  }
+);
 // ========================================================================================================================
 
 // ========================================================================================================================
@@ -464,7 +471,7 @@ provide<DatatableProvision>('datatable', {
           {{ filter.title || filter.name }}
         </CommonTag>
       </template>
-      <span>{{ selection.length }}</span>
+      <span v-if="selectable">{{ selection.length }} Selected</span>
     </div>
     <slot
       name="table"
