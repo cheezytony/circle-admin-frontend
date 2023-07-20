@@ -68,7 +68,9 @@ const column = ref('id');
           </CommonDatatableTD>
 
           <CommonDatatableTD>
-            {{ row.createdAt ? dateTimeFormat(row.createdAt, 'date') : 'N/A' }}
+            {{
+              row.created_at ? dateTimeFormat(row.created_at, 'date') : 'N/A'
+            }}
           </CommonDatatableTD>
 
           <CommonDatatableTD>{{ row.status }}</CommonDatatableTD>
