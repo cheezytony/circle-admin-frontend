@@ -27,14 +27,14 @@ const links: Array<TabLink> = [
     title: 'Goal Savings',
     href: '/savings/goals',
   },
-  {
-    title: 'Private Goal Savings',
-    href: '/savings/private-challenges',
-  },
-  {
-    title: 'Public Goal Savings',
-    href: '/savings/public-challenges',
-  },
+  // {
+  //   title: 'Private Goal Savings',
+  //   href: '/savings/private-challenges',
+  // },
+  // {
+  //   title: 'Public Goal Savings',
+  //   href: '/savings/public-challenges',
+  // },
 ];
 </script>
 
