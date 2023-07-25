@@ -12,7 +12,6 @@ const loanId = computed(() => route.params.id as string);
 const {
   public: { loanBaseUrl },
 } = useRuntimeConfig();
-const url = `${loanBaseUrl}admin/loans/users`;
 
 useHead({
   title: 'Loan Details',
@@ -24,7 +23,12 @@ useHead({
     <CommonPageHeading>
       <CommonHeading level="2">Loan History</CommonHeading>
     </CommonPageHeading>
-    <CommonDatatable :data="[]">
+    <CommonDatatable
+      :url="`loans/${loanId}`"
+      :base-url="loanBaseUrl"
+      :search-columns="columns"
+      :column="column"
+    >
       <template #heading>
         <CommonDatatableTH name="id">ID</CommonDatatableTH>
         <CommonDatatableTH name="loan_id">loan Id</CommonDatatableTH>

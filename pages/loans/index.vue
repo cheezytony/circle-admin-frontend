@@ -29,7 +29,7 @@ const column = ref('id');
     </CommonPageHeading>
 
     <CommonDatatable
-      :url="'loans/users'"
+      :url="'loans'"
       :base-url="loanBaseUrl"
       :search-columns="columns"
       :column="column"
@@ -45,7 +45,7 @@ const column = ref('id');
       </template>
 
       <template #default="{ row }: { row: Loan }">
-        <CommonDatatableRow>
+        <CommonDatatableRow :to="`/loans/${row.id}`">
           <CommonDatatableTD>
             {{ row.user_id }}
           </CommonDatatableTD>

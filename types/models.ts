@@ -112,8 +112,7 @@ export interface ShareAndEarn extends Model {
     _id: string;
   };
   status?: String;
-  createdAt: Date;
-  completedReferrals?: number;
+  total_count?: number;
 }
 
 export type Admin = User;
