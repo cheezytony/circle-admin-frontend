@@ -27,7 +27,7 @@ const column = ref('id');
     </CommonPageHeading>
 
     <CommonDatatable
-      :url="'goals?challenge_type=PRIVATE'"
+      :url="'/admin/goals?challenge_type=PRIVATE'"
       :base-url="savingsBaseUrl"
       :search-columns="columns"
       :column="column"

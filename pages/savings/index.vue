@@ -24,7 +24,7 @@ const {
     </CommonPageHeading>
 
     <CommonDatatable
-      :url="`flexi`"
+      :url="`/admin/flexi`"
       :base-url="savingsBaseUrl"
       :search-columns="columns"
       :column="column"

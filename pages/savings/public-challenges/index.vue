@@ -27,7 +27,7 @@ const {
     </CommonPageHeading>
 
     <CommonDatatable
-      :url="'goals?challenge_type=PUBLIC'"
+      :url="'/admin/goals?challenge_type=PUBLIC'"
       :base-url="savingsBaseUrl"
       :search-columns="columns"
       :column="column"

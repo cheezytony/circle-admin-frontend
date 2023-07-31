@@ -26,7 +26,7 @@ const {
     </CommonPageHeading>
 
     <CommonDatatable
-      :url="`vault`"
+      :url="`/admin/vault`"
       :base-url="savingsBaseUrl"
       :search-columns="columns"
       :column="column"

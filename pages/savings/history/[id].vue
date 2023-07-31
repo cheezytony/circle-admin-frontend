@@ -36,7 +36,7 @@ useHead({
     </CommonPageHeading>
 
     <CommonDatatable
-      :url="`saving-history/${savingsId}`"
+      :url="`/admin/saving-history/${savingsId}`"
       :base-url="savingsBaseUrl"
       :filters="filters"
       :search-columns="columns"

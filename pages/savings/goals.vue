@@ -25,7 +25,7 @@ const column = ref('id');
     </CommonPageHeading>
 
     <CommonDatatable
-      :url="`goals`"
+      :url="`/admin/goals`"
       :base-url="savingsBaseUrl"
       :search-columns="columns"
       :column="column"
