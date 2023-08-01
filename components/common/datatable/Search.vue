@@ -21,13 +21,14 @@ const reset = () => {
   setSearchKey('');
   navigate(1);
 };
+
 </script>
 
 <template>
-  <div class="bg-gray-100 flex flex-grow items-center relative rounded">
+  <div class="bg-gray-100 flex flex-grow items-center relative rounded p-2">
     <CommonDropdown v-if="showSearchColumns" class="flex-shrink-0">
       <CommonDropdownButton
-        class="duration-300 flex gap-4 items-center min-w-[150px] pl-4 pr-4 py-4 rounded hover:bg-gray-50 active:scale-90"
+        class="duration-300 flex gap-4 items-center min-w-[100px] pl-4 pr-4 py-3 ring-1 ring-gray-200 rounded hover:bg-gray-50 active:scale-90"
       >
         <template #default="{ isOpen }">
           <span class="inline-flex text-lg text-gray-500">
@@ -57,7 +58,7 @@ const reset = () => {
       </span> -->
       <input
         type="text"
-        class="bg-transparent pl-4 pr-12 py-4 text-sm focus:outline-none w-full"
+        class="bg-transparent pl-4 pr-12 py-3 text-sm focus:outline-none w-full"
         :placeholder="`Search ${sentenceCase(search.column || 'All')}`"
         :value="search.key"
         @input="updateInputValue"

@@ -11,7 +11,7 @@ const props = defineProps<{
   value?: string;
 }>();
 
-const isChecked = ref<boolean>(false);
+const isChecked = ref<boolean>(props.modelValue || false);
 
 const change = (event: Event) => {
   emit(
@@ -27,7 +27,7 @@ watch(
 </script>
 
 <template>
-  <div class="mb-4 select-none inline-flex gap-3 items-center group relative">
+  <div class="select-none inline-flex gap-3 items-center group relative">
     <i
       class="border duration-300 flex-shrink-0 inline-flex h-7 items-center justify-center rounded w-7 group-active:scale-50"
       :class="[

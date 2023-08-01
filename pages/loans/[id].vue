@@ -9,9 +9,6 @@ definePageMeta({
 
 const route = useRoute();
 const loanId = computed(() => route.params.id as string);
-const {
-  public: { loanBaseUrl },
-} = useRuntimeConfig();
 
 useHead({
   title: 'Loan Details',
@@ -25,7 +22,7 @@ useHead({
     </CommonPageHeading>
     <CommonDatatable
       :url="`loans/${loanId}`"
-      :base-url="loanBaseUrl"
+      service="LOANS"
       :search-columns="columns"
       :column="column"
     >

@@ -16,9 +16,6 @@ const columns = [
   { name: 'lastName', title: 'Last Name' },
   { name: 'email', title: 'Email Address' },
 ];
-const {
-  public: { loanBaseUrl },
-} = useRuntimeConfig();
 const column = ref('id');
 </script>
 
@@ -30,7 +27,7 @@ const column = ref('id');
 
     <CommonDatatable
       :url="'loans'"
-      :base-url="loanBaseUrl"
+      service="LOANS"
       :search-columns="columns"
       :column="column"
     >

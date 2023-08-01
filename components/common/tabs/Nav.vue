@@ -24,7 +24,7 @@ const getLink = (t: TabLink) => {
 </script>
 
 <template>
-  <div class="overflow-auto">
+  <div>
     <div
       class="flex mb-4"
       :class="[orientation === 'vertical' ? 'flex-col gap-4' : 'gap-8']"

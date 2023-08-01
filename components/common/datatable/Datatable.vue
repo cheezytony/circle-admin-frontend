@@ -7,7 +7,11 @@ import {
   DatatableMeta,
   DatatableSort,
 } from '~~/types/components';
-import { useApiRequest } from '~~/utils/hooks/api';
+import {
+  ServiceNames,
+  useApiRequest,
+  useServiceBaseUrl,
+} from '~~/utils/hooks/api';
 
 defineExpose();
 const emit = defineEmits<{
@@ -23,6 +27,7 @@ const props = withDefaults(
     data?: any[];
     filterable?: boolean;
     filters?: Array<DatatableFilter>;
+    limitable?: boolean;
     limit?: number;
     orderBy?: string;
     orderByAscending?: boolean;
@@ -34,6 +39,7 @@ const props = withDefaults(
     searchKey?: string;
     selection?: any[];
     selectable?: boolean;
+    service?: ServiceNames;
     showSearchColumns?: boolean;
     uniqueKey?: string;
     url?: string;
@@ -43,6 +49,7 @@ const props = withDefaults(
     data: () => [],
     filterable: true,
     filters: () => [],
+    limitable: true,
     limit: 10,
     orderByAscending: true,
     page: 1,
@@ -72,46 +79,50 @@ const meta = reactive<DatatableMeta>({
 const start = computed<number>(() => meta.limit * (meta.page - 1));
 const end = computed<number>(() => meta.limit * meta.page);
 const paginationLinks = computed(() => {
-  if (meta.pages <= 1) return [];
+  const links = [];
 
-  let pagination: {
-    isActive?: boolean;
-    isDisabled?: boolean;
-    title: string | number;
-    action?: () => void;
-  }[] = [
-    {
-      isDisabled: meta.page === 1,
-      title: '&LT;&LT;',
-      action: () => navigate(1),
-    },
-    { isDisabled: meta.page === 1, title: '&LT;', action: prev },
-  ];
+  // Set default maxLinks
+  const maxLinks = Math.min(3, meta.pages);
 
-  pagination = [
-    ...pagination,
-    ...Array(meta.pages)
-      .fill(0)
-      .map((a, i) => i + 1)
-      .filter(
-        (a) => a === meta.page || a - meta.page === 1 || meta.page - a === 1
-      )
-      .map((a) => ({
-        title: a,
-        isActive: a === meta.page,
-        action: () => navigate(a),
-      })),
-  ];
+  // Calculate start and end links considering the maxLinks
+  let start = meta.page - Math.floor(maxLinks / 2);
+  let end = meta.page + Math.floor(maxLinks / 2);
 
-  return [
-    ...pagination,
-    { isDisabled: meta.page === meta.pages, title: '&GT;', action: next },
-    {
-      isDisabled: meta.page === meta.pages,
-      title: '&GT;&GT;',
-      action: () => navigate(meta.pages),
-    },
-  ];
+  // Correct start and end if they're out of boundaries
+  if (start <= 0) {
+    end -= start - 1;
+    start = 1;
+  }
+  if (end > meta.pages) {
+    start -= end - meta.pages;
+    end = meta.pages;
+  }
+  start = Math.max(start, 1);
+
+  // Add first page if not already visible
+  if (start > 1) {
+    links.push(1);
+    // Add dots if there's a gap after the first page
+    if (start > 2) {
+      links.push(null);
+    }
+  }
+
+  // Add visible pages
+  for (let i = start; i <= end; i++) {
+    links.push(i);
+  }
+
+  // Add last page if not already visible
+  if (end < meta.pages) {
+    // Add dots if there's a gap before the last page
+    if (end < meta.pages - 1) {
+      links.push(null);
+    }
+    links.push(meta.pages);
+  }
+
+  return links;
 });
 const paginatedData = computed(() => {
   const items =
@@ -125,6 +136,12 @@ const paginatedData = computed(() => {
     isSelected: getSelectionIndex(row) > -1,
   }));
 });
+const limits = [10, 20, 25, 30, 50, 75, 100];
+const updateLimit = (limit: number) => {
+  meta.limit = limit;
+  navigate(1);
+  updateLocalMeta();
+};
 const next = () => {
   if (meta.page >= meta.pages) return;
   meta.page++;
@@ -165,6 +182,7 @@ const setSorting = (column: string) => {
     }
 
     sort.column = column;
+    sort.orderByAscending = true;
   })();
 
   if (mode.value === 'server') navigate(1);
@@ -299,10 +317,12 @@ const localSort = (items: any[]) => {
     const columnA = itemA[column];
     const columnB = itemB[column];
     if (typeof columnA === 'string' && typeof columnB === 'string') {
-      return columnA.localeCompare(columnB);
+      return sort.orderByAscending
+        ? columnA.localeCompare(columnB)
+        : columnB.localeCompare(columnA);
     }
     if (typeof columnA === 'number' && typeof columnB === 'number') {
-      return columnA - columnB;
+      return sort.orderByAscending ? columnA - columnB : columnB - columnA;
     }
     return 0;
   });
@@ -311,8 +331,14 @@ const locallyModifiedItems = computed(() => {
   return localSort(localFilter(localSearch([...localItems.value])));
 });
 const locallyPaginatedItems = computed(() => {
-  return locallyModifiedItems.value.splice(start.value, end.value);
+  return locallyModifiedItems.value.slice(start.value, end.value);
 });
+const updateLocalMeta = () => {
+  meta.total = locallyModifiedItems.value.length;
+  // meta.limit = props.limit;
+  meta.page = 1;
+  meta.pages = Math.ceil(meta.total / meta.limit);
+};
 const selectAllFromLocal = (state: boolean) => {
   return emit(
     'update:selection',
@@ -323,9 +349,15 @@ watch(
   () => props.data,
   (data) => {
     localItems.value = data;
-    meta.total = data.length;
+    updateLocalMeta();
   }
 );
+watch(locallyModifiedItems, () => {
+  if (mode.value === 'local') updateLocalMeta();
+});
+onMounted(() => {
+  if (props.data.length && mode.value === 'local') updateLocalMeta();
+});
 // ========================================================================================================================
 
 // ========================================================================================================================
@@ -344,12 +376,13 @@ const serverQuery = computed(() => {
   return {
     search_value: search.key,
     search_column: search.column,
-    sort_column: sort.column,
-    sort_order: sort.orderByAscending ? 'asc' : 'desc',
+    sort_by: sort.column,
+    order: sort.orderByAscending ? 'asc' : 'desc',
     page: meta.page,
     limit: meta.limit,
   };
 });
+const serviceBaseUrl = useServiceBaseUrl(props.service);
 const { isLoading, error, load } = useApiRequest<any[]>({
   baseURL: props.baseUrl,
   url: props.url ?? '',
@@ -357,6 +390,7 @@ const { isLoading, error, load } = useApiRequest<any[]>({
   autoLoad: false,
   initialLoadingState: false,
   signal: controller.value.signal,
+  service: props.service,
   onSuccess: (response) => {
     if (!response?.data) return;
     const { data } = response;
@@ -417,39 +451,65 @@ provide<DatatableProvision>('datatable', {
 
 <template>
   <div class="flex flex-col gap-6 max-w-full">
-    <div
-      v-if="paginatable"
-      class="flex flex-wrap gap-10 items-center justify-between"
-    >
-      <div class="text-sm">
-        <template v-if="paginatedData.length">
-          Showing {{ start + 1 }} to
-          {{ end > meta.total ? meta.total : end }} of
-          {{ meta.total }}
-        </template>
-        <template v-else>---</template>
-      </div>
-      <div class="flex flex-wrap gap-2">
-        <template
-          :key="index"
-          v-for="(
-            { isActive, isDisabled, title, action }, index
-          ) in paginationLinks"
-        >
+    <div v-if="paginatable">
+      <div class="bg-gray-50 flex flex-wrap gap-10 items-center justify-between px-2 py-4 rounded-t md:px-4">
+        <div class="flex items-center gap-2">
+          <span class="flex-shrink-0 font-medium text-gray-500 text-sm">Items per page:</span>
+          <CommonFormSelect
+            class="input-sm"
+            :options="limits"
+            :model-value="meta.limit"
+            @update:model-value="updateLimit"
+          />
+        </div>
+        <div class="flex flex-wrap gap-2">
           <button
-            class="border px-4 py-2 rounded text-sm"
+            class="border px-4 py-2 rounded text-sm border-gray-400 hover:bg-gray-100 hover:border-black"
+            :class="[meta.page <= 1 && 'opacity-25 pointer-events-none']"
+            type="button"
+            :disabled="meta.page <= 1"
+            @click.prevent="navigate(meta.page - 1)"
+          >
+            &lt;
+          </button>
+          <template :key="index" v-for="(link, index) in paginationLinks">
+            <span v-if="link === null" class="px-1">...</span>
+            <button
+              v-else
+              class="border px-4 py-2 rounded text-sm"
+              :class="[
+                meta.page === link
+                  ? 'bg-black border-black text-white'
+                  : 'border-gray-400 hover:bg-gray-100 hover:border-black',
+              ]"
+              type="button"
+              :disabled="meta.page === link"
+              v-html="link"
+              @click.prevent="navigate(link)"
+            />
+          </template>
+          <button
+            class="border px-4 py-2 rounded text-sm border-gray-400 hover:bg-gray-100 hover:border-black"
             :class="[
-              isActive
-                ? 'bg-black border-black text-white'
-                : 'border-gray-400 hover:bg-gray-100 hover:border-black',
-              isDisabled && 'opacity-25 pointer-events-none',
+              meta.page >= meta.pages && 'opacity-25 pointer-events-none',
             ]"
             type="button"
-            :disabled="isDisabled || isActive"
-            v-html="title"
-            @click.prevent="action"
-          />
-        </template>
+            :disabled="meta.page >= meta.pages"
+            @click.prevent="navigate(meta.page + 1)"
+          >
+            &gt;
+          </button>
+        </div>
+      </div>
+      <div class="bg-gray-100 px-2 py-2 rounded-b md:px-4">
+        <div class="font-medium text-gray-500 text-sm">
+          <template v-if="paginatedData.length">
+            Showing {{ start + 1 }} to
+            {{ end > meta.total ? meta.total : end }} of
+            {{ meta.total }}
+          </template>
+          <template v-else>---</template>
+        </div>
       </div>
     </div>
     <div
@@ -461,7 +521,7 @@ provide<DatatableProvision>('datatable', {
       </div>
       <CommonDatatableSearch />
     </div>
-    <div class="flex gap-4" v-if="filterable && filters.length">
+    <div class="flex gap-4 items-center" v-if="filterable && filters.length">
       <template v-for="filter in filters">
         <CommonTag
           :is-active="isFilterApplied(filter.name)"
@@ -471,7 +531,9 @@ provide<DatatableProvision>('datatable', {
           {{ filter.title || filter.name }}
         </CommonTag>
       </template>
-      <span v-if="selectable">{{ selection.length }} Selected</span>
+      <span v-if="selectable" class="font-medium text-gray-400 text-sm">
+        {{ selection.length }} Selected
+      </span>
     </div>
     <slot
       name="table"

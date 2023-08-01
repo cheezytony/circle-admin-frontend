@@ -1,19 +1,10 @@
 import { defineStore } from 'pinia';
 
 export const useTheme = defineStore('theme', () => {
-  const sidebarWidthOpen = ref('300px');
-  const sidebarWidthClosed = ref('80px');
-  const sidebarWidth = computed(() => {
-    if (isSmallScreen.value) return '100%';
-    return isSidebarCollapsed.value
-      ? sidebarWidthClosed.value
-      : sidebarWidthOpen.value;
-  });
-  const headerHeight = ref(150);
-
+  const isSummaryOpen = ref(true);
   const isSidebarOpen = ref(true);
   const isSidebarCollapsed = computed(() => {
-    if (isSmallScreen.value) return false;
+    // if (isSmallScreen.value) return false;
     return !isSidebarOpen.value;
   });
   const isSmallScreen = ref(false);
@@ -21,6 +12,11 @@ export const useTheme = defineStore('theme', () => {
 
   const toggleSidebar = () => {
     isSidebarOpen.value = !isSidebarOpen.value;
+  };
+  const closeSummary = () => (isSummaryOpen.value = false);
+  const openSummary = () => (isSummaryOpen.value = true);
+  const toggleSummary = () => {
+    isSummaryOpen.value = !isSummaryOpen.value;
   };
   const handleResize = () => {
     isSmallScreen.value = window.innerWidth <= 768;
@@ -34,14 +30,19 @@ export const useTheme = defineStore('theme', () => {
 
   watch(isMediumScreen, (isMediumScreen) => {
     isSidebarOpen.value = !isMediumScreen;
+    if (isMediumScreen) {
+      closeSummary();
+    }
   });
 
   return {
-    sidebarWidth,
-    headerHeight,
     isSidebarOpen,
-    isSmallScreen,
     isSidebarCollapsed,
+    isSmallScreen,
+    isSummaryOpen,
+    closeSummary,
+    openSummary,
     toggleSidebar,
+    toggleSummary,
   };
 });
