@@ -15,7 +15,7 @@ export interface DatatableProvision {
   getSelectionIndex: (item: any) => number;
   meta: Ref<DatatableMeta>;
   paginatedData: ComputedRef<Array<any>>;
-  paginationLinks: ComputedRef<Array<DatatablePaginationLink>>;
+  paginationLinks: ComputedRef<Array<number | null>>;
   search: Ref<DataTableSearch>;
   searchColumns: Array<DatatableSearchColumn>;
   searchColumnNames: ComputedRef<Array<string>>;

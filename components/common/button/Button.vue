@@ -12,9 +12,9 @@ const LINKCOLORS = {
 };
 
 const SIZES = {
-  sm: 'font-medium gap-2 px-5 py-[0.5rem] rounded-[4px] text-[12px]',
+  sm: 'font-medium gap-2 px-4 py-[0.5rem] rounded-[4px] text-[12px]',
   lg: 'font-medium gap-3 px-10 py-[1.25rem] rounded-[4px] text-[16px]',
-  md: 'font-medium gap-3 max-w-full px-[24px] py-[1rem] rounded-[4px] text-[14px]',
+  md: 'font-medium gap-3 max-w-full px-[24px] py-[0.825rem] rounded-[4px] text-[14px]',
 };
 
 const props = withDefaults(

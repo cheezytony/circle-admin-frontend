@@ -33,7 +33,7 @@ onOpen(() => {
     >
       <div
         v-if="isOpen"
-        class="bg-black bg-opacity-50 cursor-pointer fixed inset-0 z-[1002]"
+        class="bg-black bg-opacity-50 cursor-pointer fixed inset-0 z-[1092]"
         @click="close"
       />
     </Transition>
@@ -45,7 +45,7 @@ onOpen(() => {
     >
       <div
         v-if="isOpen"
-        class="bottom-0 bg-white fixed left-1/2 rounded px-5 py-10 top-0 -translate-x-1/2 w-full z-[1003] md:m-6 md:px-10 md:w-[800px]"
+        class="bottom-0 bg-white fixed left-1/2 rounded px-5 py-10 top-0 -translate-x-1/2 w-full z-[1093] md:m-6 md:px-10 md:w-[800px]"
       >
         <form @submit.prevent class="relative max-w-full mb-8 md:min-w-[300px]">
           <input

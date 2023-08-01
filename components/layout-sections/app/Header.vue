@@ -4,16 +4,62 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { useAuth } from '~~/store/auth';
 import { useTheme } from '~~/store/theme';
 
-const { toggleSidebar } = useTheme();
+const props = defineProps<{
+  pageHasSummary: boolean;
+}>();
+
+const { toggleSidebar, toggleSummary } = useTheme();
+const { isSidebarCollapsed, isSummaryOpen, isSmallScreen } = storeToRefs(
+  useTheme()
+);
+const { logout } = useAuth();
 const { avatar, name, initials } = storeToRefs(useAuth());
+const isSticky = ref(false);
+
+const width = computed(() => {
+  if (isSmallScreen.value) return '100%';
+  let difference = 0;
+
+  if (props.pageHasSummary) {
+    difference += isSummaryOpen.value ? 300 : 80;
+  }
+  difference += isSidebarCollapsed.value ? 80 : 300;
+
+  return `calc(100% - ${difference}px)`;
+});
+
+const handleScroll = () => {
+  isSticky.value = window.scrollY > 0;
+};
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll);
+});
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll);
+});
 </script>
 
 <template>
-  <header class="bg-white fixed left-0 px-5 py-4 md:py-16 md:sticky top-0 w-full md:w-auto z-[1001] md:px-10">
-    <div class="flex gap-4 h-12 items-center md:gap-8">
+  <header
+    class="bg-white duration-300 fixed right-0 top-0 w-full z-[1090] md:pt-8"
+    :class="{
+      'border-b-8 border-b-gray-100': isSticky,
+    }"
+    :style="{ width }"
+  >
+    <div class="flex gap-4 h-20 items-center px-4 relative md:px-8">
       <button class="mr-auto md:hidden" @click="toggleSidebar">
-        <CommonLogoDefault class="text-[7px]" />
+        <CommonLogoDefault class="text-[6px]" />
       </button>
+      <CommonButton
+        v-if="pageHasSummary && !isSmallScreen"
+        color-scheme="white"
+        class="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2"
+        size="sm"
+        @click="toggleSummary"
+      >
+        <FontAwesomeIcon :icon="isSummaryOpen ? 'chevron-left' : 'chevron-right'" />
+      </CommonButton>
       <LayoutSectionsAppSearch />
 
       <button
@@ -22,13 +68,20 @@ const { avatar, name, initials } = storeToRefs(useAuth());
       >
         <FontAwesomeIcon icon="fa-regular fa-bell" />
       </button>
-      <div>
-        <button
-          class="appearance-none flex flex-shrink-0 gap-3 items-center text-gray-600 text-sm"
-          type="button"
+
+      <CommonDropdown>
+        <CommonDropdownButton
+          class="flex flex-shrink-0 gap-3 items-center text-gray-600 text-sm"
         >
-          <span class="h-10 bg-black flex-shrink-0 grid overflow-hidden place-items-center rounded-full text-white w-10">
-            <img v-if="avatar" :src="avatar" :alt="name" class="h-full object-cover w-full">
+          <span
+            class="h-10 bg-black flex-shrink-0 grid overflow-hidden place-items-center rounded-full text-white w-10"
+          >
+            <img
+              v-if="avatar"
+              :src="avatar"
+              :alt="name"
+              class="h-full object-cover w-full"
+            />
             <template v-else>
               {{ initials }}
             </template>
@@ -37,8 +90,12 @@ const { avatar, name, initials } = storeToRefs(useAuth());
             {{ name }}
           </span>
           <FontAwesomeIcon icon="chevron-down" />
-        </button>
-      </div>
+        </CommonDropdownButton>
+        <CommonDropdownMenu>
+          <CommonDropdownItem href="/settings">My Profile</CommonDropdownItem>
+          <CommonDropdownItem @click="logout">Logout</CommonDropdownItem>
+        </CommonDropdownMenu>
+      </CommonDropdown>
     </div>
   </header>
 </template>

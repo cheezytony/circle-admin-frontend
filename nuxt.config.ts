@@ -37,6 +37,9 @@ export default defineNuxtConfig({
       apiBaseUrl:
         process.env.NUXT_API_BASE_URL ??
         'https://test-admin-api.circlenow.app/api',
+      authServiceBaseUrl:
+        process.env.NUXT_API_BASE_URL ??
+        'https://test-auth-api.circlenow.app/api/admin',
       loanBaseUrl:
         process.env.NUXT_API_LOAN_BASE_URL ??
         'https://test-loan-api.circlenow.app/admin',
@@ -46,6 +49,18 @@ export default defineNuxtConfig({
       shareAndEarnBaseUrl:
         process.env.NUXT_API_SHARE_AND_EARN_BASE_URL ??
         'https://test-auth-api.circlenow.app/api/referral-wallets/',
+      subscriptionsBaseUrl:
+        process.env.NUXT_API_SUBSCRIPTIONS_BASE_URL ??
+        'https://test-subscriptions-api.circlenow.app/api/admin',
+      stocksBaseUrl:
+        process.env.NUXT_API_STOCKS_BASE_URL ??
+        'https://test-stocks-api.circlenow.app/api/admin',
+      userDataBaseUrl:
+        process.env.NUXT_API_USER_DATA_BASE_URL ??
+        'https://test-user-data-api.circlenow.app/api/admin',
+      walletBaseUrl:
+        process.env.NUXT_API_WALLET_BASE_URL ??
+        'https://test-wallet-data-api.circlenow.app/api/admin',
     },
   },
 

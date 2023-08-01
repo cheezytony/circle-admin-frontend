@@ -20,6 +20,7 @@ const form = useForm({
   phone: { rules: ['required', 'phone'] },
 });
 const { submit } = useFormRequest(form, {
+  authorize: true,
   url: '/admins',
   method: 'POST',
   onSuccess: () => {

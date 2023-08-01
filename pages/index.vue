@@ -7,14 +7,14 @@ definePageMeta({
 });
 
 const overview: Array<DataListItem> = [
-  { title: 'Current MRR', value: 855000, type: 'currency:compact', change: 16 },
+  { title: 'Current MRR', value: '----' },
   {
     title: 'Current Customers',
-    value: 127754,
-    type: 'number:compact',
-    change: 17,
+    value: '----',
+    // type: 'number:compact',
+    // change: 17,
   },
-  { title: 'Active Customers', value: 73.57, type: 'number', change: 21 },
+  { title: 'Active Customers', value: '----' },
 ];
 </script>
 
