@@ -7,9 +7,7 @@ useHead({
 });
 
 const columns = [
-  { name: '_id', title: 'User ID' },
-  { name: 'firstName', title: 'First Name' },
-  { name: 'lastName', title: 'Last Name' },
+  { name: 'user_id', title: 'User ID' },
   { name: 'email', title: 'Email Address' },
 ];
 const {
@@ -70,7 +68,9 @@ const column = ref('id');
           </CommonDatatableTD>
 
           <CommonDatatableTD>
-            {{ row.createdAt ? dateTimeFormat(row.createdAt, 'date') : 'N/A' }}
+            {{
+              row.created_at ? dateTimeFormat(row.created_at, 'date') : 'N/A'
+            }}
           </CommonDatatableTD>
 
           <CommonDatatableTD>{{ row.status }}</CommonDatatableTD>

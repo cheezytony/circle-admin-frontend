@@ -20,7 +20,12 @@ useHead({
     <CommonPageHeading>
       <CommonHeading level="2">Loan History</CommonHeading>
     </CommonPageHeading>
-    <CommonDatatable :data="[]">
+    <CommonDatatable
+      :url="`loans/${loanId}`"
+      service="LOANS"
+      :search-columns="columns"
+      :column="column"
+    >
       <template #heading>
         <CommonDatatableTH name="id">ID</CommonDatatableTH>
         <CommonDatatableTH name="loan_id">loan Id</CommonDatatableTH>

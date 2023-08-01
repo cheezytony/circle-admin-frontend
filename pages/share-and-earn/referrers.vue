@@ -6,11 +6,8 @@ useHead({
 });
 
 const columns = [
-  { name: 'id', title: 'User ID' },
-  { name: 'first_name', title: 'First Name' },
-  { name: 'last_name', title: 'Last Name' },
+  { name: 'user_id', title: 'User ID' },
   { name: 'email', title: 'Email Address' },
-  { name: 'phone', title: 'Phone Number' },
 ];
 const column = ref('id');
 const {
@@ -55,7 +52,7 @@ const {
             {{ row.referrer_id?.email || 'N/A' }}
           </CommonDatatableTD>
 
-          <CommonDatatableTD>{{ row.completedReferrals }}</CommonDatatableTD>
+          <CommonDatatableTD>{{ row.total_count }}</CommonDatatableTD>
         </CommonDatatableRow>
       </template>
     </CommonDatatable>
