@@ -999,6 +999,9 @@ module.exports = {
         body: {
           color: '#495057',
           lineHeight: '26px',
+          '&:has(.dialog-open)': {
+            overflow: 'hidden',
+          },
         },
       });
     }),

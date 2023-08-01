@@ -63,10 +63,10 @@ watch(isOpen, () => {
     <Transition enter-from-class="opacity-0 scale-[.95]">
       <div
         v-bind="{ ...$attrs, ...$props }"
-        class="fixed min-w-[200px] max-w-screen mt-2 overflow-auto origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 transform focus:outline-none z-[900]"
+        class="fixed min-w-[200px] max-w-screen mt-2 overflow-auto origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 transform focus:outline-none z-[1090]"
         :class="[
           !isOpen && 'opacity-0 pointer-events-none scale-[.95]',
-          isPositioned && 'duration-300'
+          isPositioned && 'duration-300',
         ]"
         data-ui-type="dropdown:menu"
         :style="{ left: `${position.x}px`, top: `${position.y}px` }"

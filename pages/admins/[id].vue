@@ -2,7 +2,7 @@
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { ComputedRef } from 'vue';
 import { DataListItem, TabLink } from '~~/types/components';
-import { User } from '~~/types/models';
+import { Admin } from '~~/types/models';
 import { useApiRequest } from '~~/utils/hooks/api';
 import { useAsset } from '~~/utils/hooks/misc';
 
@@ -15,7 +15,7 @@ const route = useRoute();
 const userId = computed(() => route.params.id as string);
 const url = computed(() => `/admins/${userId.value}`);
 
-const { data, isLoading } = useApiRequest<User>({
+const { data, isLoading } = useApiRequest<Admin>({
   url: url as ComputedRef<string> & string,
   autoLoad: true,
   authorize: true,
@@ -87,7 +87,7 @@ useHead({
       </div> -->
 
       <CommonTabs>
-        <div class="flex gap-4 justify-between">
+        <div class="flex gap-4 flex-wrap items-center justify-between">
           <CommonTabsNav :tabs="tabs" />
           <CommonButton color-scheme="red:soft" left-icon="trash-can" size="sm">
             Delete

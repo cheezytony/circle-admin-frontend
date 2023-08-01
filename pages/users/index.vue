@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { User } from '~/types/models';
 import { DataListItem } from '~~/types/components';
 import { dateTimeFormat } from '~~/utils/filters/dates';
@@ -15,10 +14,10 @@ const columns = ['id', 'first_name', 'last_name', 'email', 'phone'];
 const column = ref('id');
 
 const dataList: Array<DataListItem> = [
-  { title: 'All Users', value: 100, type: 'number:compact' },
-  { title: 'Pending Activation', value: 100, type: 'number:compact' },
-  { title: 'Active Users', value: 1150, type: 'number:compact', change: 10 },
-  { title: 'Declined Users', value: 1150, type: 'number:compact', change: 10 },
+  { title: 'All Users', value: '----' },
+  { title: 'Pending Activation', value: '----' },
+  { title: 'Active Users', value: '----' },
+  { title: 'Declined Users', value: '----' },
 ];
 </script>
 
@@ -37,25 +36,32 @@ const dataList: Array<DataListItem> = [
         </CommonButton>
       </CommonPageHeading>
 
-      <CommonDatatable :columns="columns" :column="column">
+      <CommonDatatable
+        url="/users"
+        service="USER_DATA"
+        :columns="columns"
+        :column="column"
+      >
         <template #heading>
           <CommonDatatableTH name="first_name">User</CommonDatatableTH>
           <CommonDatatableTH name="email">Email</CommonDatatableTH>
           <CommonDatatableTH name="phone">Phone</CommonDatatableTH>
-          <CommonDatatableTH name="created_at">Date Created</CommonDatatableTH>
+          <CommonDatatableTH name="created_at"
+            >Date Registered</CommonDatatableTH
+          >
         </template>
         <template #default="{ row }: { row: User }">
-          <CommonDatatableRow :to="`/users/${row.id}`">
+          <CommonDatatableRow :to="`/users/${row._id}`">
             <CommonDatatableTD>
               <div class="flex items-center gap-3">
                 <div class="bg-gray-300 h-8 rounded-full w-8"></div>
-                <span>{{ row.first_name }} {{ row.last_name }}</span>
+                <span>{{ row.firstName }} {{ row.lastName }}</span>
               </div>
             </CommonDatatableTD>
             <CommonDatatableTD>{{ row.email }}</CommonDatatableTD>
-            <CommonDatatableTD>{{ row.phone }}</CommonDatatableTD>
+            <CommonDatatableTD>{{ optional(row.phoneNumber) }}</CommonDatatableTD>
             <CommonDatatableTD>
-              {{ dateTimeFormat(row.created_at, 'date:compact') }}
+              {{ dateTimeFormat(row.createdAt, 'date') }}
             </CommonDatatableTD>
           </CommonDatatableRow>
         </template>

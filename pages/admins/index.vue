@@ -21,17 +21,18 @@ const columns = [
 const column = ref('id');
 
 const dataList: Array<DataListItem> = [
-  { title: 'Admins Onboarded', value: 100 },
-  { title: 'Active Admins', value: 1150, type: 'number:compact', change: 10 },
+  { title: 'Admins Onboarded', value: '----' },
+  // { title: 'Active Admins', value: 1150, type: 'number:compact', change: 10 },
+  { title: 'Active Admins', value: '----' },
   {
     title: 'Most Active',
-    value: 'Antonio Okoro',
-    href: '/admins/cldvn3fo90000yhvos9e0n3yr',
+    value: '----',
+    // href: '/admins/cldvn3fo90000yhvos9e0n3yr',
   },
   {
     title: 'Recently Added',
-    value: 'Michael Jackson',
-    href: '/admins/cldvn3fo90000yhvos9e0n3yr',
+    value: '----',
+    // href: '/admins/cldvn3fo90000yhvos9e0n3yr',
   },
 ];
 </script>
@@ -56,13 +57,22 @@ const dataList: Array<DataListItem> = [
           <CommonDatatableTH name="first_name">Admin</CommonDatatableTH>
           <CommonDatatableTH name="email">Email</CommonDatatableTH>
           <CommonDatatableTH name="phone">Phone</CommonDatatableTH>
-          <CommonDatatableTH name="created_at">Date Created</CommonDatatableTH>
+          <CommonDatatableTH name="created_at">Date Added</CommonDatatableTH>
         </template>
         <template #default="{ row }: { row: Admin }">
           <CommonDatatableRow :to="`/admins/${row.id}`">
             <CommonDatatableTD>
               <div class="flex items-center gap-3">
-                <div class="bg-gray-300 h-8 rounded-full w-8"></div>
+                <div class="bg-gray-300 h-8 rounded-full w-8">
+                  <img
+                    class="h-8 rounded-full w-8"
+                    :src="
+                      row.avatar ||
+                      `https://ui-avatars.com/api/?background=000&color=fff&font-size=0.3&size=128&name=${row.first_name}+${row.last_name}`
+                    "
+                    :alt="`${row.first_name} ${row.last_name}`"
+                  />
+                </div>
                 <span>{{ row.first_name }} {{ row.last_name }}</span>
               </div>
             </CommonDatatableTD>

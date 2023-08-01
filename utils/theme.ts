@@ -2,6 +2,7 @@ export const colorsSchemes = {
   black: 'bg-black text-white',
   'black:ghost': 'bg-transparent text-black',
   'black:soft': 'bg-gray-200 text-black',
+  'black:outline': 'bg-transparent border border-black text-black',
   blue: 'bg-blue-500 text-white',
   'blue:outline': 'bg-white border border-blue-500 text-blue-500',
   gray: 'bg-gray-500 text-white',
@@ -15,7 +16,8 @@ export const colorsSchemes = {
 export const controlColorsSchemes = {
   black: 'hover:bg-gray-700 focus:bg-gray-500',
   'black:ghost': 'hover:bg-gray-100 focus:bg-gray-200',
-  'black:soft': 'hover:bg-gray-300 focus:bg-black',
+  'black:soft': 'hover:bg-gray-300 focus:bg-black focus:text-white',
+  'black:outline': 'hover:bg-gray-300 focus:bg-black focus:text-white',
   blue: 'hover:bg-blue-600 focus:bg-blue-700',
   'blue:outline': 'hover:bg-blue-50 focus:bg-blue-100',
   gray: 'hover:bg-gray-400 focus:bg-gray-600',

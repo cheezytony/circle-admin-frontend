@@ -9,10 +9,6 @@ definePageMeta({
 
 const route = useRoute();
 const loanId = computed(() => route.params.id as string);
-const {
-  public: { loanBaseUrl },
-} = useRuntimeConfig();
-const url = `${loanBaseUrl}admin/loans/users`;
 
 useHead({
   title: 'Loan Details',
