@@ -8,7 +8,7 @@ const props = defineProps<{
 }>();
 const router = useRouter();
 
-const { selectable, paginatedData, toggleSelection } =
+const { selectable, paginatedData, toggleSelection, getSelectionIndex } =
   inject<DatatableProvision>('datatable')!;
 const item = computed<DatatableRow>(
   () => props.index !== undefined && paginatedData.value[props.index]

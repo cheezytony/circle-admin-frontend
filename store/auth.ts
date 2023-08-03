@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia';
-import { User } from '../types/models';
+import { Admin } from '../types/models';
 import { useApiRequest } from '~~/utils/hooks/api';
 
 export type AuthState = {
   token?: string;
-  user?: Partial<User>;
+  user?: Partial<Admin>;
 };
 
 /*
@@ -15,8 +15,9 @@ export type AuthState = {
 export const useAuth = defineStore(
   'auth',
   () => {
+    const router = useRouter();
     const { load: refresh } = useApiRequest<{
-      user: User;
+      user: Admin;
       token: string;
     }>({
       url: '/auth/refresh',
@@ -34,7 +35,7 @@ export const useAuth = defineStore(
     */
     const isLoggedIn = ref<boolean>(false);
     const token = ref<string>();
-    const user = ref<Partial<User>>();
+    const user = ref<Partial<Admin>>();
 
     /*
     --------------------------------------------------------------------------------------------------------
@@ -62,7 +63,7 @@ export const useAuth = defineStore(
     | Actions.
     --------------------------------------------------------------------------------------------------------
     */
-    const updateUser = (payload: User) => (user.value = payload);
+    const updateUser = (payload: Admin) => (user.value = payload);
     const updatePassword = () => {
       if (!user.value) return;
       user.value.password_changed_at = new Date().toDateString();
@@ -76,6 +77,7 @@ export const useAuth = defineStore(
       isLoggedIn.value = false;
       token.value = undefined;
       user.value = undefined;
+      router.push('/login');
     };
 
     /*

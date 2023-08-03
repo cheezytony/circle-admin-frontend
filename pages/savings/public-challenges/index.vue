@@ -15,9 +15,7 @@ const columns = [
   { name: 'phone', title: 'Phone Number' },
 ];
 const column = ref('id');
-const {
-  public: { savingsBaseUrl },
-} = useRuntimeConfig();
+
 </script>
 
 <template>
@@ -28,7 +26,7 @@ const {
 
     <CommonDatatable
       :url="'/admin/goals?challenge_type=PUBLIC'"
-      :base-url="savingsBaseUrl"
+      service="SAVINGS"
       :search-columns="columns"
       :column="column"
     >

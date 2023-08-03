@@ -1,6 +1,6 @@
-import { Admin, User } from '~~/types/models';
+import { Admin } from '~~/types/models';
 
-export const getFullName = (user: User | Admin) => {
+export const getFullName = (user: Admin) => {
   if (!user) return;
   return `${user.first_name} ${user.last_name}`;
 };

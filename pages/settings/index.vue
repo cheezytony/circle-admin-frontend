@@ -2,7 +2,7 @@
 import { storeToRefs } from 'pinia';
 import { useForm } from 'vue3-form';
 import { useAuth } from '~~/store/auth';
-import { User } from '~~/types/models';
+import { Admin } from '~~/types/models';
 import { useFormRequest } from '~~/utils/hooks/api';
 
 useHead({
@@ -17,21 +17,28 @@ const form = useForm({
   last_name: {},
   phone: { rules: ['phone'] },
 });
-const { submit } = useFormRequest<{ user: User }>(form, {
+const { submit } = useFormRequest<{ user: Admin }>(form, {
   authorize: true,
   url: '/profile',
   method: 'POST',
   useFormData: true,
-  onSuccess: (data) => data?.data.user && updateUser(data?.data.user),
+  onSuccess: (data) => data?.data?.user && updateUser(data?.data.user),
   onDownloadProgress: () => {
     console.log('progress');
   },
 });
 
 const mapFormData = () => {
-  form.value.fields.first_name.value = user.value?.first_name || '';
-  form.value.fields.last_name.value = user.value?.last_name || '';
-  form.value.fields.phone.value = user.value?.phone || '';
+  if (!user.value) return;
+  if (user.value.first_name) {
+    form.value.fields.first_name.value = user.value.first_name;
+  }
+  if (user.value.last_name) {
+    form.value.fields.last_name.value = user.value.last_name;
+  }
+  if (user.value.phone) {
+    form.value.fields.phone.value = user.value.phone;
+  }
 };
 onMounted(mapFormData);
 </script>
@@ -99,7 +106,7 @@ onMounted(mapFormData);
         </CommonMessage>
       </div>
       <div class="md:col-span-2">
-        <CommonButtonSubmit :form="form"> Save Changes </CommonButtonSubmit>
+        <CommonButtonSubmit :form="form">Save Changes</CommonButtonSubmit>
       </div>
     </CommonForm>
   </div>

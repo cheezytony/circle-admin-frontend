@@ -12,9 +12,6 @@ const columns = [
   { name: 'name', title: 'Name' },
 ];
 const column = ref('id');
-const {
-  public: { savingsBaseUrl },
-} = useRuntimeConfig();
 </script>
 
 <template>
@@ -24,8 +21,8 @@ const {
     </CommonPageHeading>
 
     <CommonDatatable
-      :url="`/admin/flexi`"
-      :base-url="savingsBaseUrl"
+      url="flexi"
+      service="SAVINGS"
       :search-columns="columns"
       :column="column"
     >

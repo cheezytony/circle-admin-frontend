@@ -6,7 +6,7 @@ import Form from '~~/components/common/form/Form.vue';
 import FormCheckbox from '~~/components/common/form/FormCheckbox.vue';
 import { useAuth } from '~~/store/auth';
 import { useFormRequest } from '~~/utils/hooks/api';
-import { User } from '~~/types/models';
+import { Admin } from '~~/types/models';
 
 definePageMeta({
   layout: 'auth',
@@ -24,7 +24,7 @@ const form = useForm({
 });
 
 const { login } = useAuth();
-const { submit } = useFormRequest<{ user: User; token: string }>(form, {
+const { submit } = useFormRequest<{ user: Admin; token: string }>(form, {
   url: '/auth/login',
   method: 'POST',
   onSuccess: (data) => {
@@ -70,8 +70,8 @@ const { submit } = useFormRequest<{ user: User; token: string }>(form, {
             />
           </div>
 
-          <div class="flex items-center justify-between">
-            <FormCheckbox>Remember Me?</FormCheckbox>
+          <div class="flex items-center justify-end mb-4">
+            <!-- <FormCheckbox>Remember Me?</FormCheckbox> -->
             <RouterLink to="/password/forgot" class="text-sm text-black">
               Forgot your password?
             </RouterLink>

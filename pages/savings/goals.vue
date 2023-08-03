@@ -12,9 +12,6 @@ const columns = [
   { name: 'user_id', title: 'User ID' },
   { name: 'name', title: 'Name' },
 ];
-const {
-  public: { savingsBaseUrl },
-} = useRuntimeConfig();
 const column = ref('id');
 </script>
 
@@ -26,7 +23,7 @@ const column = ref('id');
 
     <CommonDatatable
       :url="`/admin/goals`"
-      :base-url="savingsBaseUrl"
+      service="SAVINGS"
       :search-columns="columns"
       :column="column"
     >
@@ -64,9 +61,7 @@ const column = ref('id');
         <CommonDatatableTH name="created_at">Date Created</CommonDatatableTH>
       </template>
       <template #default="{ row }: { row: Saving }">
-        <CommonDatatableRow
-          :to="`/savings/history/${row.id}?type=GOAL`"
-        >
+        <CommonDatatableRow :to="`/savings/history/${row.id}?type=GOAL`">
           <CommonDatatableTD>
             <div class="flex items-center gap-3">
               <span>

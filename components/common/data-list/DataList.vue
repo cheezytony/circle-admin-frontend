@@ -40,7 +40,7 @@ const getValue = ({ value, type }: DataListItem) => {
             :is="item.href ? NuxtLink : 'div'"
             :href="item.href"
             :target="item.href && '_blank'"
-            class="font-medium text-2xl"
+            class="font-medium text-xl overflow-hidden text-ellipsis w-full"
             :class="[
               item.href && 'cursor-pointer duration-300 hover:text-blue-900',
             ]"

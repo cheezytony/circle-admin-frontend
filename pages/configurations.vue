@@ -16,6 +16,7 @@ const categories: Array<TabLink> = [
   { title: 'Savings' },
   { title: 'Loans' },
   { title: 'Insurance' },
+  { title: 'Subscriptions', href: '/configurations/subscriptions' },
 ];
 </script>
 

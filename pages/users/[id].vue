@@ -11,27 +11,29 @@ definePageMeta({
 
 const route = useRoute();
 const userId = computed(() => route.params.id as string);
-const url = computed(() => `/admins/${userId.value}`);
+const url = computed(() => `/users/${userId.value}`);
 
-const { data, isLoading } = useApiRequest<User>({
+const { data, isLoading, error } = useApiRequest<User>({
   url: url as ComputedRef<string> & string,
   autoLoad: true,
   authorize: true,
+  service: 'USER_DATA',
 });
 const admin = computed(() => data.value?.data);
 const fullName = computed(() => {
-  return admin.value && `${admin.value.first_name} ${admin.value.last_name}`;
+  return admin.value && `${admin.value.firstName} ${admin.value.lastName}`;
 });
 
 const dataList = computed<Array<DataListItem>>(() => []);
 const tabs: Array<TabLink> = [
-  { title: 'Profile', href: `/admins/${userId.value}` },
-  { title: 'Audit Trail', href: `/admins/${userId.value}/audit-trail` },
-  { title: 'Permissions', href: `/admins/${userId.value}/permissions` },
+  { title: 'Profile', href: `/users/${userId.value}` },
+  { title: 'Wallet', href: `/users/${userId.value}/wallet` },
+  { title: 'Audit Trail', href: `/users/${userId.value}/audit-trail` },
+  { title: 'Edit', href: `/users/${userId.value}/edit` },
 ];
 
 useHead({
-  title: () => fullName.value || 'Loading...',
+  title: () => error.value ? 'Error' : fullName.value ?? 'Loading...',
 });
 </script>
 

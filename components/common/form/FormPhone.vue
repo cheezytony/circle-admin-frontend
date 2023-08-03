@@ -26,16 +26,19 @@ const selectCountry = (country: Country) => {
 
 const listeners = {
   change: (event: KeyboardEvent) => {
-    emit('update:modelValue', (event.target as HTMLInputElement)?.value);
+    const { value } = event.target as HTMLInputElement;
+    emit('update:modelValue', selectedCountry.value.dialCode + value);
   },
   input: (event: KeyboardEvent) => {
-    emit('update:modelValue', (event.target as HTMLInputElement)?.value);
+    const { value } = event.target as HTMLInputElement;
+    emit('update:modelValue', selectedCountry.value.dialCode + value);
   },
 };
 
 const onKeyPress = (event: KeyboardEvent) => {
-  if (event.key.length === 1 && isNaN(Number(event.key))) event.preventDefault();
-}
+  if (event.key.length === 1 && isNaN(Number(event.key)))
+    event.preventDefault();
+};
 </script>
 
 <template>
@@ -64,7 +67,10 @@ const onKeyPress = (event: KeyboardEvent) => {
           />
         </div>
         <div class="max-h-[250px] overflow-auto">
-          <template :key="country.countryCode" v-for="country in filteredCountries">
+          <template
+            :key="country.countryCode"
+            v-for="country in filteredCountries"
+          >
             <CommonDropdownItem
               class="flex gap-4 items-center"
               @click="selectCountry(country)"
@@ -84,11 +90,12 @@ const onKeyPress = (event: KeyboardEvent) => {
     <label
       class="bg-transparent flex h-full input items-center focus:outline-none"
     >
-      <span class="font-medium text-xs whitespace-nowrap">{{
-        selectedCountry.dialCode
-      }}</span>
+      <span class="font-medium text-xs whitespace-nowrap">
+        {{ selectedCountry.dialCode }}
+      </span>
       <input
         v-model="value"
+        v-on="listeners"
         type="text"
         inputmode="numeric"
         class="bg-transparent h-full w-full focus:outline-none"

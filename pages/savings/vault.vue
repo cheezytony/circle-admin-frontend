@@ -14,9 +14,6 @@ const columns = [
   { name: 'name', title: 'Name' },
 ];
 const column = ref('id');
-const {
-  public: { savingsBaseUrl },
-} = useRuntimeConfig();
 </script>
 
 <template>
@@ -27,7 +24,7 @@ const {
 
     <CommonDatatable
       :url="`/admin/vault`"
-      :base-url="savingsBaseUrl"
+      service="SAVINGS"
       :search-columns="columns"
       :column="column"
     >

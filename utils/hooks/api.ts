@@ -13,11 +13,23 @@ import axios, { AxiosRequestConfig, isCancel } from 'axios';
 import { HTTPError, HTTPErrorData, HTTPResponseData } from '~~/types/http';
 import { useAuth } from '~~/store/auth';
 
+export type ServiceNames =
+  | 'ADMIN'
+  | 'AUTH'
+  | 'LOANS'
+  | 'SAVINGS'
+  | 'SHARE_AND_EARN'
+  | 'STOCKS'
+  | 'SUBSCRIPTIONS'
+  | 'USER_DATA'
+  | 'WALLET';
+
 export type APIRequestConfig<T> = {
   url: Ref<string> | ComputedRef<string> | string;
   baseURL?: string;
   method?: string;
   headers?: object;
+  service?: ServiceNames;
 
   authorize?: boolean;
   autoLoad?: boolean;
@@ -34,10 +46,45 @@ export type APIRequestPayload = {
   params?: object;
 };
 
+export const useServiceBaseUrl = (service?: ServiceNames) => {
+  const {
+    public: {
+      apiBaseUrl,
+      authServiceBaseUrl,
+      loanBaseUrl,
+      savingsBaseUrl,
+      stocksBaseUrl,
+      subscriptionsBaseUrl,
+      userDataBaseUrl,
+      walletBaseUrl,
+    },
+  } = useRuntimeConfig();
+
+  switch (service) {
+    case 'AUTH':
+      return authServiceBaseUrl;
+    case 'LOANS':
+      return loanBaseUrl;
+    case 'SAVINGS':
+      return savingsBaseUrl;
+    case 'SUBSCRIPTIONS':
+      return subscriptionsBaseUrl;
+    case 'STOCKS':
+      return stocksBaseUrl;
+    case 'USER_DATA':
+      return userDataBaseUrl;
+    case 'WALLET':
+      return walletBaseUrl;
+    default:
+      return apiBaseUrl;
+  }
+};
+
 export const useApiRequest = <T = object>({
   authorize = false,
   autoLoad = false,
   initialLoadingState = false,
+  service = 'ADMIN',
   baseURL,
   url,
   headers = {},
@@ -46,10 +93,9 @@ export const useApiRequest = <T = object>({
   onFinish,
   ...config
 }: APIRequestConfig<HTTPResponseData<T>>) => {
-  const {
-    public: { apiBaseUrl },
-  } = useRuntimeConfig();
-  const { token } = useAuth();
+  const serviceBaseUrl = useServiceBaseUrl(service);
+
+  const { token, logout } = useAuth();
 
   const isLoading = ref(initialLoadingState);
   const data = ref<HTTPResponseData<T>>();
@@ -66,7 +112,7 @@ export const useApiRequest = <T = object>({
         ...payload,
         headers,
         url: typeof url === 'object' ? (url as Ref<string>).value : url,
-        baseURL: baseURL ?? apiBaseUrl,
+        baseURL: baseURL ?? serviceBaseUrl,
       })
         .then((response) => {
           data.value = response?.data;
@@ -82,6 +128,15 @@ export const useApiRequest = <T = object>({
             status: error.response?.status,
             statusText: error.response?.statusText,
           };
+
+          if (
+            service === 'ADMIN' &&
+            authorize &&
+            error.response?.status === 401
+          ) {
+            return logout();
+          }
+
           reject(error_);
           onError?.(error_);
         })
@@ -105,7 +160,7 @@ export const useFormRequest = <T>(
     onFinish,
     onError,
     ...config
-  }: APIRequestConfig<HTTPResponseData<T>> & { useFormData?: boolean }
+  }: APIRequestConfig<HTTPResponseData<T>> & { useFormData?: boolean },
 ) => {
   const { load, ...data } = useApiRequest<T>({
     ...config,

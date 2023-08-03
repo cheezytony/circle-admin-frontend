@@ -11,15 +11,14 @@ definePageMeta({
 
 const route = useRoute();
 const groupSavingsId = computed(() => route.params.id as string).value;
-const {
-  public: { savingsBaseUrl },
-} = useRuntimeConfig();
-const url = computed(() => `${savingsBaseUrl}goals/${groupSavingsId}`);
+
+const url = computed(() => `goals/${groupSavingsId}`);
 
 const { data } = useApiRequest<Saving>({
   url: url as ComputedRef<string> & string,
   autoLoad: true,
   authorize: true,
+  service: 'SAVINGS',
 });
 
 useHead({
@@ -37,7 +36,7 @@ useHead({
     />
     <CommonDatatable
       :url="`goals/participants/${groupSavingsId}`"
-      :base-url="savingsBaseUrl"
+      service="SAVINGS"
       :search-columns="columns"
       :column="column"
     >

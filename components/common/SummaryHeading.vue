@@ -1,7 +1,7 @@
 <script lang="ts" setup></script>
 
 <template>
-  <CommonHeading class="flex items-center h-12">
+  <CommonHeading class="flex h-20 items-center">
     <slot />
   </CommonHeading>
 </template>
