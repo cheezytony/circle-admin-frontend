@@ -41,9 +41,7 @@ useHead({
       :column="column"
     >
       <template #heading>
-        <CommonDatatableTH name="saving_extra_details.firstName">
-          User Name
-        </CommonDatatableTH>
+        <CommonDatatableTH name="user.firstName"> User Name </CommonDatatableTH>
         <CommonDatatableTH name="user_id">User ID</CommonDatatableTH>
 
         <CommonDatatableTH name="amount_saved">Amount Saved</CommonDatatableTH>
@@ -55,8 +53,8 @@ useHead({
           <CommonDatatableTD>
             <div class="flex items-center gap-3">
               <span>
-                {{ row.saving_extra_details.first_name }}
-                {{ row.saving_extra_details.last_name }}
+                {{ row.user.firstName }}
+                {{ row.user.lastName }}
               </span>
             </div>
           </CommonDatatableTD>

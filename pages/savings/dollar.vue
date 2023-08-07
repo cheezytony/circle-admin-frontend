@@ -22,19 +22,19 @@ const column = ref('id');
     </CommonPageHeading>
 
     <CommonDatatable
-      :url="'/admin/dollar'"
+      :url="'dollar'"
       service="SAVINGS"
       :search-columns="columns"
       :column="column"
     >
       <template #heading>
-        <CommonDatatableTH name="saving_extra_details.firstName">
+        <CommonDatatableTH name="user.firstName">
           User Name
         </CommonDatatableTH>
 
         <CommonDatatableTH name="user_id">User ID</CommonDatatableTH>
 
-        <CommonDatatableTH name="saving_extra_details.phoneNo">
+        <CommonDatatableTH name="user.phoneNo">
           Phone Number
         </CommonDatatableTH>
 
@@ -71,8 +71,8 @@ const column = ref('id');
           <CommonDatatableTD>
             <div class="flex items-center gap-3">
               <span>
-                {{ row.saving_extra_details.first_name }}
-                {{ row.saving_extra_details.last_name }}
+                {{ row.user.firstName }}
+                {{ row.user.lastName }}
               </span>
             </div>
           </CommonDatatableTD>
@@ -80,7 +80,7 @@ const column = ref('id');
           <CommonDatatableTD>{{ row.user_id }}</CommonDatatableTD>
 
           <CommonDatatableTD>
-            {{ row.saving_extra_details?.phone || 'N/A' }}
+            {{ row.user?.phoneNumber || 'N/A' }}
           </CommonDatatableTD>
 
           <CommonDatatableTD>{{ row.id }}</CommonDatatableTD>

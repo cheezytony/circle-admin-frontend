@@ -4,7 +4,7 @@ import { dateTimeFormat } from '~~/utils/filters/dates';
 import { numberFormat } from '~~/utils/filters/numbers';
 
 useHead({
-  title: 'Private Goal Savings',
+  title: 'Group Savings',
 });
 
 const columns = [
@@ -21,11 +21,11 @@ const column = ref('id');
 <template>
   <div>
     <CommonPageHeading>
-      <CommonHeading level="2">Private Goal Savings</CommonHeading>
+      <CommonHeading level="2"> Group Savings</CommonHeading>
     </CommonPageHeading>
 
     <CommonDatatable
-      :url="'/admin/goals?challenge_type=PRIVATE'"
+      :url="'group-savings'"
       service="SAVINGS"
       :search-columns="columns"
       :column="column"

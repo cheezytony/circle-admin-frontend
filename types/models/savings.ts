@@ -25,13 +25,12 @@ export interface Saving extends Model {
     {
       amount_saved: number;
       id: string;
-    },
+    }
   ];
-  saving_extra_details: {
-    first_name: string;
-    last_name: string;
-    email: string;
-    phone: string;
+  user: {
+    phoneNumber: string;
+    firstName: true;
+    lastName: true;
   };
 }
 
@@ -42,14 +41,14 @@ export interface SavingGoalMember {
     point: number;
     is_participating: boolean;
   };
-  saving_extra_details: {
-    email: string;
-    first_name: string;
-    last_name: string;
-    phone: string;
-  };
   status: string;
   user_id: string;
+  user: {
+    email: string;
+    firstName: string;
+    lastName: string;
+    phone: string;
+  };
 }
 
 export interface SavingsTransaction extends Model {
