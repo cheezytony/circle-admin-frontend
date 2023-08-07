@@ -66,5 +66,5 @@ export interface ShareAndEarn extends Model {
   };
   status?: string;
   createdAt: Date;
-  completedReferrals?: number;
+  total_count?: number;
 }
