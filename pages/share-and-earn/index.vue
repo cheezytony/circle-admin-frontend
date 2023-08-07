@@ -10,9 +10,7 @@ const columns = [
   { name: 'user_id', title: 'User ID' },
   { name: 'email', title: 'Email Address' },
 ];
-const {
-  public: { shareAndEarnBaseUrl },
-} = useRuntimeConfig();
+
 const column = ref('id');
 </script>
 
@@ -24,7 +22,7 @@ const column = ref('id');
 
     <CommonDatatable
       :url="'referral-wallets/referees'"
-      :base-url="shareAndEarnBaseUrl"
+      :service="AUTH"
       :search-columns="columns"
       :column="column"
     >

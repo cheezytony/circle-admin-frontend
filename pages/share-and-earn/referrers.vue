@@ -23,7 +23,7 @@ const {
 
     <CommonDatatable
       :url="'referral-wallets/successful-referrals'"
-      :base-url="shareAndEarnBaseUrl"
+      :service="AUTH"
       :search-columns="columns"
       :column="column"
     >
