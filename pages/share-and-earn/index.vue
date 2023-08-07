@@ -23,7 +23,7 @@ const column = ref('id');
     </CommonPageHeading>
 
     <CommonDatatable
-      :url="'referees'"
+      :url="'referral-wallets/referees'"
       :base-url="shareAndEarnBaseUrl"
       :search-columns="columns"
       :column="column"

@@ -30,9 +30,7 @@ const column = ref('id');
     >
       <template #heading>
         <CommonDatatableTH name="id"> Id </CommonDatatableTH>
-        <CommonDatatableTH name="user.firstName">
-          User Name
-        </CommonDatatableTH>
+        <CommonDatatableTH name="user.firstName"> User Name </CommonDatatableTH>
 
         <CommonDatatableTH name="user_id">User ID</CommonDatatableTH>
 

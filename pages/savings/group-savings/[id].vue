@@ -12,7 +12,7 @@ definePageMeta({
 const route = useRoute();
 const groupSavingsId = computed(() => route.params.id as string).value;
 
-const url = computed(() => `goals/${groupSavingsId}`);
+const url = computed(() => `/goals/${groupSavingsId}`);
 
 const { data } = useApiRequest<Saving>({
   url: url as ComputedRef<string> & string,

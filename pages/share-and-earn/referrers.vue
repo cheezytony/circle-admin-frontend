@@ -22,7 +22,7 @@ const {
     </CommonPageHeading>
 
     <CommonDatatable
-      :url="'successful-referrals'"
+      :url="'referral-wallets/successful-referrals'"
       :base-url="shareAndEarnBaseUrl"
       :search-columns="columns"
       :column="column"
