@@ -27,13 +27,8 @@ const column = ref('id');
       :column="column"
     >
       <template #heading>
-        <CommonDatatableTH name="saving_extra_details.firstName">
-          User Name
-        </CommonDatatableTH>
-        <CommonDatatableTH name="user_id">User ID</CommonDatatableTH>
-        <CommonDatatableTH name="saving_extra_details.phoneNo">
-          Phone Number
-        </CommonDatatableTH>
+        <CommonDatatableTH>User Name </CommonDatatableTH>
+        <CommonDatatableTH>Phone Number </CommonDatatableTH>
         <CommonDatatableTH name="id">Savings ID</CommonDatatableTH>
         <CommonDatatableTH name="frequency">Frequency</CommonDatatableTH>
         <CommonDatatableTH name="amount_to_debit">
@@ -57,16 +52,13 @@ const column = ref('id');
       <template #default="{ row }: { row: Saving }">
         <CommonDatatableRow :to="`/savings/history/${row.id}?type=${'FLEXI'}`">
           <CommonDatatableTD>
-            <div class="flex items-center gap-3">
-              <span>
-                {{ row.saving_extra_details.first_name }}
-                {{ row.saving_extra_details.last_name }}
-              </span>
-            </div>
+            <span class="flex flex-col gap-1">
+              <span>{{ row.user?.firstName }} {{ row.user?.lastName }}</span>
+              <span class="text-xs opacity-50">{{ row.user_id }}</span>
+            </span>
           </CommonDatatableTD>
-          <CommonDatatableTD>{{ row.user_id }}</CommonDatatableTD>
           <CommonDatatableTD>
-            {{ row.saving_extra_details?.phone || 'N/A' }}
+            {{ row.user?.phoneNumber || 'N/A' }}
           </CommonDatatableTD>
           <CommonDatatableTD>{{ row.id }}</CommonDatatableTD>
           <CommonDatatableTD>{{ row.frequency }}</CommonDatatableTD>

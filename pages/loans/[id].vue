@@ -10,6 +10,11 @@ definePageMeta({
 const route = useRoute();
 const loanId = computed(() => route.params.id as string);
 
+const columns = [
+  { name: 'id', title: 'ID' },
+  { name: 'loan_id', title: 'Loan ID' },
+  { name: 'user_id', title: 'User ID' },
+];
 useHead({
   title: 'Loan Details',
 });

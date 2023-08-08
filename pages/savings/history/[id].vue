@@ -10,9 +10,6 @@ definePageMeta({
 const route = useRoute();
 const savingsId = computed(() => route.params.id as string);
 const type = computed(() => route.query.type as string);
-const {
-  public: { savingsBaseUrl },
-} = useRuntimeConfig();
 
 const filters = [
   { name: 'DEPOSIT', title: 'Deposits' },
@@ -37,13 +34,12 @@ useHead({
 
     <CommonDatatable
       :url="`saving-history/${savingsId}`"
-      :base-url="savingsBaseUrl"
+      service="SAVINGS"
       :filters="filters"
       :search-columns="columns"
     >
       <template #heading>
         <CommonDatatableTH name="id">ID</CommonDatatableTH>
-
         <CommonDatatableTH name="amount">Amount</CommonDatatableTH>
         <CommonDatatableTH name="currency">Currency</CommonDatatableTH>
         <CommonDatatableTH name="feference">Reference</CommonDatatableTH>

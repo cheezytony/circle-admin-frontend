@@ -14,9 +14,6 @@ const columns = [
   { name: 'name', title: 'Name' },
 ];
 const column = ref('id');
-const {
-  public: { savingsBaseUrl },
-} = useRuntimeConfig();
 </script>
 
 <template>
@@ -27,21 +24,14 @@ const {
 
     <CommonDatatable
       :url="`vault`"
-      :base-url="savingsBaseUrl"
+      service="SAVINGS"
       :search-columns="columns"
       :column="column"
     >
       <template #heading>
-        <CommonDatatableTH name="id"> Id </CommonDatatableTH>
-        <CommonDatatableTH name="saving_extra_details.firstName">
-          User Name
-        </CommonDatatableTH>
+        <CommonDatatableTH>User Name </CommonDatatableTH>
 
-        <CommonDatatableTH name="user_id">User ID</CommonDatatableTH>
-
-        <CommonDatatableTH name="saving_extra_details.phoneNo">
-          Phone Number
-        </CommonDatatableTH>
+        <CommonDatatableTH>Phone Number </CommonDatatableTH>
 
         <CommonDatatableTH name="id">Savings ID</CommonDatatableTH>
 
@@ -61,19 +51,13 @@ const {
       <template #default="{ row }: { row: Saving }">
         <CommonDatatableRow :to="`/savings/history/${row.id}?type=${'VAULT'}`">
           <CommonDatatableTD>
-            {{ row.id }}
+            <span class="flex flex-col gap-1">
+              <span>{{ row.user?.firstName }} {{ row.user?.lastName }}</span>
+              <span class="text-xs opacity-50">{{ row.user_id }}</span>
+            </span>
           </CommonDatatableTD>
           <CommonDatatableTD>
-            <div class="flex items-center gap-3">
-              <span>
-                {{ row.saving_extra_details.first_name }}
-                {{ row.saving_extra_details.last_name }}
-              </span>
-            </div>
-          </CommonDatatableTD>
-          <CommonDatatableTD>{{ row.user_id }}</CommonDatatableTD>
-          <CommonDatatableTD>
-            {{ row.saving_extra_details?.phone || 'N/A' }}
+            {{ row.user?.phoneNumber || 'N/A' }}
           </CommonDatatableTD>
           <CommonDatatableTD>{{ row.id }}</CommonDatatableTD>
           <CommonDatatableTD>{{ row.funding_source }}</CommonDatatableTD>
@@ -90,7 +74,7 @@ const {
             {{ numberFormat(row.earnings, 'currency') }}
           </CommonDatatableTD>
           <CommonDatatableTD>
-            {{ row.earnings_withdrawn === null ? 'Pending' : 'Withdrawn' }}
+            {{ row.earnings_withdrawn === 0 ? 'Pending' : 'Withdrawn' }}
           </CommonDatatableTD>
           <CommonDatatableTD> {{ row.status }}</CommonDatatableTD>
           <CommonDatatableTD>

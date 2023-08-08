@@ -10,9 +10,7 @@ const columns = [
   { name: 'user_id', title: 'User ID' },
   { name: 'email', title: 'Email Address' },
 ];
-const {
-  public: { shareAndEarnBaseUrl },
-} = useRuntimeConfig();
+
 const column = ref('id');
 </script>
 
@@ -23,14 +21,12 @@ const column = ref('id');
     </CommonPageHeading>
 
     <CommonDatatable
-      :url="'referees'"
-      :base-url="shareAndEarnBaseUrl"
+      :url="'referral-wallets/referees'"
+      service="AUTH"
       :search-columns="columns"
       :column="column"
     >
       <template #heading>
-        <CommonDatatableTH name="user_id._id">User ID</CommonDatatableTH>
-
         <CommonDatatableTH name="user_id.firstName">
           User Name
         </CommonDatatableTH>
@@ -47,16 +43,14 @@ const column = ref('id');
       </template>
 
       <template #default="{ row }: { row: ShareAndEarn }">
-        <CommonDatatableRow :to="`/admins/${row.id}`">
+        <CommonDatatableRow :to="`/users/${row.user_id?._id}`">
           <CommonDatatableTD>
-            <div class="flex items-center gap-3">
-              <span>{{ row.user_id?._id }}</span>
-            </div>
-          </CommonDatatableTD>
-
-          <CommonDatatableTD>
-            {{ row.user_id?.firstName }}
-            {{ row.user_id?.lastName }}
+            <span class="flex flex-col gap-1">
+              <span>
+                {{ row.user_id?.firstName }} {{ row.user_id?.lastName }}
+              </span>
+              <span class="text-xs opacity-50">{{ row.user_id?._id }}</span>
+            </span>
           </CommonDatatableTD>
 
           <CommonDatatableTD>

@@ -12,9 +12,6 @@ const columns = [
   { name: 'user_id', title: 'User ID' },
   { name: 'name', title: 'Name' },
 ];
-const {
-  public: { savingsBaseUrl },
-} = useRuntimeConfig();
 const column = ref('id');
 </script>
 
@@ -26,60 +23,38 @@ const column = ref('id');
 
     <CommonDatatable
       :url="`goals`"
-      :base-url="savingsBaseUrl"
+      service="SAVINGS"
       :search-columns="columns"
       :column="column"
     >
       <template #heading>
-        <CommonDatatableTH name="saving_extra_details.firstName">
-          User name
-        </CommonDatatableTH>
-
-        <CommonDatatableTH name="user_id">User ID</CommonDatatableTH>
-
-        <CommonDatatableTH name="saving_extra_details.phoneNo">
-          Phone Number
-        </CommonDatatableTH>
-
+        <CommonDatatableTH>User name </CommonDatatableTH>
+        <CommonDatatableTH>Phone Number </CommonDatatableTH>
         <CommonDatatableTH name="id">Savings ID</CommonDatatableTH>
-
         <CommonDatatableTH name="description">Goal Details</CommonDatatableTH>
-
         <CommonDatatableTH name="name">Name</CommonDatatableTH>
-
         <CommonDatatableTH name="target_amount">
           Target Amount
         </CommonDatatableTH>
-
         <CommonDatatableTH name="end_date">Maturity Date</CommonDatatableTH>
-
         <CommonDatatableTH name="amount_saved">
           Current Balance
         </CommonDatatableTH>
-
         <CommonDatatableTH name="earnings">Accrued Interest</CommonDatatableTH>
-
         <CommonDatatableTH name="status">Status </CommonDatatableTH>
-
         <CommonDatatableTH name="created_at">Date Created</CommonDatatableTH>
       </template>
       <template #default="{ row }: { row: Saving }">
-        <CommonDatatableRow
-          :to="`/savings/history/${row.id}?type=GOAL`"
-        >
+        <CommonDatatableRow :to="`/savings/history/${row.id}?type=GOAL`">
           <CommonDatatableTD>
-            <div class="flex items-center gap-3">
-              <span>
-                {{ row.saving_extra_details.first_name }}
-                {{ row.saving_extra_details.last_name }}
-              </span>
-            </div>
+            <span class="flex flex-col gap-1">
+              <span>{{ row.user?.firstName }} {{ row.user?.lastName }}</span>
+              <span class="text-xs opacity-50">{{ row.user_id }}</span>
+            </span>
           </CommonDatatableTD>
 
-          <CommonDatatableTD>{{ row.user_id }}</CommonDatatableTD>
-
           <CommonDatatableTD>
-            {{ row.saving_extra_details?.phone || 'N/A' }}
+            {{ row.user.phoneNumber || 'N/A' }}
           </CommonDatatableTD>
 
           <CommonDatatableTD>{{ row.id }}</CommonDatatableTD>

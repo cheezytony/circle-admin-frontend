@@ -11,15 +11,14 @@ definePageMeta({
 
 const route = useRoute();
 const groupSavingsId = computed(() => route.params.id as string).value;
-const {
-  public: { savingsBaseUrl },
-} = useRuntimeConfig();
-const url = computed(() => `${savingsBaseUrl}goals/${groupSavingsId}`);
+
+const url = computed(() => `/goals/${groupSavingsId}`);
 
 const { data } = useApiRequest<Saving>({
   url: url as ComputedRef<string> & string,
   autoLoad: true,
   authorize: true,
+  service: 'SAVINGS',
 });
 
 useHead({
@@ -37,16 +36,12 @@ useHead({
     />
     <CommonDatatable
       :url="`goals/participants/${groupSavingsId}`"
-      :base-url="savingsBaseUrl"
+      service="SAVINGS"
       :search-columns="columns"
       :column="column"
     >
       <template #heading>
-        <CommonDatatableTH name="saving_extra_details.firstName">
-          User Name
-        </CommonDatatableTH>
-        <CommonDatatableTH name="user_id">User ID</CommonDatatableTH>
-
+        <CommonDatatableTH> User Name </CommonDatatableTH>
         <CommonDatatableTH name="amount_saved">Amount Saved</CommonDatatableTH>
 
         <CommonDatatableTH name="status">Status </CommonDatatableTH>
@@ -54,14 +49,11 @@ useHead({
       <template #default="{ row }: { row: SavingGoalMember }">
         <CommonDatatableRow>
           <CommonDatatableTD>
-            <div class="flex items-center gap-3">
-              <span>
-                {{ row.saving_extra_details.first_name }}
-                {{ row.saving_extra_details.last_name }}
-              </span>
-            </div>
+            <span class="flex flex-col gap-1">
+              <span>{{ row.user?.firstName }} {{ row.user?.lastName }}</span>
+              <span class="text-xs opacity-50">{{ row.user_id }}</span>
+            </span>
           </CommonDatatableTD>
-          <CommonDatatableTD>{{ row.user_id }}</CommonDatatableTD>
           <CommonDatatableTD>
             {{ numberFormat(row.amount_saved, 'currency') }}
           </CommonDatatableTD>
