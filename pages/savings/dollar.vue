@@ -29,16 +29,36 @@ const column = ref('id');
     >
       <template #heading>
         <CommonDatatableTH>User Name </CommonDatatableTH>
+
         <CommonDatatableTH>Phone Number </CommonDatatableTH>
-        <CommonDatatableTH>Savings ID</CommonDatatableTH>
-        <CommonDatatableTH>Frequency</CommonDatatableTH>
-        <CommonDatatableTH>Amount to Save </CommonDatatableTH>
-        <CommonDatatableTH>Payment Method </CommonDatatableTH>
-        <CommonDatatableTH>Total Amount Accured Balance </CommonDatatableTH>
-        <CommonDatatableTH>Total Amount Saved </CommonDatatableTH>
-        <CommonDatatableTH>Total Interest Earned </CommonDatatableTH>
-        <CommonDatatableTH>Status</CommonDatatableTH>
-        <CommonDatatableTH>Date Created</CommonDatatableTH>
+
+        <CommonDatatableTH name="id">Savings ID</CommonDatatableTH>
+
+        <CommonDatatableTH name="frequency">Frequency</CommonDatatableTH>
+
+        <CommonDatatableTH name="amount_to_debit">
+          Amount to Save
+        </CommonDatatableTH>
+
+        <CommonDatatableTH name="funding_source">
+          Payment Method
+        </CommonDatatableTH>
+
+        <CommonDatatableTH name="total_earnings">
+          Total Amount Accured Balance
+        </CommonDatatableTH>
+
+        <CommonDatatableTH name="total_earnings">
+          Total Amount Saved
+        </CommonDatatableTH>
+
+        <CommonDatatableTH name="earnings">
+          Total Interest Earned
+        </CommonDatatableTH>
+
+        <CommonDatatableTH name="status">Status</CommonDatatableTH>
+
+        <CommonDatatableTH name="created_at">Date Created</CommonDatatableTH>
       </template>
       <template #default="{ row }: { row: Saving }">
         <CommonDatatableRow :to="`/savings/history/${row.id}?type=${'DOLLAR'}`">

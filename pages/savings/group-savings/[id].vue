@@ -42,8 +42,9 @@ useHead({
     >
       <template #heading>
         <CommonDatatableTH> User Name </CommonDatatableTH>
-        <CommonDatatableTH>Amount Saved</CommonDatatableTH>
-        <CommonDatatableTH>Status </CommonDatatableTH>
+        <CommonDatatableTH name="amount_saved">Amount Saved</CommonDatatableTH>
+
+        <CommonDatatableTH name="status">Status </CommonDatatableTH>
       </template>
       <template #default="{ row }: { row: SavingGoalMember }">
         <CommonDatatableRow>

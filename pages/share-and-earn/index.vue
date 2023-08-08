@@ -21,21 +21,29 @@ const column = ref('id');
     </CommonPageHeading>
 
     <CommonDatatable
-      :url="`referral-wallets/referees`"
+      :url="'referral-wallets/referees'"
       service="AUTH"
       :search-columns="columns"
       :column="column"
     >
       <template #heading>
-        <CommonDatatableTH> User Name </CommonDatatableTH>
-        <CommonDatatableTH>Email</CommonDatatableTH>
-        <CommonDatatableTH> User_id(Referrer) </CommonDatatableTH>
-        <CommonDatatableTH>Date Signed Up</CommonDatatableTH>
-        <CommonDatatableTH>Status</CommonDatatableTH>
+        <CommonDatatableTH name="user_id.firstName">
+          User Name
+        </CommonDatatableTH>
+
+        <CommonDatatableTH name="user_id.email">Email</CommonDatatableTH>
+
+        <CommonDatatableTH name="referrerId._id">
+          User_id(Referrer)
+        </CommonDatatableTH>
+
+        <CommonDatatableTH name="createdAt">Date Signed Up</CommonDatatableTH>
+
+        <CommonDatatableTH name="status">Status</CommonDatatableTH>
       </template>
 
       <template #default="{ row }: { row: ShareAndEarn }">
-        <CommonDatatableRow :to="`/admins/${row.id}`">
+        <CommonDatatableRow :to="`/users/${row.user_id?._id}`">
           <CommonDatatableTD>
             <span class="flex flex-col gap-1">
               <span>

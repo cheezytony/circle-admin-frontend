@@ -34,20 +34,17 @@ const column = ref('id');
       <template #heading>
         <CommonDatatableTH>User Name</CommonDatatableTH>
         <CommonDatatableTH>Phone No.</CommonDatatableTH>
-        <CommonDatatableTH>Loan Id</CommonDatatableTH>
-        <CommonDatatableTH>Status</CommonDatatableTH>
-        <CommonDatatableTH>Loan Amount</CommonDatatableTH>
-        <CommonDatatableTH>Date Created</CommonDatatableTH>
+        <CommonDatatableTH name="id">Loan Id</CommonDatatableTH>
+        <CommonDatatableTH name="status">Status</CommonDatatableTH>
+        <CommonDatatableTH name="request_amount">Loan Amount</CommonDatatableTH>
+        <CommonDatatableTH name="created_at">Date Created</CommonDatatableTH>
       </template>
 
       <template #default="{ row }: { row: Loan }">
         <CommonDatatableRow :to="`/loans/${row.id}`">
-       
           <CommonDatatableTD>
             <span class="flex flex-col gap-1">
-              <span>
-                {{ row.firstName }} {{ row.lastName }}
-              </span>
+              <span> {{ row.firstName }} {{ row.lastName }} </span>
               <span class="text-xs opacity-50">{{ row.user_id }}</span>
             </span>
           </CommonDatatableTD>

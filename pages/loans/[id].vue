@@ -10,6 +10,11 @@ definePageMeta({
 const route = useRoute();
 const loanId = computed(() => route.params.id as string);
 
+const columns = [
+  { name: 'id', title: 'ID' },
+  { name: 'loan_id', title: 'Loan ID' },
+  { name: 'user_id', title: 'User ID' },
+];
 useHead({
   title: 'Loan Details',
 });
@@ -27,14 +32,14 @@ useHead({
       :column="column"
     >
       <template #heading>
-        <CommonDatatableTH>ID</CommonDatatableTH>
-        <CommonDatatableTH>loan Id</CommonDatatableTH>
-        <CommonDatatableTH>User ID</CommonDatatableTH>
-        <CommonDatatableTH>Amount</CommonDatatableTH>
-        <CommonDatatableTH>Over Due Fee</CommonDatatableTH>
-        <CommonDatatableTH>Due Date </CommonDatatableTH>
-        <CommonDatatableTH>Status </CommonDatatableTH>
-        <CommonDatatableTH>Date </CommonDatatableTH>
+        <CommonDatatableTH name="id">ID</CommonDatatableTH>
+        <CommonDatatableTH name="loan_id">loan Id</CommonDatatableTH>
+        <CommonDatatableTH name="user_id">User ID</CommonDatatableTH>
+        <CommonDatatableTH name="amount">Amount</CommonDatatableTH>
+        <CommonDatatableTH name="overdue_fee">Over Due Fee</CommonDatatableTH>
+        <CommonDatatableTH name="due_date">Due Date </CommonDatatableTH>
+        <CommonDatatableTH name="status">Status </CommonDatatableTH>
+        <CommonDatatableTH name="created_at">Date </CommonDatatableTH>
       </template>
       <template #default="{ row }: { row: LoanRepayment }">
         <CommonDatatableRow>

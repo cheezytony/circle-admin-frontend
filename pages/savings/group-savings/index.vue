@@ -31,11 +31,15 @@ const column = ref('id');
       :column="column"
     >
       <template #heading>
-        <CommonDatatableTH>Group ID</CommonDatatableTH>
-        <CommonDatatableTH>Name</CommonDatatableTH>
-        <CommonDatatableTH>Members </CommonDatatableTH>
-        <CommonDatatableTH>Target Amount </CommonDatatableTH>
-        <CommonDatatableTH>Maturity Date</CommonDatatableTH>
+        <CommonDatatableTH name="id">Group ID</CommonDatatableTH>
+        <CommonDatatableTH name="name">Name</CommonDatatableTH>
+        <CommonDatatableTH name="saving_goal_members">
+          Members
+        </CommonDatatableTH>
+        <CommonDatatableTH name="target_amount">
+          Target Amount
+        </CommonDatatableTH>
+        <CommonDatatableTH name="end_date">Maturity Date</CommonDatatableTH>
       </template>
 
       <template #default="{ row }: { row: Saving }">

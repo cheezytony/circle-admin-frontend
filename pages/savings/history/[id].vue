@@ -39,14 +39,14 @@ useHead({
       :search-columns="columns"
     >
       <template #heading>
-        <CommonDatatableTH>ID</CommonDatatableTH>
-        <CommonDatatableTH>Amount</CommonDatatableTH>
-        <CommonDatatableTH>Currency</CommonDatatableTH>
-        <CommonDatatableTH>Reference</CommonDatatableTH>
-        <CommonDatatableTH>Description</CommonDatatableTH>
-        <CommonDatatableTH>Category</CommonDatatableTH>
-        <CommonDatatableTH>Status </CommonDatatableTH>
-        <CommonDatatableTH>Date </CommonDatatableTH>
+        <CommonDatatableTH name="id">ID</CommonDatatableTH>
+        <CommonDatatableTH name="amount">Amount</CommonDatatableTH>
+        <CommonDatatableTH name="currency">Currency</CommonDatatableTH>
+        <CommonDatatableTH name="feference">Reference</CommonDatatableTH>
+        <CommonDatatableTH name="description">Description</CommonDatatableTH>
+        <CommonDatatableTH name="category">Category</CommonDatatableTH>
+        <CommonDatatableTH name="status">Status </CommonDatatableTH>
+        <CommonDatatableTH name="created_at">Date </CommonDatatableTH>
       </template>
       <template #default="{ row }: { row: SavingsTransaction }">
         <CommonDatatableRow>
@@ -68,6 +68,7 @@ useHead({
           <CommonDatatableTD> {{ row.reference }}</CommonDatatableTD>
           <CommonDatatableTD> {{ row.description }}</CommonDatatableTD>
           <CommonDatatableTD> {{ row.category }}</CommonDatatableTD>
+
           <CommonDatatableTD> {{ row.status }}</CommonDatatableTD>
           <CommonDatatableTD>
             {{ dateTimeFormat(row.created_at, 'date:compact') }}

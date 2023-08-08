@@ -30,15 +30,19 @@ const column = ref('id');
       <template #heading>
         <CommonDatatableTH>User name </CommonDatatableTH>
         <CommonDatatableTH>Phone Number </CommonDatatableTH>
-        <CommonDatatableTH>Savings ID</CommonDatatableTH>
-        <CommonDatatableTH>Goal Details</CommonDatatableTH>
-        <CommonDatatableTH>Name</CommonDatatableTH>
-        <CommonDatatableTH>Target Amount </CommonDatatableTH>
-        <CommonDatatableTH>Maturity Date</CommonDatatableTH>
-        <CommonDatatableTH>Current Balance </CommonDatatableTH>
-        <CommonDatatableTH>Accrued Interest</CommonDatatableTH>
-        <CommonDatatableTH>Status </CommonDatatableTH>
-        <CommonDatatableTH>Date Created</CommonDatatableTH>
+        <CommonDatatableTH name="id">Savings ID</CommonDatatableTH>
+        <CommonDatatableTH name="description">Goal Details</CommonDatatableTH>
+        <CommonDatatableTH name="name">Name</CommonDatatableTH>
+        <CommonDatatableTH name="target_amount">
+          Target Amount
+        </CommonDatatableTH>
+        <CommonDatatableTH name="end_date">Maturity Date</CommonDatatableTH>
+        <CommonDatatableTH name="amount_saved">
+          Current Balance
+        </CommonDatatableTH>
+        <CommonDatatableTH name="earnings">Accrued Interest</CommonDatatableTH>
+        <CommonDatatableTH name="status">Status </CommonDatatableTH>
+        <CommonDatatableTH name="created_at">Date Created</CommonDatatableTH>
       </template>
       <template #default="{ row }: { row: Saving }">
         <CommonDatatableRow :to="`/savings/history/${row.id}?type=GOAL`">
