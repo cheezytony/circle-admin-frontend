@@ -46,9 +46,6 @@ export default defineNuxtConfig({
       savingsBaseUrl:
         process.env.NUXT_API_SAVINGS_BASE_URL ??
         'https://test-savings-api.circlenow.app/admin',
-      shareAndEarnBaseUrl:
-        process.env.NUXT_API_SHARE_AND_EARN_BASE_URL ??
-        'https://test-auth-api.circlenow.app/api/admin',
       subscriptionsBaseUrl:
         process.env.NUXT_API_SUBSCRIPTIONS_BASE_URL ??
         'https://test-subscriptions-api.circlenow.app/api/admin',
