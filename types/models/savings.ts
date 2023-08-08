@@ -1,4 +1,4 @@
-import { Model } from '.';
+import { Model, User } from '.';
 
 export interface Saving extends Model {
   amount_saved: number;
@@ -25,14 +25,9 @@ export interface Saving extends Model {
     {
       amount_saved: number;
       id: string;
-    },
+    }
   ];
-  saving_extra_details: {
-    first_name: string;
-    last_name: string;
-    email: string;
-    phone: string;
-  };
+  user: User;
 }
 
 export interface SavingGoalMember {
@@ -42,14 +37,9 @@ export interface SavingGoalMember {
     point: number;
     is_participating: boolean;
   };
-  saving_extra_details: {
-    email: string;
-    first_name: string;
-    last_name: string;
-    phone: string;
-  };
   status: string;
   user_id: string;
+  user: User;
 }
 
 export interface SavingsTransaction extends Model {

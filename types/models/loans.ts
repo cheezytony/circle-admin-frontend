@@ -1,9 +1,9 @@
-import { Model } from '.';
+import { Model, User } from '.';
 
 export interface Loan extends Model {
   loan_amount: number;
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
   phone_number: string;
   disbursed_amount: number;
   request_amount: string;

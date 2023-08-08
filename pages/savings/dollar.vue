@@ -13,9 +13,6 @@ const columns = [
   { name: 'name', title: 'Name' },
 ];
 const column = ref('id');
-const {
-  public: { savingsBaseUrl },
-} = useRuntimeConfig();
 </script>
 
 <template>
@@ -26,20 +23,14 @@ const {
 
     <CommonDatatable
       :url="'dollar'"
-      :base-url="savingsBaseUrl"
+      service="SAVINGS"
       :search-columns="columns"
       :column="column"
     >
       <template #heading>
-        <CommonDatatableTH name="saving_extra_details.firstName">
-          User Name
-        </CommonDatatableTH>
+        <CommonDatatableTH>User Name </CommonDatatableTH>
 
-        <CommonDatatableTH name="user_id">User ID</CommonDatatableTH>
-
-        <CommonDatatableTH name="saving_extra_details.phoneNo">
-          Phone Number
-        </CommonDatatableTH>
+        <CommonDatatableTH>Phone Number </CommonDatatableTH>
 
         <CommonDatatableTH name="id">Savings ID</CommonDatatableTH>
 
@@ -72,18 +63,14 @@ const {
       <template #default="{ row }: { row: Saving }">
         <CommonDatatableRow :to="`/savings/history/${row.id}?type=${'DOLLAR'}`">
           <CommonDatatableTD>
-            <div class="flex items-center gap-3">
-              <span>
-                {{ row.saving_extra_details.first_name }}
-                {{ row.saving_extra_details.last_name }}
-              </span>
-            </div>
+            <span class="flex flex-col gap-1">
+              <span>{{ row.user?.firstName }} {{ row.user?.lastName }}</span>
+              <span class="text-xs opacity-50">{{ row.user_id }}</span>
+            </span>
           </CommonDatatableTD>
 
-          <CommonDatatableTD>{{ row.user_id }}</CommonDatatableTD>
-
           <CommonDatatableTD>
-            {{ row.saving_extra_details?.phone || 'N/A' }}
+            {{ row.user?.phoneNumber || 'N/A' }}
           </CommonDatatableTD>
 
           <CommonDatatableTD>{{ row.id }}</CommonDatatableTD>
