@@ -28,56 +28,26 @@ const column = ref('id');
       :column="column"
     >
       <template #heading>
-        <CommonDatatableTH name="user.firstName">
-          User Name
-        </CommonDatatableTH>
-
-        <CommonDatatableTH name="user_id">User ID</CommonDatatableTH>
-
-        <CommonDatatableTH name="user.phoneNo">
-          Phone Number
-        </CommonDatatableTH>
-
-        <CommonDatatableTH name="id">Savings ID</CommonDatatableTH>
-
-        <CommonDatatableTH name="frequency">Frequency</CommonDatatableTH>
-
-        <CommonDatatableTH name="amount_to_debit">
-          Amount to Save
-        </CommonDatatableTH>
-
-        <CommonDatatableTH name="funding_source">
-          Payment Method
-        </CommonDatatableTH>
-
-        <CommonDatatableTH name="total_earnings">
-          Total Amount Accured Balance
-        </CommonDatatableTH>
-
-        <CommonDatatableTH name="total_earnings">
-          Total Amount Saved
-        </CommonDatatableTH>
-
-        <CommonDatatableTH name="earnings">
-          Total Interest Earned
-        </CommonDatatableTH>
-
-        <CommonDatatableTH name="status">Status</CommonDatatableTH>
-
-        <CommonDatatableTH name="created_at">Date Created</CommonDatatableTH>
+        <CommonDatatableTH>User Name </CommonDatatableTH>
+        <CommonDatatableTH>Phone Number </CommonDatatableTH>
+        <CommonDatatableTH>Savings ID</CommonDatatableTH>
+        <CommonDatatableTH>Frequency</CommonDatatableTH>
+        <CommonDatatableTH>Amount to Save </CommonDatatableTH>
+        <CommonDatatableTH>Payment Method </CommonDatatableTH>
+        <CommonDatatableTH>Total Amount Accured Balance </CommonDatatableTH>
+        <CommonDatatableTH>Total Amount Saved </CommonDatatableTH>
+        <CommonDatatableTH>Total Interest Earned </CommonDatatableTH>
+        <CommonDatatableTH>Status</CommonDatatableTH>
+        <CommonDatatableTH>Date Created</CommonDatatableTH>
       </template>
       <template #default="{ row }: { row: Saving }">
         <CommonDatatableRow :to="`/savings/history/${row.id}?type=${'DOLLAR'}`">
           <CommonDatatableTD>
-            <div class="flex items-center gap-3">
-              <span>
-                {{ row.user.firstName }}
-                {{ row.user.lastName }}
-              </span>
-            </div>
+            <span class="flex flex-col gap-1">
+              <span>{{ row.user?.firstName }} {{ row.user?.lastName }}</span>
+              <span class="text-xs opacity-50">{{ row.user_id }}</span>
+            </span>
           </CommonDatatableTD>
-
-          <CommonDatatableTD>{{ row.user_id }}</CommonDatatableTD>
 
           <CommonDatatableTD>
             {{ row.user?.phoneNumber || 'N/A' }}

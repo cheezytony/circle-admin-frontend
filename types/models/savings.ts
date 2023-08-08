@@ -1,4 +1,4 @@
-import { Model } from '.';
+import { Model, User } from '.';
 
 export interface Saving extends Model {
   amount_saved: number;
@@ -27,11 +27,7 @@ export interface Saving extends Model {
       id: string;
     }
   ];
-  user: {
-    phoneNumber: string;
-    firstName: true;
-    lastName: true;
-  };
+  user: User;
 }
 
 export interface SavingGoalMember {
@@ -43,12 +39,7 @@ export interface SavingGoalMember {
   };
   status: string;
   user_id: string;
-  user: {
-    email: string;
-    firstName: string;
-    lastName: string;
-    phone: string;
-  };
+  user: User;
 }
 
 export interface SavingsTransaction extends Model {

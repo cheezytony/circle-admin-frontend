@@ -160,7 +160,7 @@ export const useFormRequest = <T>(
     onFinish,
     onError,
     ...config
-  }: APIRequestConfig<HTTPResponseData<T>> & { useFormData?: boolean },
+  }: APIRequestConfig<HTTPResponseData<T>> & { useFormData?: boolean }
 ) => {
   const { load, ...data } = useApiRequest<T>({
     ...config,

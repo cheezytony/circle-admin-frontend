@@ -21,40 +21,28 @@ const column = ref('id');
     </CommonPageHeading>
 
     <CommonDatatable
-      :url="'referral-wallets/referees'"
-      :service="AUTH"
+      :url="`referral-wallets/referees`"
+      service="AUTH"
       :search-columns="columns"
       :column="column"
     >
       <template #heading>
-        <CommonDatatableTH name="user_id._id">User ID</CommonDatatableTH>
-
-        <CommonDatatableTH name="user_id.firstName">
-          User Name
-        </CommonDatatableTH>
-
-        <CommonDatatableTH name="user_id.email">Email</CommonDatatableTH>
-
-        <CommonDatatableTH name="referrerId._id">
-          User_id(Referrer)
-        </CommonDatatableTH>
-
-        <CommonDatatableTH name="createdAt">Date Signed Up</CommonDatatableTH>
-
-        <CommonDatatableTH name="status">Status</CommonDatatableTH>
+        <CommonDatatableTH> User Name </CommonDatatableTH>
+        <CommonDatatableTH>Email</CommonDatatableTH>
+        <CommonDatatableTH> User_id(Referrer) </CommonDatatableTH>
+        <CommonDatatableTH>Date Signed Up</CommonDatatableTH>
+        <CommonDatatableTH>Status</CommonDatatableTH>
       </template>
 
       <template #default="{ row }: { row: ShareAndEarn }">
         <CommonDatatableRow :to="`/admins/${row.id}`">
           <CommonDatatableTD>
-            <div class="flex items-center gap-3">
-              <span>{{ row.user_id?._id }}</span>
-            </div>
-          </CommonDatatableTD>
-
-          <CommonDatatableTD>
-            {{ row.user_id?.firstName }}
-            {{ row.user_id?.lastName }}
+            <span class="flex flex-col gap-1">
+              <span>
+                {{ row.user_id?.firstName }} {{ row.user_id?.lastName }}
+              </span>
+              <span class="text-xs opacity-50">{{ row.user_id?._id }}</span>
+            </span>
           </CommonDatatableTD>
 
           <CommonDatatableTD>

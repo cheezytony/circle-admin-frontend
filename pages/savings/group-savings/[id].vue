@@ -41,24 +41,18 @@ useHead({
       :column="column"
     >
       <template #heading>
-        <CommonDatatableTH name="user.firstName"> User Name </CommonDatatableTH>
-        <CommonDatatableTH name="user_id">User ID</CommonDatatableTH>
-
-        <CommonDatatableTH name="amount_saved">Amount Saved</CommonDatatableTH>
-
-        <CommonDatatableTH name="status">Status </CommonDatatableTH>
+        <CommonDatatableTH> User Name </CommonDatatableTH>
+        <CommonDatatableTH>Amount Saved</CommonDatatableTH>
+        <CommonDatatableTH>Status </CommonDatatableTH>
       </template>
       <template #default="{ row }: { row: SavingGoalMember }">
         <CommonDatatableRow>
           <CommonDatatableTD>
-            <div class="flex items-center gap-3">
-              <span>
-                {{ row.user.firstName }}
-                {{ row.user.lastName }}
-              </span>
-            </div>
+            <span class="flex flex-col gap-1">
+              <span>{{ row.user?.firstName }} {{ row.user?.lastName }}</span>
+              <span class="text-xs opacity-50">{{ row.user_id }}</span>
+            </span>
           </CommonDatatableTD>
-          <CommonDatatableTD>{{ row.user_id }}</CommonDatatableTD>
           <CommonDatatableTD>
             {{ numberFormat(row.amount_saved, 'currency') }}
           </CommonDatatableTD>

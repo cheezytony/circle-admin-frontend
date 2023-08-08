@@ -22,30 +22,26 @@ const {
     </CommonPageHeading>
 
     <CommonDatatable
-      :url="'referral-wallets/successful-referrals'"
-      :service="AUTH"
+      :url="`referral-wallets/successful-referrals`"
+      service="AUTH"
       :search-columns="columns"
       :column="column"
     >
       <template #heading>
-        <CommonDatatableTH name="userId._id">User ID</CommonDatatableTH>
-        <CommonDatatableTH name="userId.firstName">User Name</CommonDatatableTH>
-        <CommonDatatableTH name="userId.email">Email</CommonDatatableTH>
-        <CommonDatatableTH name="referrerId._id">
-          Number of Successful Referrals
-        </CommonDatatableTH>
+        <CommonDatatableTH>User Name</CommonDatatableTH>
+        <CommonDatatableTH>Email</CommonDatatableTH>
+        <CommonDatatableTH> Number of Successful Referrals </CommonDatatableTH>
       </template>
       <template #default="{ row }: { row: ShareAndEarn }">
         <CommonDatatableRow>
           <CommonDatatableTD>
-            <div class="flex items-center gap-3">
-              <span>{{ row.referrer_id?._id }}</span>
-            </div>
-          </CommonDatatableTD>
-
-          <CommonDatatableTD>
-            {{ row.referrer_id?.firstName }}
-            {{ row.referrer_id?.lastName }}
+            <span class="flex flex-col gap-1">
+              <span>
+                {{ row.referrer_id?.firstName }}
+                {{ row.referrer_id?.lastName }}
+              </span>
+              <span class="text-xs opacity-50">{{ row.referrer_id?._id }}</span>
+            </span>
           </CommonDatatableTD>
 
           <CommonDatatableTD>

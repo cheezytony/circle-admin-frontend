@@ -29,29 +29,18 @@ const column = ref('id');
       :column="column"
     >
       <template #heading>
-        <CommonDatatableTH name="id"> Id </CommonDatatableTH>
-        <CommonDatatableTH name="user.firstName"> User Name </CommonDatatableTH>
-
-        <CommonDatatableTH name="user_id">User ID</CommonDatatableTH>
-
-        <CommonDatatableTH name="user.phoneNo">
-          Phone Number
-        </CommonDatatableTH>
-
-        <CommonDatatableTH name="id">Savings ID</CommonDatatableTH>
-
-        <CommonDatatableTH name="funding_source">
-          Payment Method
-        </CommonDatatableTH>
-        <CommonDatatableTH name="start_date">Start Date</CommonDatatableTH>
-        <CommonDatatableTH name="end_date">End Date</CommonDatatableTH>
-        <CommonDatatableTH name="amount_saved">Amount Saved</CommonDatatableTH>
-        <CommonDatatableTH name="earnings">Total Interest</CommonDatatableTH>
-        <CommonDatatableTH name="earnings_withdrawn">
-          Interest Withdrawal Status
-        </CommonDatatableTH>
-        <CommonDatatableTH name="status">Status </CommonDatatableTH>
-        <CommonDatatableTH name="created_at">Date Created</CommonDatatableTH>
+        <CommonDatatableTH> Id </CommonDatatableTH>
+        <CommonDatatableTH> User Name </CommonDatatableTH>
+        <CommonDatatableTH> Phone Number </CommonDatatableTH>
+        <CommonDatatableTH>Savings ID</CommonDatatableTH>
+        <CommonDatatableTH> Payment Method </CommonDatatableTH>
+        <CommonDatatableTH>Start Date</CommonDatatableTH>
+        <CommonDatatableTH>End Date</CommonDatatableTH>
+        <CommonDatatableTH>Amount Saved</CommonDatatableTH>
+        <CommonDatatableTH>Total Interest</CommonDatatableTH>
+        <CommonDatatableTH> Interest Withdrawal Status </CommonDatatableTH>
+        <CommonDatatableTH>Status </CommonDatatableTH>
+        <CommonDatatableTH>Date Created</CommonDatatableTH>
       </template>
       <template #default="{ row }: { row: Saving }">
         <CommonDatatableRow :to="`/savings/history/${row.id}?type=${'VAULT'}`">
@@ -59,14 +48,11 @@ const column = ref('id');
             {{ row.id }}
           </CommonDatatableTD>
           <CommonDatatableTD>
-            <div class="flex items-center gap-3">
-              <span>
-                {{ row.user.firstName }}
-                {{ row.user.lastName }}
-              </span>
-            </div>
+            <span class="flex flex-col gap-1">
+              <span>{{ row.user?.firstName }} {{ row.user?.lastName }}</span>
+              <span class="text-xs opacity-50">{{ row.user_id }}</span>
+            </span>
           </CommonDatatableTD>
-          <CommonDatatableTD>{{ row.user_id }}</CommonDatatableTD>
           <CommonDatatableTD>
             {{ row.user?.phoneNumber || 'N/A' }}
           </CommonDatatableTD>

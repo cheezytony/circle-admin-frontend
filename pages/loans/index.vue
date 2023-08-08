@@ -32,23 +32,24 @@ const column = ref('id');
       :column="column"
     >
       <template #heading>
-        <CommonDatatableTH name="id">User ID</CommonDatatableTH>
-        <CommonDatatableTH name="firstName">User Name</CommonDatatableTH>
-        <CommonDatatableTH name="phone_number">Phone No.</CommonDatatableTH>
-        <CommonDatatableTH name="id">Loan Id</CommonDatatableTH>
-        <CommonDatatableTH name="status">Status</CommonDatatableTH>
-        <CommonDatatableTH name="request_amount">Loan Amount</CommonDatatableTH>
-        <CommonDatatableTH name="created_at">Date Created</CommonDatatableTH>
+        <CommonDatatableTH>User Name</CommonDatatableTH>
+        <CommonDatatableTH>Phone No.</CommonDatatableTH>
+        <CommonDatatableTH>Loan Id</CommonDatatableTH>
+        <CommonDatatableTH>Status</CommonDatatableTH>
+        <CommonDatatableTH>Loan Amount</CommonDatatableTH>
+        <CommonDatatableTH>Date Created</CommonDatatableTH>
       </template>
 
       <template #default="{ row }: { row: Loan }">
         <CommonDatatableRow :to="`/loans/${row.id}`">
+       
           <CommonDatatableTD>
-            {{ row.user_id }}
-          </CommonDatatableTD>
-
-          <CommonDatatableTD>
-            {{ row?.first_name }} {{ row?.last_name }}
+            <span class="flex flex-col gap-1">
+              <span>
+                {{ row.firstName }} {{ row.lastName }}
+              </span>
+              <span class="text-xs opacity-50">{{ row.user_id }}</span>
+            </span>
           </CommonDatatableTD>
 
           <CommonDatatableTD>{{ row.phone_number || 'N/A' }}</CommonDatatableTD>

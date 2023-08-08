@@ -38,7 +38,7 @@ export default defineNuxtConfig({
         process.env.NUXT_API_BASE_URL ??
         'https://test-admin-api.circlenow.app/api',
       authServiceBaseUrl:
-        process.env.NUXT_API_BASE_URL ??
+        process.env.NUXT_API_AUTH_BASE_URL ??
         'https://test-auth-api.circlenow.app/api/admin',
       loanBaseUrl:
         process.env.NUXT_API_LOAN_BASE_URL ??

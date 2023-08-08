@@ -28,50 +28,26 @@ const column = ref('id');
       :column="column"
     >
       <template #heading>
-        <CommonDatatableTH name="user.firstName">
-          User name
-        </CommonDatatableTH>
-
-        <CommonDatatableTH name="user_id">User ID</CommonDatatableTH>
-
-        <CommonDatatableTH name="user.phoneNo">
-          Phone Number
-        </CommonDatatableTH>
-
-        <CommonDatatableTH name="id">Savings ID</CommonDatatableTH>
-
-        <CommonDatatableTH name="description">Goal Details</CommonDatatableTH>
-
-        <CommonDatatableTH name="name">Name</CommonDatatableTH>
-
-        <CommonDatatableTH name="target_amount">
-          Target Amount
-        </CommonDatatableTH>
-
-        <CommonDatatableTH name="end_date">Maturity Date</CommonDatatableTH>
-
-        <CommonDatatableTH name="amount_saved">
-          Current Balance
-        </CommonDatatableTH>
-
-        <CommonDatatableTH name="earnings">Accrued Interest</CommonDatatableTH>
-
-        <CommonDatatableTH name="status">Status </CommonDatatableTH>
-
-        <CommonDatatableTH name="created_at">Date Created</CommonDatatableTH>
+        <CommonDatatableTH>User name </CommonDatatableTH>
+        <CommonDatatableTH>Phone Number </CommonDatatableTH>
+        <CommonDatatableTH>Savings ID</CommonDatatableTH>
+        <CommonDatatableTH>Goal Details</CommonDatatableTH>
+        <CommonDatatableTH>Name</CommonDatatableTH>
+        <CommonDatatableTH>Target Amount </CommonDatatableTH>
+        <CommonDatatableTH>Maturity Date</CommonDatatableTH>
+        <CommonDatatableTH>Current Balance </CommonDatatableTH>
+        <CommonDatatableTH>Accrued Interest</CommonDatatableTH>
+        <CommonDatatableTH>Status </CommonDatatableTH>
+        <CommonDatatableTH>Date Created</CommonDatatableTH>
       </template>
       <template #default="{ row }: { row: Saving }">
         <CommonDatatableRow :to="`/savings/history/${row.id}?type=GOAL`">
           <CommonDatatableTD>
-            <div class="flex items-center gap-3">
-              <span>
-                {{ row.user.firstName }}
-                {{ row.user.lastName }}
-              </span>
-            </div>
+            <span class="flex flex-col gap-1">
+              <span>{{ row.user?.firstName }} {{ row.user?.lastName }}</span>
+              <span class="text-xs opacity-50">{{ row.user_id }}</span>
+            </span>
           </CommonDatatableTD>
-
-          <CommonDatatableTD>{{ row.user_id }}</CommonDatatableTD>
 
           <CommonDatatableTD>
             {{ row.user.phoneNumber || 'N/A' }}
