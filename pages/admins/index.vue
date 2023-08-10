@@ -63,17 +63,18 @@ const dataList: Array<DataListItem> = [
           <CommonDatatableRow :to="`/admins/${row.id}`">
             <CommonDatatableTD>
               <div class="flex items-center gap-3">
-                <div class="bg-gray-300 h-8 rounded-full w-8">
-                  <img
-                    class="h-8 rounded-full w-8"
-                    :src="
-                      row.avatar ||
-                      `https://ui-avatars.com/api/?background=000&color=fff&font-size=0.3&size=128&name=${row.first_name}+${row.last_name}`
-                    "
-                    :alt="`${row.first_name} ${row.last_name}`"
-                  />
-                </div>
-                <span>{{ row.first_name }} {{ row.last_name }}</span>
+                <img
+                  class="bg-gray-300 shrink-0 h-8 rounded-full w-8"
+                  :src="
+                    row.avatar ||
+                    `https://ui-avatars.com/api/?background=000&color=fff&font-size=0.3&size=128&name=${row.first_name}+${row.last_name}`
+                  "
+                  :alt="`${row.first_name} ${row.last_name}`"
+                />
+                <span class="flex flex-col gap-1">
+                  <span>{{ row?.first_name }} {{ row?.last_name }}</span>
+                  <span class="text-xs opacity-50">{{ row.id }}</span>
+                </span>
               </div>
             </CommonDatatableTD>
             <CommonDatatableTD>{{ row.email }}</CommonDatatableTD>

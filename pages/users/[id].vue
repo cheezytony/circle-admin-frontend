@@ -19,21 +19,31 @@ const { data, isLoading, error } = useApiRequest<User>({
   authorize: true,
   service: 'USER_DATA',
 });
-const admin = computed(() => data.value?.data);
+const user = computed(() => data.value?.data);
 const fullName = computed(() => {
-  return admin.value && `${admin.value.firstName} ${admin.value.lastName}`;
+  return user.value && `${user.value.firstName} ${user.value.lastName}`;
 });
 
-const dataList = computed<Array<DataListItem>>(() => []);
+const stats = computed<Array<DataListItem>>(() => {
+  if (!user.value) return [];
+  return [
+    { title: 'Wallet Balance', value: '----' },
+    { title: 'Total Investments', value: '----' },
+    { title: 'Total Insurance', value: '----' },
+    { title: 'Total Savings', value: '----' },
+    { title: 'Stock Balance', value: '----' },
+    { title: 'Subscription Status', value: '----' },
+  ];
+});
 const tabs: Array<TabLink> = [
-  { title: 'Profile', href: `/users/${userId.value}` },
+  { title: 'Profile', href: `/users/${userId.value}`, exact: true },
   { title: 'Wallet', href: `/users/${userId.value}/wallet` },
-  { title: 'Audit Trail', href: `/users/${userId.value}/audit-trail` },
-  { title: 'Edit', href: `/users/${userId.value}/edit` },
+  // { title: 'Audit Trail', href: `/users/${userId.value}/audit-trail` },
+  // { title: 'Edit', href: `/users/${userId.value}/edit` },
 ];
 
 useHead({
-  title: () => error.value ? 'Error' : fullName.value ?? 'Loading...',
+  title: () => (error.value ? 'Error' : fullName.value ?? 'Loading...'),
 });
 </script>
 
@@ -44,12 +54,14 @@ useHead({
         {{ fullName }}
       </CommonSummaryHeading>
 
-      <CommonDataList :data="dataList" />
+      <CommonDataList :data="stats" />
     </template>
     <div>
       <CommonTabs>
-        <CommonTabsNav :tabs="tabs"  />
+        <CommonTabsNav :tabs="tabs" />
       </CommonTabs>
+
+      <RouterView v-if="user" :user="user" />
     </div>
   </NuxtLayout>
 </template>

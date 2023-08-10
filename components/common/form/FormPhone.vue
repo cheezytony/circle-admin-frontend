@@ -8,6 +8,8 @@ defineProps<{
   modelValue?: string | number;
 }>();
 
+const inputRef = ref<HTMLInputElement>();
+
 const value = ref<string>('');
 const { countries } = useCountries();
 const search = ref<string>('');
@@ -39,40 +41,50 @@ const onKeyPress = (event: KeyboardEvent) => {
   if (event.key.length === 1 && isNaN(Number(event.key)))
     event.preventDefault();
 };
+const focus = () => {
+  setTimeout(() => {
+    inputRef.value?.focus();
+  }, 100);
+};
 </script>
 
 <template>
   <div class="flex gap-2">
-    <CommonDropdown>
-      <CommonDropdownButton
+    <CommonDropdown @open="focus">
+      <button
+        type="button"
         class="border flex font-medium gap-2 h-full items-center px-4 rounded"
       >
         <span>{{ selectedCountry.flag.emoji }}</span>
-        <span>
+        <span class="text-sm">
           <FontAwesomeIcon icon="chevron-down" />
         </span>
-      </CommonDropdownButton>
-      <CommonDropdownMenu>
-        <div
-          class="border flex items-center mb-4 pl-4 overflow-hidden rounded focus-within:border-blue-500"
-        >
-          <span class="text-sm">
-            <FontAwesomeIcon icon="search" />
-          </span>
-          <input
-            v-model="search"
-            class="px-3 py-2 text-sm w-full focus:outline-none"
-            placeholder="Search country"
-            @click.stop
-          />
+      </button>
+      <template #items>
+        <div class="px-4 py-4">
+          <div
+            class="border flex items-center pl-4 overflow-hidden rounded focus-within:border-blue-500"
+          >
+            <span class="text-sm">
+              <FontAwesomeIcon icon="search" />
+            </span>
+            <input
+              v-model="search"
+              class="px-3 py-2 text-sm w-full focus:outline-none"
+              placeholder="Search country"
+              @click.stop
+              ref="inputRef"
+            />
+          </div>
         </div>
         <div class="max-h-[250px] overflow-auto">
           <template
             :key="country.countryCode"
             v-for="country in filteredCountries"
           >
-            <CommonDropdownItem
-              class="flex gap-4 items-center"
+            <button
+              type="button"
+              class="flex gap-4 items-center px-4 py-2 whitespace-nowrap w-full hover:bg-gray-100"
               @click="selectCountry(country)"
             >
               <span>{{ country.flag.emoji }}</span>
@@ -82,10 +94,10 @@ const onKeyPress = (event: KeyboardEvent) => {
               <span class="ml-auto text-gray-500 text-left text-xs">
                 {{ country.dialCode }}
               </span>
-            </CommonDropdownItem>
+            </button>
           </template>
         </div>
-      </CommonDropdownMenu>
+      </template>
     </CommonDropdown>
     <label
       class="bg-transparent flex h-full input items-center focus:outline-none"

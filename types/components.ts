@@ -5,7 +5,7 @@ import { NumberFormat } from '~~/utils/filters/numbers';
 
 export interface DataListItem {
   title: string;
-  value: Date | string | number;
+  value?: Date | string | number;
   type?: NumberFormat | DateTimeFormat;
   change?: number;
   href?: NuxtLinkProps['href'];
@@ -58,8 +58,9 @@ export interface DataTableSearch {
 }
 export type DatatableSearchColumn = string | { title: string; name: string };
 export type DatatableFilter = {
-  title?: string;
   name: string;
+  title?: string;
+  value?: string;
   action?: (item: any) => boolean;
 };
 export type DatatablePaginationLink = {
@@ -70,11 +71,12 @@ export type DatatablePaginationLink = {
 };
 
 export interface DropdownProvision {
-  root: Ref<HTMLDivElement | undefined>;
   uiID: string;
 
   index: Ref<number>;
   isOpen: Ref<boolean>;
+  coordinates?: Ref<DOMRect | null>;
+  updateCoordinates: (value: DOMRect) => void;
 
   close: () => void;
   open: () => void;
