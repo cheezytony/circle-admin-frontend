@@ -22,7 +22,7 @@ const column = ref('id');
     </CommonPageHeading>
 
     <CommonDatatable
-      :url="`goals`"
+      :url="`savings/goals`"
       service="SAVINGS"
       :search-columns="columns"
       :column="column"

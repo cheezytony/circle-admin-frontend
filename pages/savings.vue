@@ -31,6 +31,10 @@ const links: Array<TabLink> = [
     title: 'Group Savings',
     href: '/savings/group-savings',
   },
+  {
+    title: 'Configurations',
+    href: '/savings/configurations',
+  },
 ];
 </script>
 
