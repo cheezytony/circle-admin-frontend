@@ -3,6 +3,7 @@ import { WalletTransaction } from '~/types/models';
 import { DataListItem } from '~~/types/components';
 import { StockOrder } from '~~/types/models/stocks';
 import { dateTimeFormat } from '~~/utils/filters/dates';
+import { numberFormat } from '~~/utils/filters/numbers';
 
 definePageMeta({
   layout: false,
@@ -60,12 +61,14 @@ const dataList: Array<DataListItem> = [
         service="STOCKS"
         :search-columns="columns"
         :column="column"
+        order-by="created_at"
+        :order-by-ascending="false"
       >
         <template #heading>
           <CommonDatatableTH name="user_id">User ID</CommonDatatableTH>
           <CommonDatatableTH name="provider_order_no">Order Number</CommonDatatableTH>
           <CommonDatatableTH name="symbol">Symbol</CommonDatatableTH>
-          <CommonDatatableTH name="amount">Amount</CommonDatatableTH>
+          <CommonDatatableTH align="right" name="amount">Amount</CommonDatatableTH>
           <CommonDatatableTH name="side">Side</CommonDatatableTH>
           <CommonDatatableTH name="status">Status</CommonDatatableTH>
           <CommonDatatableTH name="created_at">Date</CommonDatatableTH>
@@ -80,9 +83,20 @@ const dataList: Array<DataListItem> = [
             </CommonDatatableTD>
             <CommonDatatableTD>{{ row.provider_order_no }}</CommonDatatableTD>
             <CommonDatatableTD>{{ row.symbol }}</CommonDatatableTD>
-            <CommonDatatableTD>{{ row.amount }}</CommonDatatableTD>
+            <CommonDatatableTD align="right">
+              <span
+                :class="{
+                  'text-green-700': row.side === 'BUY',
+                  'text-red-700': row.side === 'SELL',
+                }"
+              >
+                {{ numberFormat(row.amount, 'currency', 'USD') }}
+              </span>
+            </CommonDatatableTD>
             <CommonDatatableTD>{{ row.side }}</CommonDatatableTD>
-            <CommonDatatableTD>{{ row.status }}</CommonDatatableTD>
+            <CommonDatatableTD>
+              <CommonBadgeStatus :status="row.status" />
+            </CommonDatatableTD>
             <CommonDatatableTD>
               {{ dateTimeFormat(row.created_at, 'date:compact:time') }}
             </CommonDatatableTD>

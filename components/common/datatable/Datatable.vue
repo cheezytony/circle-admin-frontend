@@ -452,9 +452,13 @@ provide<DatatableProvision>('datatable', {
 <template>
   <div class="flex flex-col gap-6 max-w-full">
     <div v-if="paginatable">
-      <div class="bg-gray-50 flex flex-wrap gap-10 items-center justify-between px-2 py-4 rounded-t md:px-4">
+      <div
+        class="bg-gray-50 flex flex-wrap gap-4 items-center justify-between px-2 py-4 rounded-t md:gap-10 md:px-4"
+      >
         <div class="flex items-center gap-2">
-          <span class="flex-shrink-0 font-medium text-gray-500 text-sm">Items per page:</span>
+          <span class="flex-shrink-0 font-medium text-gray-500 text-sm">
+            Items per page:
+          </span>
           <CommonFormSelect
             class="input-sm"
             :options="limits"
@@ -521,6 +525,7 @@ provide<DatatableProvision>('datatable', {
       </div>
       <CommonDatatableSearch />
     </div>
+    <!-- <CommonDatatableFilter /> -->
     <div class="flex gap-4 items-center" v-if="filterable && filters.length">
       <template v-for="filter in filters">
         <CommonTag

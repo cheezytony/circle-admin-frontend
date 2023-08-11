@@ -10,7 +10,7 @@ definePageMeta({
 
 useHead({ title: 'Users' });
 
-const columns = ['id', 'first_name', 'last_name', 'email', 'phone'];
+const columns = ['id', 'firstName', 'lastName', 'email', 'phoneNumber'];
 const column = ref('id');
 
 const dataList: Array<DataListItem> = [
@@ -41,25 +41,36 @@ const dataList: Array<DataListItem> = [
         service="USER_DATA"
         :columns="columns"
         :column="column"
+        order-by="created_at"
+        :order-by-ascending="false"
       >
         <template #heading>
           <CommonDatatableTH name="first_name">User</CommonDatatableTH>
           <CommonDatatableTH name="email">Email</CommonDatatableTH>
           <CommonDatatableTH name="phone">Phone</CommonDatatableTH>
-          <CommonDatatableTH name="created_at"
-            >Date Registered</CommonDatatableTH
-          >
+          <CommonDatatableTH name="created_at">
+            Date Registered
+          </CommonDatatableTH>
         </template>
         <template #default="{ row }: { row: User }">
           <CommonDatatableRow :to="`/users/${row._id}`">
             <CommonDatatableTD>
               <div class="flex items-center gap-3">
-                <div class="bg-gray-300 h-8 rounded-full w-8"></div>
-                <span>{{ row.firstName }} {{ row.lastName }}</span>
+                <img
+                  class="bg-gray-300 shrink-0 h-8 rounded-full w-8"
+                  :src="`https://ui-avatars.com/api/?background=000&color=fff&font-size=0.3&size=128&name=${row.firstName}+${row.lastName}`"
+                  :alt="`${row.firstName} ${row.lastName}`"
+                />
+                <span class="flex flex-col gap-1">
+                  <span>{{ row?.firstName }} {{ row?.lastName }}</span>
+                  <span class="text-xs opacity-50 break-words">{{ row._id }}</span>
+                </span>
               </div>
             </CommonDatatableTD>
             <CommonDatatableTD>{{ row.email }}</CommonDatatableTD>
-            <CommonDatatableTD>{{ optional(row.phoneNumber) }}</CommonDatatableTD>
+            <CommonDatatableTD>
+              {{ optional(row.phoneNumber) }}
+            </CommonDatatableTD>
             <CommonDatatableTD>
               {{ dateTimeFormat(row.createdAt, 'date') }}
             </CommonDatatableTD>

@@ -20,5 +20,10 @@ export const useCountries = defineStore('countries', () => {
     const flag = flags[countryCode];
     return { name, countryCode, dialCode, flag };
   });
-  return { countries };
+
+  const findCountryByCode = (countryCode: string) => {
+    return countries.find((country) => country.countryCode === countryCode);
+  };
+  
+  return { countries, findCountryByCode };
 });
