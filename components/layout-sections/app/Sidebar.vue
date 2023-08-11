@@ -20,8 +20,8 @@ interface SidebarSection {
 }
 
 const route = useRoute();
-const { isSidebarCollapsed } = storeToRefs(useTheme());
-const { toggleSidebar } = useTheme();
+const { isSidebarCollapsed, isSmallScreen } = storeToRefs(useTheme());
+const { toggleSidebar, closeSidebar } = useTheme();
 const { logout } = useAuth();
 const sections: Array<SidebarSection> = [
   {
@@ -96,6 +96,14 @@ const handleLinkClick = ({ isLogout }: SidebarLink) => {
     logout();
   }
 };
+
+watch(
+  route,
+  () => {
+    isSmallScreen.value && closeSidebar();
+  },
+  { deep: true, immediate: true }
+);
 </script>
 
 <template>

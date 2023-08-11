@@ -26,6 +26,14 @@ export interface User {
 
 export interface UserProfile {
   _id: string;
+  id: string;
+  address?: {
+    city: string;
+    country: string;
+    postalCode: string;
+    state: string;
+    street: string;
+  };
   annualIncome: number;
   dateOfBirth: Date;
   dependents: 0;

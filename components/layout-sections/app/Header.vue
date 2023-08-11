@@ -32,7 +32,7 @@ const handleScroll = () => {
   isSticky.value = window.scrollY > 0;
 };
 onMounted(() => {
-  window.addEventListener('scroll', handleScroll);
+  window.addEventListener('scroll', handleScroll)
 });
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll);
@@ -58,7 +58,9 @@ onUnmounted(() => {
         size="sm"
         @click="toggleSummary"
       >
-        <FontAwesomeIcon :icon="isSummaryOpen ? 'chevron-left' : 'chevron-right'" />
+        <FontAwesomeIcon
+          :icon="isSummaryOpen ? 'chevron-left' : 'chevron-right'"
+        />
       </CommonButton>
       <LayoutSectionsAppSearch />
 
@@ -69,9 +71,15 @@ onUnmounted(() => {
         <FontAwesomeIcon icon="fa-regular fa-bell" />
       </button>
 
-      <CommonDropdown>
-        <CommonDropdownButton
+      <CommonDropdown
+        :items="[
+          { title: 'My Profile', href: '/settings' },
+          { title: 'Logout', onClick: logout },
+        ]"
+      >
+        <button
           class="flex flex-shrink-0 gap-3 items-center text-gray-600 text-sm"
+          type="button"
         >
           <span
             class="h-10 bg-black flex-shrink-0 grid overflow-hidden place-items-center rounded-full text-white w-10"
@@ -90,11 +98,7 @@ onUnmounted(() => {
             {{ name }}
           </span>
           <FontAwesomeIcon icon="chevron-down" />
-        </CommonDropdownButton>
-        <CommonDropdownMenu>
-          <CommonDropdownItem href="/settings">My Profile</CommonDropdownItem>
-          <CommonDropdownItem @click="logout">Logout</CommonDropdownItem>
-        </CommonDropdownMenu>
+        </button>
       </CommonDropdown>
     </div>
   </header>

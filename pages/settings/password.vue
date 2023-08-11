@@ -11,7 +11,7 @@ const form = useForm({
   password: {},
   password_confirmation: { rules: ['exact:password'] },
 });
-const { submit } = useFormRequest(form, { url: '/password', method: 'PUT' });
+const { submit } = useFormRequest(form, { url: '/password', method: 'PUT', authorize: true });
 </script>
 
 <template>

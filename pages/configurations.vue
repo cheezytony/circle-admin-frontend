@@ -11,11 +11,11 @@ useHead({
 });
 
 const categories: Array<TabLink> = [
-  { title: 'All', href: '/configurations' },
-  { title: 'Stocks' },
-  { title: 'Savings' },
-  { title: 'Loans' },
-  { title: 'Insurance' },
+  // { title: 'All', href: '/configurations' },
+  // { title: 'Stocks' },
+  // { title: 'Savings' },
+  // { title: 'Loans' },
+  // { title: 'Insurance' },
   { title: 'Subscriptions', href: '/configurations/subscriptions' },
 ];
 </script>
