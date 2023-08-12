@@ -2,13 +2,13 @@
 import { Configuration } from '~~/types/models';
 import { useApiRequest } from '~~/utils/hooks/api';
 
-const { data, isLoading } = useApiRequest<Array<Configuration>>({
+const { data, isLoading, load } = useApiRequest<Array<Configuration>>({
   url: '/configurations',
   authorize: true,
   autoLoad: true,
-  service: 'SAVINGS',
+  service: 'WALLET',
 });
-const configurations = computed(() => data.value?.data ?? []);
+const configurations = computed(() => data.value?.data || []);
 </script>
 
 <template>

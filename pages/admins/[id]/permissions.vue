@@ -78,7 +78,6 @@ watch(adminPermissions, (value) => (selection.value = [...value]));
         {{ admin.first_name }}'s Permissions
       </CommonHeading>
     </CommonPageHeading>
-    {{ selection.length }}
 
     <div class="flex flex-col gap-8">
       <CommonDatatable

@@ -31,7 +31,7 @@ const links: Array<TabLink> = [
   <NuxtLayout name="default">
     <div>
       <CommonPageHeading>
-        <CommonHeading level="2"> Settings </CommonHeading>
+        <CommonHeading level="2">Settings</CommonHeading>
       </CommonPageHeading>
       <CommonTabs>
         <CommonTabsNav :tabs="links" />

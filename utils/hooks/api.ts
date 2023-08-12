@@ -99,7 +99,7 @@ export const useApiRequest = <T = object>({
 
   const isLoading = ref(initialLoadingState);
   const data = ref<HTTPResponseData<T>>();
-  const error = ref<Error>();
+  const error = ref<Error | HTTPError>();
   const load = async (payload?: APIRequestPayload) => {
     isLoading.value = true;
     return await new Promise((resolve, reject) => {
@@ -121,24 +121,25 @@ export const useApiRequest = <T = object>({
 
           return response.data;
         })
-        .catch((error: HTTPError) => {
-          if (isCancel(error)) return;
-          const error_: HTTPErrorData = {
-            ...error?.response?.data,
-            status: error.response?.status,
-            statusText: error.response?.statusText,
+        .catch((error_: HTTPError) => {
+          error.value = error_;
+          if (isCancel(error_)) return;
+          const error__: HTTPErrorData = {
+            ...error_?.response?.data,
+            status: error_.response?.status,
+            statusText: error_.response?.statusText,
           };
 
           if (
             service === 'ADMIN' &&
             authorize &&
-            error.response?.status === 401
+            error_.response?.status === 401
           ) {
             return logout();
           }
 
-          reject(error_);
-          onError?.(error_);
+          reject(error__);
+          onError?.(error__);
         })
         .finally(() => {
           isLoading.value = false;
@@ -147,7 +148,8 @@ export const useApiRequest = <T = object>({
     });
   };
 
-  onMounted(() => autoLoad && load());
+  // onMounted(() => autoLoad && load());
+  if (autoLoad) load();
 
   return { data, error, isLoading, load };
 };
@@ -156,11 +158,12 @@ export const useFormRequest = <T>(
   form: Ref<Form>,
   {
     useFormData = false,
+    wrapperKey,
     onSuccess,
     onFinish,
     onError,
     ...config
-  }: APIRequestConfig<HTTPResponseData<T>> & { useFormData?: boolean },
+  }: APIRequestConfig<HTTPResponseData<T>> & { useFormData?: boolean, wrapperKey?: string }
 ) => {
   const { load, ...data } = useApiRequest<T>({
     ...config,
@@ -187,8 +190,10 @@ export const useFormRequest = <T>(
     form.value.error = null;
     form.value.success = null;
 
+    const data = useFormData ? getFormData(form) : getRawFormData(form);
+    
     await load({
-      data: useFormData ? getFormData(form) : getRawFormData(form),
+      data: wrapperKey ? { [wrapperKey]: data } : data,
     });
   };
 

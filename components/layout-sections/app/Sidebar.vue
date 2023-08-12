@@ -87,7 +87,7 @@ const sections: Array<SidebarSection> = [
 const isActiveRoute = ({ href, exact = false }: SidebarLink) => {
   const routePath = route.path;
   return (
-    href && (exact ? href === routePath : !!routePath.match(new RegExp(href)))
+    href && (exact ? href === routePath : !!routePath.match(new RegExp(`^${href}`)))
   );
 };
 

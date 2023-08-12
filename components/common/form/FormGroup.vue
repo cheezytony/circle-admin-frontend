@@ -9,6 +9,7 @@ import FormTextarea from './FormTextarea.vue';
 import FormSplitInput from './FormSplitInput.vue';
 import FormDropzone from './FormDropzone.vue';
 import FormPhone from './FormPhone.vue';
+import FormCurrency from './FormCurrency.vue';
 
 const emit = defineEmits(['update:modelValue']);
 const props = defineProps<{
@@ -31,6 +32,8 @@ const listeners = {
 
 const component = computed(() => {
   switch (props.type) {
+    case 'currency':
+      return FormCurrency;
     case 'dropzone':
       return FormDropzone;
     case 'password':
@@ -80,7 +83,7 @@ const hasErrors = computed(() => errors.value.length);
       <component
         v-bind="{ id, name, type, ...$attrs }"
         :is="component"
-        :modelValue="modelValue"
+        :modelValue="(modelValue as any)"
         :modelModifiers="modelModifiers"
         v-on="listeners"
       />
