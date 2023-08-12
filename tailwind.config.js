@@ -413,6 +413,10 @@ module.exports = {
         '"Courier New"',
         'monospace',
       ],
+      emoji: [
+        'Noto Color Emoji',
+        'Apple Color Emoji',
+      ]
     },
     fontSize: {
       xs: ['0.75rem', { lineHeight: '1rem' }],
@@ -744,6 +748,11 @@ module.exports = {
     padding: ({ theme }) => theme('spacing'),
     placeholderColor: ({ theme }) => theme('colors'),
     placeholderOpacity: ({ theme }) => theme('opacity'),
+    pointerEvents: {
+      none: 'none',
+      auto: 'auto',
+      all: 'all',
+    },
     outlineColor: ({ theme }) => theme('colors'),
     outlineOffset: {
       0: '0px',

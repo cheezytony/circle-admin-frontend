@@ -49,7 +49,10 @@ export const numberFormat = (
     }
   })();
 
-  return Intl.NumberFormat('en-NG', format).format(Number(number));
+  return Intl.NumberFormat(
+    currency === 'USD' ? 'en-US' : 'en-NG',
+    format,
+  ).format(Number(number));
 };
 
 numberFormat(100);

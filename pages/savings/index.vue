@@ -21,7 +21,7 @@ const column = ref('id');
     </CommonPageHeading>
 
     <CommonDatatable
-      url="flexi"
+      url="savings/flexi"
       service="SAVINGS"
       :search-columns="columns"
       :column="column"

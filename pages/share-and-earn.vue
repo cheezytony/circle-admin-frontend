@@ -27,7 +27,7 @@ const links: Array<TabLink> = [
 <template>
   <div>
     <CommonPageHeading>
-      <CommonHeading level="2"> Share and Earn </CommonHeading>
+      <CommonHeading level="2">Share and Earn</CommonHeading>
     </CommonPageHeading>
     <CommonTabs>
       <CommonTabsNav :tabs="links" />

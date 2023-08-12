@@ -1,5 +1,8 @@
 module.exports = {
-  extends: ['@circle-ng/eslint-config'],
+  extends: [
+    '@circle-ng/eslint-config',
+    // 'plugin:vue/vue3-recommended'
+  ],
   rules: {
     'prettier/prettier': [
       'error',
@@ -11,7 +14,7 @@ module.exports = {
       },
       {
         usePrettierrc: false,
-      }
+      },
     ],
     'no-use-before-define': 'off',
     'unicorn/consistent-function-scoping': 'off',

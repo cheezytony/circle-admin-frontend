@@ -5,12 +5,6 @@ import { NuxtLink } from '#components';
 import { colorsSchemes, getColorScheme } from '~~/utils/theme';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-const LINKCOLORS = {
-  gray: 'text-gray-500',
-  red: 'text-red-500',
-  blue: 'text-blue-500',
-};
-
 const SIZES = {
   sm: 'font-medium gap-2 px-4 py-[0.5rem] rounded-[4px] text-[12px]',
   lg: 'font-medium gap-3 px-10 py-[1.25rem] rounded-[4px] text-[16px]',
@@ -85,7 +79,7 @@ const is = computed(() => {
       color,
       isLoading || disabled
         ? 'cursor-not-allowed opacity-50'
-        : 'hovers:-translate-y-1 active:scale-[0.99]',
+        : 'hovers:-translate-y-1 active:scale-[0.95]',
     ]"
   >
     <template v-if="isLoading">

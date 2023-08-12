@@ -11,7 +11,7 @@ const form = useForm({
   password: {},
   password_confirmation: { rules: ['exact:password'] },
 });
-const { submit } = useFormRequest(form, { url: '/password', method: 'PUT' });
+const { submit } = useFormRequest(form, { url: '/password', method: 'PUT', authorize: true });
 </script>
 
 <template>
@@ -58,7 +58,7 @@ const { submit } = useFormRequest(form, { url: '/password', method: 'PUT' });
         {{ form.success }}
       </CommonMessage>
 
-      <CommonButtonSubmit :form="form"> Save Changes </CommonButtonSubmit>
+      <CommonButtonSubmit :form="form">Save Changes</CommonButtonSubmit>
     </CommonForm>
   </div>
 </template>

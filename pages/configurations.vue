@@ -11,11 +11,12 @@ useHead({
 });
 
 const categories: Array<TabLink> = [
-  { title: 'All', href: '/configurations' },
-  { title: 'Stocks' },
-  { title: 'Savings' },
-  { title: 'Loans' },
-  { title: 'Insurance' },
+  // { title: 'All', href: '/configurations' },
+  // { title: 'Stocks' },
+  { title: 'Savings', href: '/configurations/savings' },
+  // { title: 'Loans' },
+  // { title: 'Insurance' },
+  { title: 'Wallet', href: '/configurations/wallet' },
   { title: 'Subscriptions', href: '/configurations/subscriptions' },
 ];
 </script>
@@ -30,7 +31,7 @@ const categories: Array<TabLink> = [
       <CommonTabsNav :tabs="categories" />
     </CommonTabs>
 
-    <div class="max-w-[800px]">
+    <div class="max-w-[1000px]">
       <RouterView />
     </div>
   </div>

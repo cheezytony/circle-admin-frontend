@@ -22,13 +22,6 @@ const { data, isLoading } = useApiRequest<Admin>({
 });
 const admin = computed(() => data.value?.data);
 
-const avatar = useAsset(computed(() => admin.value?.avatar));
-const initials = computed(() => {
-  return (
-    admin.value &&
-    `${admin.value.first_name.charAt(0)} ${admin.value.last_name.charAt(0)}`
-  );
-});
 const fullName = computed(() => {
   return admin.value && `${admin.value.first_name} ${admin.value.last_name}`;
 });
@@ -51,10 +44,10 @@ const dataList = computed<Array<DataListItem>>(() => {
   ];
 });
 const tabs: Array<TabLink> = [
-  { title: 'Overview', href: `/admins/${userId.value}`, exact: true },
-  { title: 'Audit Trail', href: `/admins/${userId.value}/audit-trail` },
+  { title: 'Profile', href: `/admins/${userId.value}`, exact: true },
+  // { title: 'Audit Trail', href: `/admins/${userId.value}/audit-trail` },
   { title: 'Permissions', href: `/admins/${userId.value}/permissions` },
-  { title: 'Edit', href: `/admins/${userId.value}/edit` },
+  // { title: 'Edit', href: `/admins/${userId.value}/edit` },
 ];
 
 useHead({
@@ -72,20 +65,6 @@ useHead({
       <CommonDataList :data="dataList" />
     </template>
     <div>
-      <!-- <div class="mb-8">
-        <div
-          class="bg-black grid h-24 overflow-hidden place-items-center rounded-full text-white text-3xl w-24"
-        >
-          <img
-            v-if="avatar"
-            :src="avatar"
-            :alt="fullName"
-            class="h-full object-cover w-full"
-          />
-          <span v-else>{{ initials }}</span>
-        </div>
-      </div> -->
-
       <CommonTabs>
         <div class="flex gap-4 flex-wrap items-center justify-between">
           <CommonTabsNav :tabs="tabs" />

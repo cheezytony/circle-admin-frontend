@@ -11,8 +11,7 @@ definePageMeta({
 
 useHead({ title: 'Subscriptions' });
 
-const columns = [{ name: 'first_name', label: 'Admin' }];
-const column = ref('id');
+const columns = [{ name: 'user_id', title: 'User ID' }];
 
 const dataList: Array<DataListItem> = [];
 </script>
@@ -33,7 +32,6 @@ const dataList: Array<DataListItem> = [];
         url="/subscriptions"
         service="SUBSCRIPTIONS"
         :search-columns="columns"
-        :column="column"
       >
         <template #heading>
           <CommonDatatableTH>User</CommonDatatableTH>
@@ -55,7 +53,9 @@ const dataList: Array<DataListItem> = [];
             <CommonDatatableTD>
               {{ numberFormat(row.amount, 'currency') }}
             </CommonDatatableTD>
-            <CommonDatatableTD>{{ row.status }}</CommonDatatableTD>
+            <CommonDatatableTD>
+              <CommonBadgeStatus :status="row.status" />
+            </CommonDatatableTD>
             <CommonDatatableTD>
               {{ optional(row.start_date, [[dateTimeFormat, 'date:compact']]) }}
             </CommonDatatableTD>

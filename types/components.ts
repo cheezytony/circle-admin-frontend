@@ -2,10 +2,11 @@ import { ComputedRef, Ref } from 'vue';
 import { NuxtLinkProps } from '#app';
 import { DateTimeFormat } from '~~/utils/filters/dates';
 import { NumberFormat } from '~~/utils/filters/numbers';
+import { Form } from 'vue3-form';
 
 export interface DataListItem {
   title: string;
-  value: Date | string | number;
+  value?: Date | string | number;
   type?: NumberFormat | DateTimeFormat;
   change?: number;
   href?: NuxtLinkProps['href'];
@@ -25,6 +26,8 @@ export interface DatatableProvision {
   sort: Ref<DatatableSort>;
   clearSelection: () => void;
   loadFromServer: () => void;
+  searchOnServer: () => void;
+  resetOnServer: () => void;
   navigate: (page: number) => void;
   next: () => void;
   prev: () => void;
@@ -58,8 +61,9 @@ export interface DataTableSearch {
 }
 export type DatatableSearchColumn = string | { title: string; name: string };
 export type DatatableFilter = {
-  title?: string;
   name: string;
+  title?: string;
+  value?: string;
   action?: (item: any) => boolean;
 };
 export type DatatablePaginationLink = {
@@ -70,11 +74,12 @@ export type DatatablePaginationLink = {
 };
 
 export interface DropdownProvision {
-  root: Ref<HTMLDivElement | undefined>;
   uiID: string;
 
   index: Ref<number>;
   isOpen: Ref<boolean>;
+  coordinates?: Ref<DOMRect | null>;
+  updateCoordinates: (value: DOMRect) => void;
 
   close: () => void;
   open: () => void;
@@ -102,4 +107,9 @@ export interface LinkProperties {
   namespace?: string;
   title: string;
   to?: NuxtLinkProps['to'];
+}
+
+export interface ConfigurationFormProvision {
+  form: Ref<Form>;
+  updateFormField: (name: string, value: any) => void;
 }

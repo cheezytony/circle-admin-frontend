@@ -9,11 +9,11 @@ const hasSummary = computed(() => !!slots.summary);
 </script>
 
 <template>
-  <div class="duration-300 md:grid md:h-[100dvh] md:grid-rows-[100%]">
+  <div>
     <LayoutSectionsAppSidebar />
     <LayoutSectionsAppHeader :page-has-summary="hasSummary" />
     <div
-      class="duration-300 ml-auto pt-20 md:pt-0 md:grid md:h-[100dvh]"
+      class="duration-300 ml-auto pt-20 md:pt-0 md:grid"
       :class="[
         isSidebarCollapsed
           ? 'md:w-[calc(100%-80px)] md:max-w-[calc(100%-80px)]'
@@ -28,7 +28,7 @@ const hasSummary = computed(() => !!slots.summary);
       <LayoutSectionsAppSummary v-if="hasSummary">
         <slot name="summary" />
       </LayoutSectionsAppSummary>
-      <main class="pb-8 px-4 overflow-x-hidden md:px-8 md:pt-44">
+      <main class="pb-8 px-4 overflow-x-hidden md:px-8 md:pt-44" id="main-content">
         <slot />
       </main>
     </div>

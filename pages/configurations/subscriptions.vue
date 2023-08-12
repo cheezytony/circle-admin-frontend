@@ -2,15 +2,21 @@
 import { Configuration } from '~~/types/models';
 import { useApiRequest } from '~~/utils/hooks/api';
 
-const { data, isLoading } = useApiRequest<{ data: Array<Configuration> }>({
+const { data, isLoading, load } = useApiRequest<Array<Configuration>>({
   url: '/configurations',
   authorize: true,
   autoLoad: true,
   service: 'SUBSCRIPTIONS',
 });
-const configurations = computed(() => data.value?.data?.data)
+const configurations = computed(() => data.value?.data || []);
 </script>
 
 <template>
-  <div></div>
+  <div>
+    <PageSectionsConfigurationLoader v-if="isLoading" />
+    <PageSectionsConfiguration
+      v-else-if="configurations"
+      v-bind="{ configurations, service: 'SUBSCRIPTIONS' }"
+    />
+  </div>
 </template>

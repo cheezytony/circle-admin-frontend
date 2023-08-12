@@ -10,6 +10,7 @@ export const useTheme = defineStore('theme', () => {
   const isSmallScreen = ref(false);
   const isMediumScreen = ref(false);
 
+  const closeSidebar = () => isSidebarOpen.value = false;
   const toggleSidebar = () => {
     isSidebarOpen.value = !isSidebarOpen.value;
   };
@@ -40,6 +41,7 @@ export const useTheme = defineStore('theme', () => {
     isSidebarCollapsed,
     isSmallScreen,
     isSummaryOpen,
+    closeSidebar,
     closeSummary,
     openSummary,
     toggleSidebar,

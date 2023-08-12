@@ -12,7 +12,7 @@ definePageMeta({
 const route = useRoute();
 const groupSavingsId = computed(() => route.params.id as string).value;
 
-const url = computed(() => `/goals/${groupSavingsId}`);
+const url = computed(() => `/savings/goals/${groupSavingsId}`);
 
 const { data } = useApiRequest<Saving>({
   url: url as ComputedRef<string> & string,
@@ -35,7 +35,7 @@ useHead({
       :targetAmount="data?.data?.target_amount"
     />
     <CommonDatatable
-      :url="`goals/participants/${groupSavingsId}`"
+      :url="`savings/goals/participants/${groupSavingsId}`"
       service="SAVINGS"
       :search-columns="columns"
       :column="column"
