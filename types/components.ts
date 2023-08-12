@@ -2,6 +2,7 @@ import { ComputedRef, Ref } from 'vue';
 import { NuxtLinkProps } from '#app';
 import { DateTimeFormat } from '~~/utils/filters/dates';
 import { NumberFormat } from '~~/utils/filters/numbers';
+import { Form } from 'vue3-form';
 
 export interface DataListItem {
   title: string;
@@ -25,6 +26,8 @@ export interface DatatableProvision {
   sort: Ref<DatatableSort>;
   clearSelection: () => void;
   loadFromServer: () => void;
+  searchOnServer: () => void;
+  resetOnServer: () => void;
   navigate: (page: number) => void;
   next: () => void;
   prev: () => void;
@@ -104,4 +107,9 @@ export interface LinkProperties {
   namespace?: string;
   title: string;
   to?: NuxtLinkProps['to'];
+}
+
+export interface ConfigurationFormProvision {
+  form: Ref<Form>;
+  updateFormField: (name: string, value: any) => void;
 }

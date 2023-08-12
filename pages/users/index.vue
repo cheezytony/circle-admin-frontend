@@ -11,7 +11,6 @@ definePageMeta({
 useHead({ title: 'Users' });
 
 const columns = ['id', 'firstName', 'lastName', 'email', 'phoneNumber'];
-const column = ref('id');
 
 const dataList: Array<DataListItem> = [
   { title: 'All Users', value: '----' },
@@ -39,8 +38,7 @@ const dataList: Array<DataListItem> = [
       <CommonDatatable
         url="/users"
         service="USER_DATA"
-        :columns="columns"
-        :column="column"
+        :search-columns="columns"
         order-by="created_at"
         :order-by-ascending="false"
       >

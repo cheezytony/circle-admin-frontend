@@ -79,7 +79,7 @@ const is = computed(() => {
       color,
       isLoading || disabled
         ? 'cursor-not-allowed opacity-50'
-        : 'hovers:-translate-y-1 active:scale-[0.99]',
+        : 'hovers:-translate-y-1 active:scale-[0.95]',
     ]"
   >
     <template v-if="isLoading">

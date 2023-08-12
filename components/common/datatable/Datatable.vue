@@ -10,7 +10,6 @@ import {
 import {
   ServiceNames,
   useApiRequest,
-  useServiceBaseUrl,
 } from '~~/utils/hooks/api';
 
 defineExpose();
@@ -217,6 +216,16 @@ const setSearchKey = (key: string) => {
 const setSearchColumn = (column: string) => {
   emit('update:searchColumn', (search.column = column));
 };
+const resetOnServer = () => {
+  meta.page = 1;
+  search.key = '';
+  search.column = searchColumnNames.value[0];
+  loadFromServer();
+};
+const searchOnServer = () => {
+  meta.page = 1;
+  loadFromServer();
+};
 watch(
   [() => props.searchKey, () => props.searchColumn],
   ([searchKey, searchColumn]) => {
@@ -382,7 +391,6 @@ const serverQuery = computed(() => {
     limit: meta.limit,
   };
 });
-const serviceBaseUrl = useServiceBaseUrl(props.service);
 const { isLoading, error, load } = useApiRequest<any[]>({
   baseURL: props.baseUrl,
   url: props.url ?? '',
@@ -441,6 +449,8 @@ provide<DatatableProvision>('datatable', {
   prev,
   navigate,
   clearSelection,
+  searchOnServer,
+  resetOnServer,
   loadFromServer,
   selectAll,
   setSorting,
@@ -546,16 +556,15 @@ provide<DatatableProvision>('datatable', {
       :is-loading="isLoading"
       :paginated-data="paginatedData"
     >
-      <div class="grid place-items-center h-[200px]" v-if="isLoading">
-        <CommonLoaderSmall />
-      </div>
+      <CommonDatatableLoader v-if="isLoading" />
+      <ServerError v-else-if="error" :error="error" />
+      <CommonDatatableEmpty v-else-if="!paginatedData.length" />
       <div
         class="border border-gray-300 flex items-center justify-center min-h-[20rem] rounded-lg"
         v-else-if="!paginatedData.length"
       >
         <p>There are no results to display</p>
       </div>
-      <div v-else-if="error">Error</div>
       <div v-else class="overflow-x-scroll w-full">
         <table
           class="border border-gray-100 border-collapse whitespace-nowrap w-full"

@@ -7,6 +7,8 @@ export interface Configuration extends Model {
   description?: string;
   default: string;
   value?: string;
+  group?: string;
+  order?: number;
   options?: Array<ConfigurationOption>;
   input_type: ConfigurationInputType;
   value_type: ConfigurationValueType;

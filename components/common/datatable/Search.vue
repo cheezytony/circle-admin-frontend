@@ -8,6 +8,7 @@ const {
   searchColumns,
   showSearchColumns,
   searchColumnNames,
+  searchOnServer,
   setSearchColumn,
   setSearchKey,
   navigate,
@@ -66,7 +67,7 @@ const reset = () => {
         :placeholder="`Search ${sentenceCase(search.column || 'All')}`"
         :value="search.key"
         @input="updateInputValue"
-        @keyup.enter="navigate(1)"
+        @keyup.enter="searchOnServer"
       />
       <button
         v-if="search.key?.length"

@@ -58,7 +58,7 @@ const { submit } = useFormRequest(form, { url: '/password', method: 'PUT', autho
         {{ form.success }}
       </CommonMessage>
 
-      <CommonButtonSubmit :form="form"> Save Changes </CommonButtonSubmit>
+      <CommonButtonSubmit :form="form">Save Changes</CommonButtonSubmit>
     </CommonForm>
   </div>
 </template>

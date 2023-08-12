@@ -7,6 +7,7 @@ const props = defineProps<{
 
 const colorScheme = computed<keyof typeof colorsSchemes>(() => {
   switch (props.status.toLocaleLowerCase()) {
+    case 'active':
     case 'completed':
     case 'confirmed':
     case 'fulfilled':
