@@ -1,10 +1,8 @@
 <script lang="ts" setup>
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { ComputedRef } from 'vue';
 import { DataListItem, TabLink } from '~~/types/components';
 import { Admin } from '~~/types/models';
 import { useApiRequest } from '~~/utils/hooks/api';
-import { useAsset } from '~~/utils/hooks/misc';
 
 definePageMeta({
   layout: false,
@@ -47,7 +45,7 @@ const tabs: Array<TabLink> = [
   { title: 'Profile', href: `/admins/${userId.value}`, exact: true },
   // { title: 'Audit Trail', href: `/admins/${userId.value}/audit-trail` },
   { title: 'Permissions', href: `/admins/${userId.value}/permissions` },
-  // { title: 'Edit', href: `/admins/${userId.value}/edit` },
+  { title: 'Edit', href: `/admins/${userId.value}/edit` },
 ];
 
 useHead({
@@ -66,12 +64,7 @@ useHead({
     </template>
     <div>
       <CommonTabs>
-        <div class="flex gap-4 flex-wrap items-center justify-between">
-          <CommonTabsNav :tabs="tabs" />
-          <CommonButton color-scheme="red:soft" left-icon="trash-can" size="sm">
-            Delete
-          </CommonButton>
-        </div>
+        <CommonTabsNav :tabs="tabs" />
       </CommonTabs>
 
       <RouterView v-if="admin" :admin="admin" />

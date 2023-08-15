@@ -1,6 +1,6 @@
 <script lang="ts" setup>
+import { useDisclosure, useFormRequest } from '~/utils';
 import { useForm } from 'vue3-form';
-import { useFormRequest } from '~~/utils/hooks/api';
 
 definePageMeta({
   middleware: ['auth'],
@@ -12,7 +12,7 @@ useHead({
 });
 
 const router = useRouter();
-
+const { isOpen, open, onClose } = useDisclosure();
 const form = useForm({
   first_name: {},
   last_name: {},
@@ -23,19 +23,17 @@ const { submit } = useFormRequest(form, {
   authorize: true,
   url: '/admins',
   method: 'POST',
-  onSuccess: () => {
-    router.push('/admins');
-  },
+  onSuccess: open,
 });
+
+onClose(() => router.push('/admins'));
 </script>
 
 <template>
   <NuxtLayout name="default">
     <template #summary> </template>
-    <div class="max-w-[700px]">
-      <CommonHeading level="2" class="mb-8">
-        Create a new admin
-      </CommonHeading>
+    <div class="max-w-[500px]">
+      <CommonHeading level="2" class="mb-8">Create a new admin</CommonHeading>
 
       <CommonForm @submit="submit">
         <div class="gap-x-8 grid grid-cols-2">
@@ -89,6 +87,9 @@ const { submit } = useFormRequest(form, {
           Submit
         </CommonButtonSubmit>
       </CommonForm>
+      <CommonModalSuccess v-model:is-open="isOpen">
+        Admin Created Successfully
+      </CommonModalSuccess>
     </div>
   </NuxtLayout>
 </template>

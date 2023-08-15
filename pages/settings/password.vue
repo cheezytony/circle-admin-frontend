@@ -1,17 +1,23 @@
 <script lang="ts" setup>
 import { useForm } from 'vue3-form';
-import { useFormRequest } from '~~/utils/hooks/api';
+import { useDisclosure, useFormRequest } from '~/utils';
 
 useHead({
   title: 'Password',
 });
 
+const { isOpen, open } = useDisclosure();
 const form = useForm({
   old_password: {},
   password: {},
   password_confirmation: { rules: ['exact:password'] },
 });
-const { submit } = useFormRequest(form, { url: '/password', method: 'PUT', authorize: true });
+const { submit } = useFormRequest(form, {
+  url: '/password',
+  method: 'PUT',
+  authorize: true,
+  onSuccess: open,
+});
 </script>
 
 <template>
@@ -25,7 +31,6 @@ const { submit } = useFormRequest(form, { url: '/password', method: 'PUT', autho
         :form="form"
         label="Old Password"
         placeholder="e.g. myOldPassword-861"
-        :disabled="!!form.success"
         :can-toggle-password="false"
       />
       <CommonFormGroup
@@ -36,7 +41,6 @@ const { submit } = useFormRequest(form, { url: '/password', method: 'PUT', autho
         :form="form"
         label="New Password"
         placeholder="e.g. myNewPassword-153"
-        :disabled="!!form.success"
         :can-toggle-password="false"
       />
       <CommonFormGroup
@@ -47,7 +51,6 @@ const { submit } = useFormRequest(form, { url: '/password', method: 'PUT', autho
         :form="form"
         label="Confirm Password"
         placeholder="e.g. myNewPassword-153"
-        :disabled="!!form.success"
         :can-toggle-password="false"
       />
 
@@ -60,5 +63,9 @@ const { submit } = useFormRequest(form, { url: '/password', method: 'PUT', autho
 
       <CommonButtonSubmit :form="form">Save Changes</CommonButtonSubmit>
     </CommonForm>
+
+    <CommonModalSuccess v-model:is-open="isOpen">
+      Password Updated Successfully
+    </CommonModalSuccess>
   </div>
 </template>

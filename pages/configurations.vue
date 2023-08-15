@@ -12,7 +12,7 @@ useHead({
 
 const categories: Array<TabLink> = [
   // { title: 'All', href: '/configurations' },
-  // { title: 'Stocks' },
+  { title: 'Stocks', href: '/configurations/stocks' },
   { title: 'Savings', href: '/configurations/savings' },
   // { title: 'Loans' },
   // { title: 'Insurance' },
