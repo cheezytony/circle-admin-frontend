@@ -2,7 +2,7 @@
 import { Configuration } from '~~/types/models';
 import { useApiRequest } from '~~/utils/hooks/api';
 
-const { data, isLoading, load } = useApiRequest<Array<Configuration>>({
+const { data, isLoading, error } = useApiRequest<Array<Configuration>>({
   url: '/configurations',
   authorize: true,
   autoLoad: true,
@@ -14,6 +14,7 @@ const configurations = computed(() => data.value?.data || []);
 <template>
   <div>
     <PageSectionsConfigurationLoader v-if="isLoading" />
+    <ServerError v-else-if="error" :error="error" />
     <PageSectionsConfiguration
       v-else-if="configurations"
       v-bind="{ configurations, service: 'WALLET' }"

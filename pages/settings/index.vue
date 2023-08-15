@@ -3,12 +3,13 @@ import { storeToRefs } from 'pinia';
 import { useForm } from 'vue3-form';
 import { useAuth } from '~~/store/auth';
 import { Admin } from '~~/types/models';
-import { useFormRequest } from '~~/utils/hooks/api';
+import { useDisclosure, useFormRequest } from '~/utils';
 
 useHead({
   title: 'My Profile',
 });
 
+const { isOpen, open } = useDisclosure();
 const { user, avatar } = storeToRefs(useAuth());
 const { updateUser } = useAuth();
 const form = useForm({
@@ -22,7 +23,14 @@ const { submit } = useFormRequest<{ user: Admin }>(form, {
   url: '/profile',
   method: 'POST',
   useFormData: true,
-  onSuccess: (data) => data?.data?.user && updateUser(data?.data.user),
+  onSuccess: (data) => {
+    data?.data?.user && updateUser(data?.data.user);
+    open();
+  },
+  onUploadProgress: (event) => {
+    console.log('progress');
+    console.log(event.progress);
+  },
   onDownloadProgress: () => {
     console.log('progress');
   },
@@ -109,5 +117,9 @@ onMounted(mapFormData);
         <CommonButtonSubmit :form="form">Save Changes</CommonButtonSubmit>
       </div>
     </CommonForm>
+
+    <CommonModalSuccess v-model:is-open="isOpen">
+      Profile Updated Successfully
+    </CommonModalSuccess>
   </div>
 </template>

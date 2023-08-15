@@ -3,14 +3,32 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { useCountries, Country } from '~~/store/countries';
 
 const emit = defineEmits(['update:modelValue']);
-defineProps<{
-  type?: string;
-  modelValue?: string | number;
-}>();
+const props = withDefaults(
+  defineProps<{
+    type?: string;
+    modelValue?: string | number;
+  }>(),
+  {
+    type: 'text',
+    modelValue: '',
+  }
+);
 
 const inputRef = ref<HTMLInputElement>();
 
-const value = ref<string>('');
+const splitValue = (value: string) => {
+  const country = countries.find(({ dialCode }) => {
+    return value.startsWith(dialCode);
+  });
+  if (!country) return;
+
+  selectedCountry.value = country;
+  value = value.replace(country.dialCode, '');
+
+  return { country, value };
+};
+
+const inputValue = ref<string>('');
 const { countries } = useCountries();
 const search = ref<string>('');
 const filteredCountries = computed(() => {
@@ -46,6 +64,26 @@ const focus = () => {
     inputRef.value?.focus();
   }, 100);
 };
+
+const updateInputValue = (value: string) => {
+  const split = splitValue(value);
+  if (!split) {
+    inputValue.value = value;
+    return;
+  }
+  selectedCountry.value = split.country;
+  inputValue.value = split.value;
+}
+
+onMounted(() => {
+  updateInputValue(props.modelValue as string);
+});
+watch(
+  () => props.modelValue,
+  (value) => {
+    updateInputValue(value as string);
+  }
+);
 </script>
 
 <template>
@@ -106,7 +144,7 @@ const focus = () => {
         {{ selectedCountry.dialCode }}
       </span>
       <input
-        v-model="value"
+        v-model="inputValue"
         v-on="listeners"
         type="text"
         inputmode="numeric"

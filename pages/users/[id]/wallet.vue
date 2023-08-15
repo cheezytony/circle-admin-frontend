@@ -23,7 +23,7 @@ const currencyFlagMap = computed(() => ({
 
 const { data, isLoading, error } = useApiRequest<Array<Wallet>>({
   service: 'WALLET',
-  url: `/wallets/${props.user.id}ss`,
+  url: `/wallets/${props.user.id}`,
   authorize: true,
   autoLoad: true,
 });
