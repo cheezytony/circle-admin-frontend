@@ -6,9 +6,9 @@ const { data, isLoading, error } = useApiRequest<Array<Configuration>>({
   url: '/configurations',
   authorize: true,
   autoLoad: true,
-  service: 'SAVINGS',
+  service: 'STOCKS',
 });
-const configurations = computed(() => data.value?.data ?? []);
+const configurations = computed(() => data.value?.data || []);
 </script>
 
 <template>
@@ -17,7 +17,7 @@ const configurations = computed(() => data.value?.data ?? []);
     <ServerError v-else-if="error" :error="error" />
     <PageSectionsConfiguration
       v-else-if="configurations"
-      v-bind="{ configurations, service: 'WALLET' }"
+      v-bind="{ configurations, service: 'STOCKS' }"
     />
   </div>
 </template>

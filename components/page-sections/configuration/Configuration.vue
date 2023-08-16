@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ConfigurationFormProvision } from '~/types/components';
 import { Configuration, ConfigurationValueType } from '~/types/models';
-import { ServiceNames, useFormRequest } from '~/utils/hooks/api';
+import { ServiceNames, useDisclosure, useFormRequest } from '~/utils';
 import { FormField, useForm } from 'vue3-form';
 
 const props = defineProps<{
@@ -9,6 +9,7 @@ const props = defineProps<{
   service: ServiceNames;
 }>();
 
+const { isOpen, open } = useDisclosure();
 const configurations = computed(() => {
   return props.configurations?.sort((a, b) => {
     const aOrder = (a.order ?? 0).toString();
@@ -60,6 +61,7 @@ const {
   service: props.service,
   authorize: true,
   wrapperKey: 'configurations',
+  onSuccess: open,
 });
 
 const reset = () => {
@@ -123,4 +125,8 @@ provide<ConfigurationFormProvision>('CONFIGURATION_FORM', {
       </div>
     </CommonCard>
   </CommonForm>
+
+  <CommonModalSuccess v-model:is-open="isOpen">
+    Configurations Updated Successfully
+  </CommonModalSuccess>
 </template>

@@ -26,6 +26,7 @@ const props = withDefaults(
     data?: any[];
     filterable?: boolean;
     filters?: Array<DatatableFilter>;
+    isLoading?: boolean;
     limitable?: boolean;
     limit?: number;
     orderBy?: string;
@@ -48,6 +49,7 @@ const props = withDefaults(
     data: () => [],
     filterable: true,
     filters: () => [],
+    isLoading: false,
     limitable: true,
     limit: 10,
     orderByAscending: true,
@@ -427,6 +429,10 @@ onMounted(() => {
 });
 // ========================================================================================================================
 
+const isDataLoading = computed(() => {
+  return mode.value === 'server' ? isLoading.value : props.isLoading;
+});
+
 provide<DatatableProvision>('datatable', {
   getSelectionIndex,
   searchColumns: props.searchColumns,
@@ -553,10 +559,10 @@ provide<DatatableProvision>('datatable', {
     <slot
       name="table"
       :error="error"
-      :is-loading="isLoading"
+      :is-loading="isDataLoading"
       :paginated-data="paginatedData"
     >
-      <CommonDatatableLoader v-if="isLoading" />
+      <CommonDatatableLoader v-if="isDataLoading" />
       <ServerError v-else-if="error" :error="error" />
       <CommonDatatableEmpty v-else-if="!paginatedData.length" />
       <div

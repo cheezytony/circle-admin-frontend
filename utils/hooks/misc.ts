@@ -108,6 +108,7 @@ export interface Disclosure {
   open: () => void;
   close: () => void;
   toggle: () => void;
+  update: (value: boolean) => void;
   onClose: (callback: DisclosureEventListener) => void;
   onOpen: (callback: DisclosureEventListener) => void;
   onToggle: (callback: DisclosureEventListener) => void;
@@ -123,6 +124,7 @@ export const useDisclosure = (initialValue = false) => {
   const close = () => (isOpen.value = false);
   const open = () => (isOpen.value = true);
   const toggle = () => (isOpen.value = !isOpen.value);
+  const update = (value: boolean) => (isOpen.value = value);
   const onClose = (callback: DisclosureEventListener) => {
     listeners.close.push(callback);
   };
@@ -148,6 +150,7 @@ export const useDisclosure = (initialValue = false) => {
     close,
     open,
     toggle,
+    update,
     onClose,
     onOpen,
     onToggle,
