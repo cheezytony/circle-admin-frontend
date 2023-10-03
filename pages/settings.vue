@@ -30,12 +30,12 @@ const links: Array<TabLink> = [
 <template>
   <NuxtLayout name="default">
     <div>
-      <CommonPageHeading>
-        <CommonHeading level="2">Settings</CommonHeading>
-      </CommonPageHeading>
-      <CommonTabs>
-        <CommonTabsNav :tabs="links" />
-      </CommonTabs>
+      <PageHeading>
+        <Heading level="2">Settings</Heading>
+      </PageHeading>
+      <Tabs>
+        <TabsNav :tabs="links" />
+      </Tabs>
 
       <div class="max-w-[500px]">
         <RouterView />

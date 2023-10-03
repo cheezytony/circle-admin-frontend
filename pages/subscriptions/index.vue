@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { DataListItem } from '~~/types/components';
-import { Subscription } from '~~/types/models';
+import { Subscription, SubscriptionEx } from '~~/types/models';
 import { dateTimeFormat } from '~~/utils/filters/dates';
 import { numberFormat } from '~~/utils/filters/numbers';
 
@@ -12,63 +12,55 @@ definePageMeta({
 useHead({ title: 'Subscriptions' });
 
 const columns = [{ name: 'user_id', title: 'User ID' }];
-
-const dataList: Array<DataListItem> = [];
 </script>
 
 <template>
-  <NuxtLayout name="default">
-    <template #summary>
-      <CommonSummaryHeading>Overview</CommonSummaryHeading>
-
-      <CommonDataList :data="dataList" />
-    </template>
-    <div>
-      <CommonPageHeading>
-        <CommonHeading level="2">All Subscriptions</CommonHeading>
-      </CommonPageHeading>
-
-      <CommonDatatable
-        url="/subscriptions"
-        service="SUBSCRIPTIONS"
-        :search-columns="columns"
-      >
-        <template #heading>
-          <CommonDatatableTH>User</CommonDatatableTH>
-          <CommonDatatableTH name="plan_id">Plan</CommonDatatableTH>
-          <CommonDatatableTH name="amount">Amount</CommonDatatableTH>
-          <CommonDatatableTH name="status">Status</CommonDatatableTH>
-          <CommonDatatableTH name="start_date">Date Activated</CommonDatatableTH>
-          <CommonDatatableTH name="next_savings_date">Next Savings Date</CommonDatatableTH>
-        </template>
-        <template #default="{ row }: { row: Subscription }">
-          <CommonDatatableRow>
-            <CommonDatatableTD>
-              <span class="flex flex-col gap-1">
-                <span>{{ row.user?.firstName }} {{ row.user?.lastName }}</span>
-                <span class="text-xs opacity-50">{{ row.user_id }}</span>
-              </span>
-            </CommonDatatableTD>
-            <CommonDatatableTD>{{ row.plan?.name }}</CommonDatatableTD>
-            <CommonDatatableTD>
-              {{ numberFormat(row.amount, 'currency') }}
-            </CommonDatatableTD>
-            <CommonDatatableTD>
-              <CommonBadgeStatus :status="row.status" />
-            </CommonDatatableTD>
-            <CommonDatatableTD>
-              {{ optional(row.start_date, [[dateTimeFormat, 'date:compact']]) }}
-            </CommonDatatableTD>
-            <CommonDatatableTD>
-              {{
-                optional(row.next_savings_date, [
-                  [dateTimeFormat, 'date:compact'],
-                ])
-              }}
-            </CommonDatatableTD>
-          </CommonDatatableRow>
-        </template>
-      </CommonDatatable>
-    </div>
-  </NuxtLayout>
+  <div>
+    <Datatable
+      url="/subscriptions"
+      service="SUBSCRIPTIONS"
+      :search-columns="columns"
+      :model="SubscriptionEx"
+    >
+      <template #heading>
+        <DatatableTH>User</DatatableTH>
+        <DatatableTH name="plan_id">Plan</DatatableTH>
+        <DatatableTH align="right" name="amount">
+          Amount
+        </DatatableTH>
+        <DatatableTH name="status">Status</DatatableTH>
+        <DatatableTH name="start_date">Date Activated</DatatableTH>
+        <DatatableTH name="next_savings_date">
+          Next Savings Date
+        </DatatableTH>
+      </template>
+      <template #default="{ row }">
+        <DatatableRow :to="`/users/${row.user_id}/subscriptions`">
+          <DatatableTD>
+            <span class="flex flex-col gap-1">
+              <span>{{ row.user?.firstName }} {{ row.user?.lastName }}</span>
+              <span class="text-xs opacity-50">{{ row.user_id }}</span>
+            </span>
+          </DatatableTD>
+          <DatatableTD>{{ row.plan?.name }}</DatatableTD>
+          <DatatableTD align="right">
+            {{ numberFormat(row.amount, 'currency') }}
+          </DatatableTD>
+          <DatatableTD>
+            <BadgeStatus :status="row.status" />
+          </DatatableTD>
+          <DatatableTD>
+            {{ optional(row.start_date, [[dateTimeFormat, 'date:compact']]) }}
+          </DatatableTD>
+          <DatatableTD>
+            {{
+              optional(row.next_savings_date, [
+                [dateTimeFormat, 'date:compact'],
+              ])
+            }}
+          </DatatableTD>
+        </DatatableRow>
+      </template>
+    </Datatable>
+  </div>
 </template>

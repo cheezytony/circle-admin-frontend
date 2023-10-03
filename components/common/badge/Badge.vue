@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import { colorsSchemes, getColorScheme } from '~~/utils/theme';
+import { ApplicationColor } from '~/utils';
 
 const props = defineProps<{
-  colorScheme?: keyof typeof colorsSchemes;
+  colorScheme?: ApplicationColor;
 }>();
 
-const colorScheme = computed(() => getColorScheme(props.colorScheme));
+const colorScheme = computed(() => getAppColor(props.colorScheme, ['bg', 'border', 'text']));
 </script>
 
 <template>

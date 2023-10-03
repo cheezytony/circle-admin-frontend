@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { DatatableItem } from '~/types';
 import { SavingsTransaction } from '~~/types/models';
 import { dateTimeFormat } from '~~/utils/filters/dates';
 import { numberFormat } from '~~/utils/filters/numbers';
@@ -28,34 +29,34 @@ useHead({
 
 <template>
   <div>
-    <CommonPageHeading>
-      <CommonHeading level="2">Savings History</CommonHeading>
-    </CommonPageHeading>
+    <PageHeading>
+      <Heading level="2">Savings History</Heading>
+    </PageHeading>
 
-    <CommonDatatable
+    <Datatable
       :url="`savings/saving-history/${savingsId}`"
       service="SAVINGS"
       :filters="filters"
       :search-columns="columns"
     >
       <template #heading>
-        <CommonDatatableTH name="id">ID</CommonDatatableTH>
-        <CommonDatatableTH name="amount">Amount</CommonDatatableTH>
-        <CommonDatatableTH name="currency">Currency</CommonDatatableTH>
-        <CommonDatatableTH name="feference">Reference</CommonDatatableTH>
-        <CommonDatatableTH name="description">Description</CommonDatatableTH>
-        <CommonDatatableTH name="category">Category</CommonDatatableTH>
-        <CommonDatatableTH name="status">Status </CommonDatatableTH>
-        <CommonDatatableTH name="created_at">Date </CommonDatatableTH>
+        <DatatableTH name="id">ID</DatatableTH>
+        <DatatableTH name="amount">Amount</DatatableTH>
+        <DatatableTH name="currency">Currency</DatatableTH>
+        <DatatableTH name="feference">Reference</DatatableTH>
+        <DatatableTH name="description">Description</DatatableTH>
+        <DatatableTH name="category">Category</DatatableTH>
+        <DatatableTH name="status">Status </DatatableTH>
+        <DatatableTH name="created_at">Date </DatatableTH>
       </template>
-      <template #default="{ row }: { row: SavingsTransaction }">
-        <CommonDatatableRow>
-          <CommonDatatableTD>
+      <template #default="{ row }: DatatableItem<SavingsTransaction>">
+        <DatatableRow>
+          <DatatableTD>
             <div class="flex items-center gap-3">
               {{ row.id }}
             </div>
-          </CommonDatatableTD>
-          <CommonDatatableTD>
+          </DatatableTD>
+          <DatatableTD>
             {{
               numberFormat(
                 row.amount,
@@ -63,18 +64,18 @@ useHead({
                 row.type == 'DOLLAR' ? 'USD' : 'NGN'
               )
             }}
-          </CommonDatatableTD>
-          <CommonDatatableTD> {{ row.currency }}</CommonDatatableTD>
-          <CommonDatatableTD> {{ row.reference }}</CommonDatatableTD>
-          <CommonDatatableTD> {{ row.description }}</CommonDatatableTD>
-          <CommonDatatableTD> {{ row.category }}</CommonDatatableTD>
+          </DatatableTD>
+          <DatatableTD> {{ row.currency }}</DatatableTD>
+          <DatatableTD> {{ row.reference }}</DatatableTD>
+          <DatatableTD> {{ row.description }}</DatatableTD>
+          <DatatableTD> {{ row.category }}</DatatableTD>
 
-          <CommonDatatableTD> {{ row.status }}</CommonDatatableTD>
-          <CommonDatatableTD>
+          <DatatableTD> {{ row.status }}</DatatableTD>
+          <DatatableTD>
             {{ dateTimeFormat(row.created_at, 'date:compact') }}
-          </CommonDatatableTD>
-        </CommonDatatableRow>
+          </DatatableTD>
+        </DatatableRow>
       </template>
-    </CommonDatatable>
+    </Datatable>
   </div>
 </template>

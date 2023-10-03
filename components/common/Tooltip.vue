@@ -1,9 +1,15 @@
 <script lang="ts" setup>
+import { BasePlacement, VariationPlacement } from '@popperjs/core';
+import { Popper } from '#components';
+
 const positions = {
-  'top-left': 'bottom-full left-0 -translate-y-6',
-  'top-center': 'bottom-full left-1/2 -translate-x-1/2 -translate-y-6',
-  'top-right': 'bottom-full right-0 -translate-y-6',
-  'right-center': 'left-full top-1/2 translate-x-6 -translate-y-1/2',
+  // 'auto': 'bottom-full left-1/2 -translate-x-1/2 -translate-y-6',
+  // 'top-start': 'bottom-full left-0 -translate-y-6',
+  'bottom': 'top-full left-1/2 -translate-x-1/2 -translate-y-6',
+  'top': 'bottom-full left-1/2 -translate-x-1/2 -translate-y-6',
+  // 'top-end': 'bottom-full right-0 -translate-y-6',
+  'right': 'left-full top-1/2 translate-x-6 -translate-y-1/2',
+  'left': 'right-full top-1/2 translate-x-6 -translate-y-1/2',
 };
 
 const arrowPositions = {
@@ -11,35 +17,29 @@ const arrowPositions = {
   right: 'border-[6px] border-r-black top-1/2 right-full -translate-y-1/2',
 };
 
-const wrapper = ref<HTMLDivElement>();
-const boundingRect = ref<DOMRect>();
-
 const props = withDefaults(
   defineProps<{
     isActive?: boolean;
     content: string;
-    placement?: keyof typeof positions;
+    placement?: BasePlacement;
     trigger?: 'hover' | 'click';
   }>(),
   {
     isActive: true,
     trigger: 'hover',
-    placement: 'top-center',
+    placement: 'top',
   }
 );
 
+const popperRef = ref<InstanceType<typeof Popper>>();
 const isOpen = ref(false);
 const arrowPlacement = computed(
   () => props.placement.split('-')[0] as keyof typeof arrowPositions
 );
-const width = computed(() => `${boundingRect.value?.width || 0}px`);
-const height = computed(() => `${boundingRect.value?.height || 0}px`);
-const left = computed(() => `${boundingRect.value?.left || 0}px`);
-const top = computed(() => `${boundingRect.value?.top || 0}px`);
 
 const handleMouseEnter = () => {
+  popperRef.value?.updatePosition();
   if (props.trigger === 'hover' && props.isActive) {
-    updateCoordinates();
     isOpen.value = true;
   }
 };
@@ -48,50 +48,41 @@ const handleMouseLeave = () => {
     isOpen.value = false;
   }
 };
-
-const updateCoordinates = () => {
-  if (!wrapper.value) return;
-  boundingRect.value = wrapper.value.getBoundingClientRect();
-};
-
-onMounted(updateCoordinates);
 </script>
 
 <template>
-  <div
-    ref="wrapper"
-    class="relative inline-block"
+  <Popper
+    ref="popperRef"
+    :placement="placement"
+    z-index="9999"
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
   >
-    <slot />
-    <Teleport to="body">
-      <div
-        class="fixed pointer-events-none z-[9999]"
-        :style="{ width, height, top, left }"
+    <template #default>
+      <slot />
+    </template>
+    <template #popper>
+      <Transition
+        enter-active-class="duration-300"
+        enter-from-class="opacity-0 scale-90"
+        leave-active-class="duration-300"
+        leave-to-class="opacity-0 scale-90"
       >
-        <Transition
-          enter-active-class="duration-300"
-          enter-from-class="opacity-0 scale-90"
-          leave-active-class="duration-300"
-          leave-to-class="opacity-0 scale-90"
+        <div
+          v-if="isOpen && isActive"
+          class="absolute bg-black px-4 py-2 rounded shadow-md pointer-events-none text-white text-xs"
+          :class="positions[props.placement]"
         >
-          <div
-            v-if="isOpen && isActive"
-            class="absolute bg-black px-4 py-2 rounded shadow-md text-white text-xs"
-            :class="positions[props.placement]"
+          <span
+            class="absolute border-transparent"
+            :class="[arrowPositions[arrowPlacement]]"
           >
-            <span
-              class="absolute border-transparent"
-              :class="[arrowPositions[arrowPlacement]]"
-            >
-            </span>
-            <span v-html="props.content" class="whitespace-nowrap"></span>
-          </div>
-        </Transition>
-      </div>
-    </Teleport>
-  </div>
+          </span>
+          <span v-html="props.content" class="whitespace-nowrap"></span>
+        </div>
+      </Transition>
+    </template>
+  </Popper>
 </template>
 
 <!-- isOpen && isActive -->

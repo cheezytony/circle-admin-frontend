@@ -1,6 +1,6 @@
 import { Model, User } from '.';
 
-export interface Account extends Model {
+export interface StockAccount extends Model {
   id: string;
   user_id: string;
   provider_id: string;
@@ -47,7 +47,7 @@ export interface Trader extends Model {
   provider_id: string;
   status: TraderStatus;
 
-  accounts: Account[];
+  accounts: StockAccount[];
 }
 
 export enum TraderStatus {
@@ -72,10 +72,11 @@ export interface StockOrder extends Model {
   type: StockOrderType;
   status: StockOrderStatus;
 
-  account: Account;
+  account: StockAccount;
   instrument: StockInstrument;
   user?: User;
 }
+export const StockOrderEx = {} as StockOrder;
 
 export enum StockOrderSide {
   BUY = 'BUY',
@@ -130,4 +131,60 @@ enum StockInstrumentType {
   ETN = 'ETN',
   ALTERNATIVE_ASSET = 'ALTERNATIVE_ASSET',
   CRYPTO = 'CRYPTO',
+}
+
+export interface StockAccountMoneySummary {
+  accountID: StockAccount['provider_id'];
+  accountNo: StockAccount['number'];
+  tradingType: AccountTradingType;
+  updated: Date;
+  cash: {
+    cashAvailableForTrade: number;
+    cashAvailableForWithdrawal: number;
+    cashBalance: number;
+    noBuyingPowerReason?: string;
+    cashSettlement: Array<{
+      utcTime: Date;
+      cash: number;
+    }>;
+    pendingPaymentsAmount: number;
+  };
+  payments: {
+    buyingPower: {
+      pendingDepositsAmountAvailable?: number;
+      pendingDepositsAmountNotAvailable?: number;
+    };
+    redemptions: {
+      amountWithheldFromRedemptions?: number;
+    };
+  };
+}
+export interface StockAccountPositionsSummary {
+  accountID: StockAccount['provider_id'];
+  accountNo: StockAccount['number'];
+  tradingType: AccountTradingType;
+  equityValue: number;
+  updated: Date;
+  equityPositions: Array<{
+    symbol: StockInstrument['symbol'];
+    instrumentID: StockInstrument['provider_id'];
+    openQty: number;
+    availableForWithdrawalQty: number | null;
+    costBasis: number;
+    marketValue: number;
+    side: 'B' | 'S';
+    priorClose: number;
+    availableForTradingQty: number;
+    avgPrice: number;
+    mktPrice: number;
+    unrealizedPL: number;
+    unrealizedDayPLPercent: number;
+    unrealizedDayPL: number;
+  }>;
+}
+
+export interface StockAccountSummary {
+  account: StockAccount;
+  summary: StockAccountMoneySummary;
+  positions: StockAccountPositionsSummary;
 }

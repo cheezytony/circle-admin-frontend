@@ -20,7 +20,7 @@ export const useAuth = defineStore(
       user: Admin;
       token: string;
     }>({
-      url: '/auth/refresh',
+      url: '/profile',
       authorize: true,
       onSuccess: (data) => data?.data && login(data?.data),
     });
@@ -36,12 +36,19 @@ export const useAuth = defineStore(
     const isLoggedIn = ref<boolean>(false);
     const token = ref<string>();
     const user = ref<Partial<Admin>>();
+    const expiresAt = ref<Date>();
+    const now = ref(new Date());
 
     /*
     --------------------------------------------------------------------------------------------------------
     | Getters.
     --------------------------------------------------------------------------------------------------------
     */
+    const timeToExpiry = computed(() => {
+      if (!expiresAt.value) return 0;
+      const then = new Date(expiresAt.value as Date | string);
+      return then.getTime() - now.value.getTime();
+    });
     const avatar = computed(() => {
       const avatar = user.value?.avatar;
       if (!avatar) return null;
@@ -63,6 +70,11 @@ export const useAuth = defineStore(
     | Actions.
     --------------------------------------------------------------------------------------------------------
     */
+    const updateNow = () => {
+      now.value = new Date();
+      setTimeout(updateNow, 1000);
+    };
+    updateNow();
     const updateUser = (payload: Admin) => (user.value = payload);
     const updatePassword = () => {
       if (!user.value) return;
@@ -72,14 +84,19 @@ export const useAuth = defineStore(
       isLoggedIn.value = !!(payload.token && payload.user);
       token.value = payload.token;
       user.value = payload.user;
+      const expiry = new Date();
+      expiry.setSeconds(expiry.getSeconds() + 3600 * 6);
+      // expiry.setSeconds(expiry.getSeconds() + 30);
+      expiresAt.value = expiry;
     };
     const logout = (): void => {
       isLoggedIn.value = false;
       token.value = undefined;
       user.value = undefined;
+      expiresAt.value = undefined;
       router.push('/login');
     };
-
+    
     /*
     --------------------------------------------------------------------------------------------------------
     | Data to be made accessible to the application.
@@ -89,6 +106,8 @@ export const useAuth = defineStore(
       isLoggedIn,
       token,
       user,
+      expiresAt,
+      timeToExpiry,
       avatar,
       name,
       initials,

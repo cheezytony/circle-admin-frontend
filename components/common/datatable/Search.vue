@@ -38,7 +38,7 @@ const reset = () => {
 
 <template>
   <div class="bg-gray-100 flex flex-grow items-center relative rounded p-2">
-    <CommonDropdown v-if="showSearchColumns" class="flex-shrink-0" :items="columns">
+    <Dropdown v-if="showSearchColumns" class="flex-shrink-0" :items="columns">
       <template #default="{ isOpen }">
         <button
           type="button"
@@ -56,7 +56,7 @@ const reset = () => {
         </button>
       </template>
       
-    </CommonDropdown>
+    </Dropdown>
     <div class="relative w-full">
       <!-- <span class="absolute left-5 text-gray-400 top-1/2 -translate-y-1/2">
         <FontAwesomeIcon icon="search" />

@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { DatatableItem } from '~/types';
 import { Saving } from '~~/types/models';
 import { dateTimeFormat } from '~~/utils/filters/dates';
 import { numberFormat } from '~~/utils/filters/numbers';
@@ -16,71 +17,71 @@ const column = ref('id');
 
 <template>
   <div>
-    <CommonPageHeading>
-      <CommonHeading level="2">Flexi Savings</CommonHeading>
-    </CommonPageHeading>
+    <PageHeading>
+      <Heading level="2">Flexi Savings</Heading>
+    </PageHeading>
 
-    <CommonDatatable
+    <Datatable
       url="savings/flexi"
       service="SAVINGS"
       :search-columns="columns"
       :column="column"
     >
       <template #heading>
-        <CommonDatatableTH>User Name </CommonDatatableTH>
-        <CommonDatatableTH>Phone Number </CommonDatatableTH>
-        <CommonDatatableTH name="id">Savings ID</CommonDatatableTH>
-        <CommonDatatableTH name="frequency">Frequency</CommonDatatableTH>
-        <CommonDatatableTH name="amount_to_debit">
+        <DatatableTH>User Name </DatatableTH>
+        <DatatableTH>Phone Number </DatatableTH>
+        <DatatableTH name="id">Savings ID</DatatableTH>
+        <DatatableTH name="frequency">Frequency</DatatableTH>
+        <DatatableTH name="amount_to_debit">
           Amount to Save
-        </CommonDatatableTH>
-        <CommonDatatableTH name="funding_source">
+        </DatatableTH>
+        <DatatableTH name="funding_source">
           Payment Method
-        </CommonDatatableTH>
-        <CommonDatatableTH name="total_earnings">
+        </DatatableTH>
+        <DatatableTH name="total_earnings">
           Total Amount Accured Balance
-        </CommonDatatableTH>
-        <CommonDatatableTH name="total_earnings">
+        </DatatableTH>
+        <DatatableTH name="total_earnings">
           Total Amount Saved
-        </CommonDatatableTH>
-        <CommonDatatableTH name="earnings">
+        </DatatableTH>
+        <DatatableTH name="earnings">
           Total Interest Earned
-        </CommonDatatableTH>
-        <CommonDatatableTH name="status">Status </CommonDatatableTH>
-        <CommonDatatableTH name="created_at">Date Created</CommonDatatableTH>
+        </DatatableTH>
+        <DatatableTH name="status">Status </DatatableTH>
+        <DatatableTH name="created_at">Date Created</DatatableTH>
       </template>
-      <template #default="{ row }: { row: Saving }">
-        <CommonDatatableRow :to="`/savings/history/${row.id}?type=${'FLEXI'}`">
-          <CommonDatatableTD>
+      <template #default="{ row }: DatatableItem<Saving>">
+        <DatatableRow :to="`/savings/history/${row.id}?type=${'FLEXI'}`">
+          <DatatableTD>
             <span class="flex flex-col gap-1">
               <span>{{ row.user?.firstName }} {{ row.user?.lastName }}</span>
               <span class="text-xs opacity-50">{{ row.user_id }}</span>
             </span>
-          </CommonDatatableTD>
-          <CommonDatatableTD>
+          </DatatableTD>
+          <DatatableTD>
             {{ row.user?.phoneNumber || 'N/A' }}
-          </CommonDatatableTD>
-          <CommonDatatableTD>{{ row.id }}</CommonDatatableTD>
-          <CommonDatatableTD>{{ row.frequency }}</CommonDatatableTD>
-          <CommonDatatableTD>
+          </DatatableTD>
+          <DatatableTD>{{ row.id }}</DatatableTD>
+          <DatatableTD>{{ row.frequency }}</DatatableTD>
+          <DatatableTD>
             {{ numberFormat(row.amount_to_debit, 'currency') }}
-          </CommonDatatableTD>
-          <CommonDatatableTD>{{ row.funding_source }}</CommonDatatableTD>
-          <CommonDatatableTD>
+          </DatatableTD>
+          <DatatableTD>{{ row.funding_source }}</DatatableTD>
+          <DatatableTD>
             {{ numberFormat(row.total_earnings, 'currency') }}
-          </CommonDatatableTD>
-          <CommonDatatableTD>
+          </DatatableTD>
+          <DatatableTD>
             {{ numberFormat(row.amount_saved, 'currency') }}
-          </CommonDatatableTD>
-          <CommonDatatableTD
+          </DatatableTD>
+          <DatatableTD
             >{{ numberFormat(row.earnings, 'currency') }}
-          </CommonDatatableTD>
-          <CommonDatatableTD>{{ row.status }}</CommonDatatableTD>
-          <CommonDatatableTD>
+          </DatatableTD>
+          <DatatableTD>{{ row.status }}</DatatableTD>
+          <DatatableTD>
             {{ dateTimeFormat(row.created_at, 'date:compact') }}
-          </CommonDatatableTD>
-        </CommonDatatableRow>
+          </DatatableTD>
+        </DatatableRow>
       </template>
-    </CommonDatatable>
+    </Datatable>
   </div>
 </template>

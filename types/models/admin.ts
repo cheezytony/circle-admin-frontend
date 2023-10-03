@@ -10,6 +10,8 @@ export interface Admin extends Model {
   password_changed_at?: string;
 }
 
+export const AdminEx = {} as Admin;
+
 export interface Permission extends Model {
   slug: string;
   description: string;

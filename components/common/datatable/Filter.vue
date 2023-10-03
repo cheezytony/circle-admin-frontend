@@ -165,7 +165,7 @@ watch(filterItems.value, (value) => {
   <div class="bg-gray-100 flex flex-wrap gap-4 items-center p-2">
     <template v-for="(filterItem, index) in filterItems" :key="filterItem.id">
       <div class="flex">
-        <CommonDropdown :items="filters">
+        <Dropdown :items="filters">
           <button class="bg-white px-3 py-1 text-sm" type="button">
             <span v-if="filterItem.filter">
               {{ filterItem.filter.title }}
@@ -182,10 +182,10 @@ watch(filterItems.value, (value) => {
               {{ filter.title }}
             </button>
           </template>
-        </CommonDropdown>
+        </Dropdown>
         <template v-if="filterItem.filter?.type === 'custom'">
           <div class="border-l border-gray-200" />
-          <CommonDropdown :items="operators">
+          <Dropdown :items="operators">
             <button class="bg-white px-3 py-1 text-sm" type="button">
               {{ filterItem.filter.operator || 'select operator' }}
             </button>
@@ -199,7 +199,7 @@ watch(filterItems.value, (value) => {
                 {{ operator.title }}
               </button>
             </template>
-          </CommonDropdown>
+          </Dropdown>
 
           <input
             v-if="filterItem.filter.operator"
@@ -212,17 +212,17 @@ watch(filterItems.value, (value) => {
             "
           />
         </template>
-        <CommonButton
+        <Button
           color-scheme="gray:soft"
           size="sm"
           @click="removeFilterItem(index)"
         >
           <FontAwesomeIcon icon="minus" />
-        </CommonButton>
+        </Button>
       </div>
     </template>
-    <CommonButton color-scheme="gray:soft" size="sm" @click="addFilterItem">
+    <Button color-scheme="gray:soft" size="sm" @click="addFilterItem">
       <FontAwesomeIcon icon="plus" />
-    </CommonButton>
+    </Button>
   </div>
 </template>

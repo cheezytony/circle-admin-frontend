@@ -1,5 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  devtools: process.env.NODE_ENV !== 'production',
   ssr: false,
 
   css: [
@@ -27,6 +28,12 @@ export default defineNuxtConfig({
       },
     },
   },
+  components: [
+    { path: '~/components/common' },
+    { path: '~/components/illustrations', prefix: 'Illustrations' },
+    { path: '~/components/layout-sections' },
+    { path: '~/components/modules' },
+  ],
   runtimeConfig: {
     public: {
       apiTokenStorageKey:

@@ -88,7 +88,7 @@ watch(
 
 <template>
   <div class="flex gap-2">
-    <CommonDropdown @open="focus">
+    <Dropdown @open="focus">
       <button
         type="button"
         class="border flex font-medium gap-2 h-full items-center px-4 rounded"
@@ -136,7 +136,7 @@ watch(
           </template>
         </div>
       </template>
-    </CommonDropdown>
+    </Dropdown>
     <label
       class="bg-transparent flex h-full input items-center focus:outline-none"
     >

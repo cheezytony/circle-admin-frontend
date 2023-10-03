@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useDisclosure } from '~/utils/hooks/misc';
+import { useAssetFunction, useDisclosure } from '~/utils/hooks/misc';
 import { DataListItem } from '~~/types/components';
 import { Admin } from '~~/types/models';
 
@@ -14,11 +14,11 @@ const admin = computed(() => props.admin);
 const initials = computed(() => {
   return `${props.admin?.first_name?.[0]}${props.admin?.last_name?.[0]}`;
 });
+const getAsset = useAssetFunction();
 const avatar = computed(() => {
-  return (
-    props.admin?.avatar ||
-    `https://ui-avatars.com/api/?background=000&color=fff&font-size=0.4&size=128name=${initials.value}`
-  );
+  const avatar = props.admin?.avatar;
+  if (avatar) return getAsset(avatar);
+  return `https://ui-avatars.com/api/?background=000&color=fff&font-size=0.4&size=128name=${initials.value}`;
 });
 
 const sections = computed(() => {
@@ -61,7 +61,7 @@ const goBack = () => router.push('/admins');
 <template>
   <div class="flex flex-col gap-4 md:gap-8">
     <div class="flex gap-4 md:gap-8">
-      <CommonCard class="w-full">
+      <Card class="w-full">
         <div class="flex flex-grow h-full gap-4 items-center md:gap-8">
           <div class="">
             <img
@@ -79,32 +79,37 @@ const goBack = () => router.push('/admins');
             </div>
           </div>
         </div>
-      </CommonCard>
-      <CommonCard class="bg-red-50 ring-red-50 md:max-w-[300px]">
+      </Card>
+      <Card class="bg-purple-50 border-purple-50 md:max-w-[300px]">
         <div class="flex flex-col gap-4 items-start">
           <div class="text-sm text-opacity-50">
             Once you delete this admin, it cannot be reversed. Please be
             certain.
           </div>
           <div class="flex gap-4">
-            <CommonButton color-scheme="red" size="sm" left-icon="trash-can" @click="openDelete">
+            <Button
+              color-scheme="purple"
+              size="sm"
+              left-icon="trash-can"
+              @click="openDelete"
+            >
               Delete Admin
-            </CommonButton>
+            </Button>
           </div>
         </div>
-      </CommonCard>
+      </Card>
     </div>
 
     <template v-for="(section, sectionIndex) in sections" :key="sectionIndex">
-      <CommonCard class="border border-gray-100 rounded-lg p-4 md:p-8">
-        <CommonCardHeading>
+      <Card class="border border-gray-100 rounded-lg p-4 md:p-8">
+        <CardHeading>
           {{ section.title }}
-        </CommonCardHeading>
-        <CommonDataList :data="section.data" display="grid" size="sm" />
-      </CommonCard>
+        </CardHeading>
+        <DataList :data="section.data" display="grid" size="sm" />
+      </Card>
     </template>
 
-    <PageSectionsAdminDelete
+    <AdminDelete
       :admin="admin"
       v-model:is-open="isDeleteOpen"
       @success="goBack"

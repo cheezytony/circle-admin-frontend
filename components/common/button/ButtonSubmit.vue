@@ -10,7 +10,7 @@ defineProps<SubmitButton>();
 </script>
 
 <template>
-  <CommonButton v-bind="$attrs" class="w-full" :is-loading="form?.loading" type="submit">
+  <Button v-bind="$attrs" class="w-full" :is-loading="form?.loading" type="submit">
     <slot />
-  </CommonButton>
+  </Button>
 </template>

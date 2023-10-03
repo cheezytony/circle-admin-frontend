@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Admin } from '~/types/models';
+import { SubscriptionPlan } from '~/types/models';
 import { useForm } from 'vue3-form';
 import { useFormRequest } from '~/utils/hooks/api';
 import { useDisclosure } from '~/utils/hooks/misc';
@@ -9,17 +9,17 @@ const emit = defineEmits<{
   (e: 'success'): void;
 }>();
 const props = defineProps<{
-  admin: Admin;
+  plan: SubscriptionPlan;
   isOpen: boolean;
 }>();
 
-const { isOpen: isSuccessOpen, close, open, onClose } = useDisclosure();
+const { isOpen: isSuccessOpen, open, onClose } = useDisclosure();
 
 const form = useForm({});
 const { submit } = useFormRequest(form, {
-  url: `/admins/${props.admin.id}`,
+  url: `/plans/${props.plan.id}`,
   method: 'DELETE',
-  service: 'ADMIN',
+  service: 'SUBSCRIPTIONS',
   authorize: true,
   onSuccess: () => {
     open();
@@ -31,18 +31,15 @@ onClose(() => emit('success'));
 </script>
 
 <template>
-  <CommonModalConfirm
+  <ModalConfirm
     :is-open="isOpen"
     :is-loading="form.loading"
     @update:is-open="emit('update:isOpen', $event)"
     @submit="submit"
   >
-    You're about to delete an admin. Would you like to proceed?
-  </CommonModalConfirm>
-  <CommonModalSuccess v-model:is-open="isSuccessOpen">
+    You're about to delete a subscription plan. Would you like to proceed?
+  </ModalConfirm>
+  <ModalSuccess v-model:is-open="isSuccessOpen">
     Admin Deleted Successfully
-    <template #buttons>
-      <CommonButton @click="close">Go to Admins</CommonButton>
-    </template>
-  </CommonModalSuccess>
+  </ModalSuccess>
 </template>

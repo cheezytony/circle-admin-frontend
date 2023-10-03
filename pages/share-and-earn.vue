@@ -26,12 +26,12 @@ const links: Array<TabLink> = [
 
 <template>
   <div>
-    <CommonPageHeading>
-      <CommonHeading level="2">Share and Earn</CommonHeading>
-    </CommonPageHeading>
-    <CommonTabs>
-      <CommonTabsNav :tabs="links" />
-    </CommonTabs>
+    <PageHeading>
+      <Heading level="2">Share and Earn</Heading>
+    </PageHeading>
+    <Tabs>
+      <TabsNav :tabs="links" />
+    </Tabs>
 
     <div>
       <RouterView />

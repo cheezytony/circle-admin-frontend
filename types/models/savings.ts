@@ -51,3 +51,5 @@ export interface SavingsTransaction extends Model {
   type: string;
   category: string;
 }
+
+export const SavingsTransactionEx = {} as SavingsTransaction;

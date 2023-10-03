@@ -41,19 +41,19 @@ const { submit: resend } = useFormRequest(forgotPasswordForm, {
 <template>
   <div class="w-full">
     <div class="mb-12">
-      <CommonHeading level="1" class="mb-2">
+      <Heading level="1" class="mb-2">
         Reset your password
-      </CommonHeading>
+      </Heading>
       <p>
         Enter the code sent to
         <em class="bg-gray-200 font-medium p-1 rounded"> {{ email }} </em>.
       </p>
     </div>
 
-    <CommonForm @submit="submit">
+    <Form @submit="submit">
       <div class="flex flex-col">
         <div class="w-full">
-          <CommonFormGroup
+          <FormGroup
             v-model="form.fields.code.value"
             type="split"
             format="000000"
@@ -74,7 +74,7 @@ const { submit: resend } = useFormRequest(forgotPasswordForm, {
                 :disabled="forgotPasswordForm.loading"
                 @click.prevent="resend"
               >
-                <CommonLoaderSmall v-if="forgotPasswordForm.loading" />
+                <LoaderSmall v-if="forgotPasswordForm.loading" />
                 <span v-else>Resend</span>
               </button>
             </template>
@@ -85,7 +85,7 @@ const { submit: resend } = useFormRequest(forgotPasswordForm, {
         </div>
 
         <div class="w-full">
-          <CommonFormGroup
+          <FormGroup
             v-model="form.fields.password.value"
             type="password"
             name="password"
@@ -99,7 +99,7 @@ const { submit: resend } = useFormRequest(forgotPasswordForm, {
         </div>
 
         <div class="w-full">
-          <CommonFormGroup
+          <FormGroup
             v-model="form.fields.password_confirmation.value"
             type="password"
             name="password_confirmation"
@@ -113,26 +113,26 @@ const { submit: resend } = useFormRequest(forgotPasswordForm, {
         </div>
 
         <div class="w-full">
-          <CommonMessage color-scheme="green" v-if="form.success">
+          <Message color-scheme="green" v-if="form.success">
             <i class="bi bi-check-square" />
             <span class="ml-1">{{ form.success }}</span>
-          </CommonMessage>
-          <CommonMessage color-scheme="red" v-else-if="form.error">
+          </Message>
+          <Message color-scheme="red" v-else-if="form.error">
             <i class="bi bi-exclamation-square" />
             <span class="ml-1">{{ form.error }}</span>
-          </CommonMessage>
+          </Message>
 
           <div class="mb-3 mt-4">
-            <CommonButtonSubmit
+            <ButtonSubmit
               color-scheme="black"
               :disabled="!!form.success"
               :form="form"
             >
               Change my password
-            </CommonButtonSubmit>
+            </ButtonSubmit>
           </div>
         </div>
       </div>
-    </CommonForm>
+    </Form>
   </div>
 </template>

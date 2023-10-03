@@ -105,7 +105,7 @@ const sections = computed(() => {
           <div class="font-medium">
             {{ section.title }}
           </div>
-          <CommonDataList :data="section.data" display="grid" size="sm" />
+          <DataList :data="section.data" display="grid" size="sm" />
         </div>
       </div>
     </template>

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ShareAndEarn } from '~~/types/models';
+import { ShareAndEarnEx } from '~~/types/models';
 import { dateTimeFormat } from '~~/utils/filters/dates';
 
 useHead({
@@ -16,60 +16,61 @@ const column = ref('id');
 
 <template>
   <div>
-    <CommonPageHeading>
-      <CommonHeading level="2">Referees</CommonHeading>
-    </CommonPageHeading>
+    <PageHeading>
+      <Heading level="2">Referees</Heading>
+    </PageHeading>
 
-    <CommonDatatable
+    <Datatable
       :url="'referral-wallets/referees'"
       service="AUTH"
       :search-columns="columns"
       :column="column"
+      :model="ShareAndEarnEx"
     >
       <template #heading>
-        <CommonDatatableTH name="user_id.firstName">
+        <DatatableTH name="user_id.firstName">
           User Name
-        </CommonDatatableTH>
+        </DatatableTH>
 
-        <CommonDatatableTH name="user_id.email">Email</CommonDatatableTH>
+        <DatatableTH name="user_id.email">Email</DatatableTH>
 
-        <CommonDatatableTH name="referrerId._id">
+        <DatatableTH name="referrerId._id">
           User_id(Referrer)
-        </CommonDatatableTH>
+        </DatatableTH>
 
-        <CommonDatatableTH name="createdAt">Date Signed Up</CommonDatatableTH>
+        <DatatableTH name="createdAt">Date Signed Up</DatatableTH>
 
-        <CommonDatatableTH name="status">Status</CommonDatatableTH>
+        <DatatableTH name="status">Status</DatatableTH>
       </template>
 
-      <template #default="{ row }: { row: ShareAndEarn }">
-        <CommonDatatableRow :to="`/users/${row.user_id?._id}`">
-          <CommonDatatableTD>
+      <template #default="{ row }">
+        <DatatableRow :to="`/users/${row.user_id?._id}`">
+          <DatatableTD>
             <span class="flex flex-col gap-1">
               <span>
                 {{ row.user_id?.firstName }} {{ row.user_id?.lastName }}
               </span>
               <span class="text-xs opacity-50">{{ row.user_id?._id }}</span>
             </span>
-          </CommonDatatableTD>
+          </DatatableTD>
 
-          <CommonDatatableTD>
+          <DatatableTD>
             {{ row.user_id?.email || 'N/A' }}
-          </CommonDatatableTD>
+          </DatatableTD>
 
-          <CommonDatatableTD>
+          <DatatableTD>
             {{ row.referrer_id?._id || 'N/A' }}
-          </CommonDatatableTD>
+          </DatatableTD>
 
-          <CommonDatatableTD>
+          <DatatableTD>
             {{
               row.created_at ? dateTimeFormat(row.created_at, 'date') : 'N/A'
             }}
-          </CommonDatatableTD>
+          </DatatableTD>
 
-          <CommonDatatableTD>{{ row.status }}</CommonDatatableTD>
-        </CommonDatatableRow>
+          <DatatableTD>{{ row.status }}</DatatableTD>
+        </DatatableRow>
       </template>
-    </CommonDatatable>
+    </Datatable>
   </div>
 </template>
