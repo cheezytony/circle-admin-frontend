@@ -53,11 +53,11 @@ onMounted(mapFormData);
 
 <template>
   <div>
-    <CommonForm
+    <Form
       class="gap-x-8 grid grid-cols-1 md:grid-cols-2"
       @submit="submit"
     >
-      <CommonFormGroup
+      <FormGroup
         v-model="form.fields.avatar.value"
         :form="form"
         name="avatar"
@@ -68,7 +68,7 @@ onMounted(mapFormData);
         class="md:col-span-2"
       />
 
-      <CommonFormGroup
+      <FormGroup
         v-model="form.fields.first_name.value"
         :form="form"
         name="first_name"
@@ -76,7 +76,7 @@ onMounted(mapFormData);
         label="First Name"
         placeholder="e.g. Antonio"
       />
-      <CommonFormGroup
+      <FormGroup
         v-model="form.fields.last_name.value"
         :form="form"
         name="last_name"
@@ -84,7 +84,7 @@ onMounted(mapFormData);
         label="Last Name"
         placeholder="e.g. Okoro"
       />
-      <CommonFormGroup
+      <FormGroup
         :value="user?.email"
         :form="form"
         type="email"
@@ -95,7 +95,7 @@ onMounted(mapFormData);
         class="md:col-span-2"
         :readonly="true"
       />
-      <CommonFormGroup
+      <FormGroup
         v-model="form.fields.phone.value"
         :form="form"
         type="phone"
@@ -106,20 +106,20 @@ onMounted(mapFormData);
         class="md:col-span-2"
       />
       <div class="md:col-span-2">
-        <CommonMessage v-if="form.error" color-scheme="red">
+        <Message v-if="form.error" color-scheme="red">
           {{ form.error }}
-        </CommonMessage>
-        <CommonMessage v-else-if="form.success" color-scheme="green">
+        </Message>
+        <Message v-else-if="form.success" color-scheme="green">
           {{ form.success }}
-        </CommonMessage>
+        </Message>
       </div>
       <div class="md:col-span-2">
-        <CommonButtonSubmit :form="form">Save Changes</CommonButtonSubmit>
+        <ButtonSubmit :form="form">Save Changes</ButtonSubmit>
       </div>
-    </CommonForm>
+    </Form>
 
-    <CommonModalSuccess v-model:is-open="isOpen">
+    <ModalSuccess v-model:is-open="isOpen">
       Profile Updated Successfully
-    </CommonModalSuccess>
+    </ModalSuccess>
   </div>
 </template>

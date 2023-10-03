@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { WalletTransaction } from '~/types/models';
 import { DataListItem } from '~~/types/components';
-import { StockOrder } from '~~/types/models/stocks';
+import { StockOrder, StockOrderEx } from '~~/types/models/stocks';
 import { dateTimeFormat } from '~~/utils/filters/dates';
 import { numberFormat } from '~~/utils/filters/numbers';
 
@@ -13,7 +13,6 @@ definePageMeta({
 useHead({ title: 'Stocks' });
 
 const columns = ['reference', 'user_id', 'amount', 'status', 'created_at'];
-const column = ref('reference');
 
 const dataList: Array<DataListItem> = [
   {
@@ -47,43 +46,43 @@ const dataList: Array<DataListItem> = [
 <template>
   <NuxtLayout name="default">
     <template #summary>
-      <CommonSummaryHeading>Overview</CommonSummaryHeading>
+      <SummaryHeading>Overview</SummaryHeading>
 
-      <CommonDataList :data="dataList" />
+      <DataList :data="dataList" />
     </template>
     <div>
-      <CommonPageHeading>
-        <CommonHeading level="2">All Stock Orders</CommonHeading>
-      </CommonPageHeading>
+      <PageHeading>
+        <Heading level="2">All Stock Orders</Heading>
+      </PageHeading>
 
-      <CommonDatatable
+      <Datatable
         url="/orders"
         service="STOCKS"
         :search-columns="columns"
-        :column="column"
         order-by="created_at"
         :order-by-ascending="false"
+        :model="StockOrderEx"
       >
         <template #heading>
-          <CommonDatatableTH name="user_id">User ID</CommonDatatableTH>
-          <CommonDatatableTH name="provider_order_no">Order Number</CommonDatatableTH>
-          <CommonDatatableTH name="symbol">Symbol</CommonDatatableTH>
-          <CommonDatatableTH align="right" name="amount">Amount</CommonDatatableTH>
-          <CommonDatatableTH name="side">Side</CommonDatatableTH>
-          <CommonDatatableTH name="status">Status</CommonDatatableTH>
-          <CommonDatatableTH name="created_at">Date</CommonDatatableTH>
+          <DatatableTH name="user_id">User ID</DatatableTH>
+          <DatatableTH name="provider_order_no">Order Number</DatatableTH>
+          <DatatableTH name="symbol">Symbol</DatatableTH>
+          <DatatableTH align="right" name="amount">Amount</DatatableTH>
+          <DatatableTH name="side">Side</DatatableTH>
+          <DatatableTH name="status">Status</DatatableTH>
+          <DatatableTH name="created_at">Date</DatatableTH>
         </template>
-        <template #default="{ row }: { row: StockOrder }">
-          <CommonDatatableRow>
-            <CommonDatatableTD>
+        <template #default="{ row }">
+          <DatatableRow :to="`/users/${row.user_id}/stocks`">
+            <DatatableTD>
               <span class="flex flex-col gap-1">
                 <span>{{ row.user?.firstName }} {{ row.user?.lastName }}</span>
                 <span class="text-xs opacity-50">{{ row.user_id }}</span>
               </span>
-            </CommonDatatableTD>
-            <CommonDatatableTD>{{ row.provider_order_no }}</CommonDatatableTD>
-            <CommonDatatableTD>{{ row.symbol }}</CommonDatatableTD>
-            <CommonDatatableTD align="right">
+            </DatatableTD>
+            <DatatableTD>{{ row.provider_order_no }}</DatatableTD>
+            <DatatableTD>{{ row.symbol }}</DatatableTD>
+            <DatatableTD align="right">
               <span
                 :class="{
                   'text-green-700': row.side === 'BUY',
@@ -92,17 +91,17 @@ const dataList: Array<DataListItem> = [
               >
                 {{ numberFormat(row.amount, 'currency', 'USD') }}
               </span>
-            </CommonDatatableTD>
-            <CommonDatatableTD>{{ row.side }}</CommonDatatableTD>
-            <CommonDatatableTD>
-              <CommonBadgeStatus :status="row.status" />
-            </CommonDatatableTD>
-            <CommonDatatableTD>
+            </DatatableTD>
+            <DatatableTD>{{ row.side }}</DatatableTD>
+            <DatatableTD>
+              <BadgeStatus :status="row.status" />
+            </DatatableTD>
+            <DatatableTD>
               {{ dateTimeFormat(row.created_at, 'date:compact:time') }}
-            </CommonDatatableTD>
-          </CommonDatatableRow>
+            </DatatableTD>
+          </DatatableRow>
         </template>
-      </CommonDatatable>
+      </Datatable>
     </div>
   </NuxtLayout>
 </template>

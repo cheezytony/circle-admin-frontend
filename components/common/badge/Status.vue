@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import { colorsSchemes } from '~~/utils/theme';
+import { ApplicationColor } from '~~/utils/theme';
 
 const props = defineProps<{
   status: string;
 }>();
 
-const colorScheme = computed<keyof typeof colorsSchemes>(() => {
+const colorScheme = computed<ApplicationColor>(() => {
   switch (props.status.toLocaleLowerCase()) {
     case 'active':
     case 'completed':
@@ -27,7 +27,7 @@ const colorScheme = computed<keyof typeof colorsSchemes>(() => {
 </script>
 
 <template>
-  <CommonBadge :color-scheme="colorScheme">
+  <Badge :color-scheme="colorScheme">
     {{ props.status }}
-  </CommonBadge>
+  </Badge>
 </template>

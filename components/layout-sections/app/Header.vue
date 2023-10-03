@@ -49,9 +49,9 @@ onUnmounted(() => {
   >
     <div class="flex gap-4 h-20 items-center px-4 relative md:px-8">
       <button class="mr-auto md:hidden" @click="toggleSidebar">
-        <CommonLogoDefault class="text-[6px]" />
+        <LogoDefault class="text-[6px]" />
       </button>
-      <CommonButton
+      <Button
         v-if="pageHasSummary && !isSmallScreen"
         color-scheme="white"
         class="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2"
@@ -61,8 +61,8 @@ onUnmounted(() => {
         <FontAwesomeIcon
           :icon="isSummaryOpen ? 'chevron-left' : 'chevron-right'"
         />
-      </CommonButton>
-      <LayoutSectionsAppSearch />
+      </Button>
+      <AppSearch />
 
       <button
         class="appearance-none bg-gray-100 flex-shrink-0 h-12 md:ml-auto rounded-full w-12"
@@ -71,7 +71,8 @@ onUnmounted(() => {
         <FontAwesomeIcon icon="fa-regular fa-bell" />
       </button>
 
-      <CommonDropdown
+      <Dropdown
+        placement="bottom-end"
         :items="[
           { title: 'My Profile', href: '/settings' },
           { title: 'Logout', onClick: logout },
@@ -99,7 +100,7 @@ onUnmounted(() => {
           </span>
           <FontAwesomeIcon icon="chevron-down" />
         </button>
-      </CommonDropdown>
+      </Dropdown>
     </div>
   </header>
 </template>

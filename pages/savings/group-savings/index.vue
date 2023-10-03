@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { DatatableItem } from '~/types';
 import { Saving } from '~~/types/models';
 import { dateTimeFormat } from '~~/utils/filters/dates';
 import { numberFormat } from '~~/utils/filters/numbers';
@@ -20,47 +21,47 @@ const column = ref('id');
 
 <template>
   <div>
-    <CommonPageHeading>
-      <CommonHeading level="2"> Group Savings</CommonHeading>
-    </CommonPageHeading>
+    <PageHeading>
+      <Heading level="2"> Group Savings</Heading>
+    </PageHeading>
 
-    <CommonDatatable
+    <Datatable
       :url="'savings/group-savings'"
       service="SAVINGS"
       :search-columns="columns"
       :column="column"
     >
       <template #heading>
-        <CommonDatatableTH name="id">Group ID</CommonDatatableTH>
-        <CommonDatatableTH name="name">Name</CommonDatatableTH>
-        <CommonDatatableTH name="saving_goal_members">
+        <DatatableTH name="id">Group ID</DatatableTH>
+        <DatatableTH name="name">Name</DatatableTH>
+        <DatatableTH name="saving_goal_members">
           Members
-        </CommonDatatableTH>
-        <CommonDatatableTH name="target_amount">
+        </DatatableTH>
+        <DatatableTH name="target_amount">
           Target Amount
-        </CommonDatatableTH>
-        <CommonDatatableTH name="end_date">Maturity Date</CommonDatatableTH>
+        </DatatableTH>
+        <DatatableTH name="end_date">Maturity Date</DatatableTH>
       </template>
 
-      <template #default="{ row }: { row: Saving }">
-        <CommonDatatableRow :to="`/savings/group-savings/${row.id}`">
-          <CommonDatatableTD>{{ row.id }}</CommonDatatableTD>
+      <template #default="{ row }: DatatableItem<Saving>">
+        <DatatableRow :to="`/savings/group-savings/${row.id}`">
+          <DatatableTD>{{ row.id }}</DatatableTD>
 
-          <CommonDatatableTD>{{ row.name }}</CommonDatatableTD>
+          <DatatableTD>{{ row.name }}</DatatableTD>
 
-          <CommonDatatableTD>
+          <DatatableTD>
             {{ row.saving_goal_members.length }}
-          </CommonDatatableTD>
+          </DatatableTD>
 
-          <CommonDatatableTD>
+          <DatatableTD>
             {{ numberFormat(row.target_amount, 'currency') }}
-          </CommonDatatableTD>
+          </DatatableTD>
 
-          <CommonDatatableTD>
+          <DatatableTD>
             {{ dateTimeFormat(row.end_date, 'date:compact') }}
-          </CommonDatatableTD>
-        </CommonDatatableRow>
+          </DatatableTD>
+        </DatatableRow>
       </template>
-    </CommonDatatable>
+    </Datatable>
   </div>
 </template>

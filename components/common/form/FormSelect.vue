@@ -2,6 +2,7 @@
 const emit = defineEmits(['update:modelValue']);
 defineProps<{
   modelValue?: number | string;
+  searchable?: boolean;
   options?: Array<{
     value?: string;
     name?: string;
@@ -16,9 +17,22 @@ const listeners = {
     emit('update:modelValue', (event.target as HTMLInputElement)?.value);
   },
 };
+
+console.log('hello?');
+
 </script>
 
 <template>
+  <!-- <div>
+    <Ghost>
+      <template>
+        <input v-bind="$attrs" type="text" class="input" :readonly="!searchable" />
+      </template>
+      <template #content>
+        <div>Hello?</div>
+      </template>
+    </Ghost>
+  </div> -->
   <select v-bind="$attrs" class="input" :value="modelValue" v-on="listeners">
     <template :key="n" v-for="(option, n) in options">
       <option :value="typeof option === 'object' ? option.value : option">

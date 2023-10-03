@@ -13,9 +13,9 @@ const configurations = computed(() => data.value?.data || []);
 
 <template>
   <div>
-    <PageSectionsConfigurationLoader v-if="isLoading" />
+    <ConfigurationsLoader v-if="isLoading" />
     <ServerError v-else-if="error" :error="error" />
-    <PageSectionsConfiguration
+    <Configurations
       v-else-if="configurations"
       v-bind="{ configurations, service: 'SUBSCRIPTIONS' }"
     />

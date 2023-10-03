@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { DatatableItem } from '~/types';
 import { Loan } from '~~/types/models';
 import { dateTimeFormat } from '~~/utils/filters/dates';
 import { numberFormat } from '~~/utils/filters/numbers';
@@ -21,51 +22,51 @@ const column = ref('id');
 
 <template>
   <div>
-    <CommonPageHeading>
-      <CommonHeading level="2">Loans</CommonHeading>
-    </CommonPageHeading>
+    <PageHeading>
+      <Heading level="2">Loans</Heading>
+    </PageHeading>
 
-    <CommonDatatable
+    <Datatable
       :url="'loans'"
       service="LOANS"
       :search-columns="columns"
       :column="column"
     >
       <template #heading>
-        <CommonDatatableTH>User Name</CommonDatatableTH>
-        <CommonDatatableTH>Phone No.</CommonDatatableTH>
-        <CommonDatatableTH name="id">Loan Id</CommonDatatableTH>
-        <CommonDatatableTH name="status">Status</CommonDatatableTH>
-        <CommonDatatableTH name="request_amount">Loan Amount</CommonDatatableTH>
-        <CommonDatatableTH name="created_at">Date Created</CommonDatatableTH>
+        <DatatableTH>User Name</DatatableTH>
+        <DatatableTH>Phone No.</DatatableTH>
+        <DatatableTH name="id">Loan Id</DatatableTH>
+        <DatatableTH name="status">Status</DatatableTH>
+        <DatatableTH name="request_amount">Loan Amount</DatatableTH>
+        <DatatableTH name="created_at">Date Created</DatatableTH>
       </template>
 
-      <template #default="{ row }: { row: Loan }">
-        <CommonDatatableRow :to="`/loans/${row.id}`">
-          <CommonDatatableTD>
+      <template #default="{ row }: DatatableItem<Loan>">
+        <DatatableRow :to="`/loans/${row.id}`">
+          <DatatableTD>
             <span class="flex flex-col gap-1">
               <span> {{ row.firstName }} {{ row.lastName }} </span>
               <span class="text-xs opacity-50">{{ row.user_id }}</span>
             </span>
-          </CommonDatatableTD>
+          </DatatableTD>
 
-          <CommonDatatableTD>{{ row.phone_number || 'N/A' }}</CommonDatatableTD>
+          <DatatableTD>{{ row.phone_number || 'N/A' }}</DatatableTD>
 
-          <CommonDatatableTD>{{ row?.id || 'N/A' }}</CommonDatatableTD>
+          <DatatableTD>{{ row?.id || 'N/A' }}</DatatableTD>
 
-          <CommonDatatableTD>{{ row.status }}</CommonDatatableTD>
+          <DatatableTD>{{ row.status }}</DatatableTD>
 
-          <CommonDatatableTD>
+          <DatatableTD>
             {{ numberFormat(row.loan_amount, 'currency') }}
-          </CommonDatatableTD>
+          </DatatableTD>
 
-          <CommonDatatableTD>
+          <DatatableTD>
             {{
               row.created_at ? dateTimeFormat(row.created_at, 'date') : 'N/A'
             }}
-          </CommonDatatableTD>
-        </CommonDatatableRow>
+          </DatatableTD>
+        </DatatableRow>
       </template>
-    </CommonDatatable>
+    </Datatable>
   </div>
 </template>

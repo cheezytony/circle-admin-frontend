@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ShareAndEarn } from '~~/types/models';
+import { ShareAndEarn, ShareAndEarnEx } from '~~/types/models';
 
 useHead({
   title: ' Referrers',
@@ -17,43 +17,44 @@ const {
 
 <template>
   <div>
-    <CommonPageHeading>
-      <CommonHeading level="2">Successful Referrals</CommonHeading>
-    </CommonPageHeading>
+    <PageHeading>
+      <Heading level="2">Successful Referrals</Heading>
+    </PageHeading>
 
-    <CommonDatatable
+    <Datatable
       :url="'referral-wallets/successful-referrals'"
       service="AUTH"
       :search-columns="columns"
       :column="column"
+      :model="ShareAndEarnEx"
     >
       <template #heading>
-        <CommonDatatableTH name="user_id.firstName">
+        <DatatableTH name="user_id.firstName">
           User Name
-        </CommonDatatableTH>
-        <CommonDatatableTH name="user_id.email">Email</CommonDatatableTH>
-        <CommonDatatableTH name="referrer_id._id">
+        </DatatableTH>
+        <DatatableTH name="user_id.email">Email</DatatableTH>
+        <DatatableTH name="referrer_id._id">
           Number of Successful Referrals
-        </CommonDatatableTH>
+        </DatatableTH>
       </template>
-      <template #default="{ row }: { row: ShareAndEarn }">
-        <CommonDatatableRow>
-          <CommonDatatableTD>
+      <template #default="{ row }">
+        <DatatableRow>
+          <DatatableTD>
             <span class="flex flex-col gap-1">
               <span>
                 {{ row.referrer_id?.firstName }} {{ row.referrer_id?.lastName }}
               </span>
               <span class="text-xs opacity-50">{{ row.referrer_id?._id }}</span>
             </span>
-          </CommonDatatableTD>
+          </DatatableTD>
 
-          <CommonDatatableTD>
+          <DatatableTD>
             {{ row.referrer_id?.email || 'N/A' }}
-          </CommonDatatableTD>
+          </DatatableTD>
 
-          <CommonDatatableTD>{{ row.total_count }}</CommonDatatableTD>
-        </CommonDatatableRow>
+          <DatatableTD>{{ row.total_count }}</DatatableTD>
+        </DatatableRow>
       </template>
-    </CommonDatatable>
+    </Datatable>
   </div>
 </template>

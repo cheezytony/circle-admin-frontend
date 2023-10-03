@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { DatatableItem } from '~/types';
 import { LoanRepayment } from '~~/types/models';
 import { dateTimeFormat } from '~~/utils/filters/dates';
 import { numberFormat } from '~~/utils/filters/numbers';
@@ -22,58 +23,57 @@ useHead({
 
 <template>
   <div>
-    <CommonPageHeading>
-      <CommonHeading level="2">Loan History</CommonHeading>
-    </CommonPageHeading>
-    <CommonDatatable
+    <PageHeading>
+      <Heading level="2">Loan History</Heading>
+    </PageHeading>
+    <Datatable
       :url="`loans/${loanId}`"
       service="LOANS"
       :search-columns="columns"
-      :column="column"
     >
       <template #heading>
-        <CommonDatatableTH name="id">ID</CommonDatatableTH>
-        <CommonDatatableTH name="loan_id">loan Id</CommonDatatableTH>
-        <CommonDatatableTH name="user_id">User ID</CommonDatatableTH>
-        <CommonDatatableTH name="amount">Amount</CommonDatatableTH>
-        <CommonDatatableTH name="overdue_fee">Over Due Fee</CommonDatatableTH>
-        <CommonDatatableTH name="due_date">Due Date </CommonDatatableTH>
-        <CommonDatatableTH name="status">Status </CommonDatatableTH>
-        <CommonDatatableTH name="created_at">Date </CommonDatatableTH>
+        <DatatableTH name="id">ID</DatatableTH>
+        <DatatableTH name="loan_id">loan Id</DatatableTH>
+        <DatatableTH name="user_id">User ID</DatatableTH>
+        <DatatableTH name="amount">Amount</DatatableTH>
+        <DatatableTH name="overdue_fee">Over Due Fee</DatatableTH>
+        <DatatableTH name="due_date">Due Date </DatatableTH>
+        <DatatableTH name="status">Status </DatatableTH>
+        <DatatableTH name="created_at">Date </DatatableTH>
       </template>
-      <template #default="{ row }: { row: LoanRepayment }">
-        <CommonDatatableRow>
-          <CommonDatatableTD>
+      <template #default="{ row }: DatatableItem<LoanRepayment>">
+        <DatatableRow>
+          <DatatableTD>
             {{ row?.id }}
-          </CommonDatatableTD>
+          </DatatableTD>
 
-          <CommonDatatableTD>
+          <DatatableTD>
             {{ row?.loan_id }}
-          </CommonDatatableTD>
+          </DatatableTD>
 
-          <CommonDatatableTD>
+          <DatatableTD>
             {{ row?.user_id }}
-          </CommonDatatableTD>
+          </DatatableTD>
 
-          <CommonDatatableTD>
+          <DatatableTD>
             {{ numberFormat(row.amount, 'currency') }}
-          </CommonDatatableTD>
+          </DatatableTD>
 
-          <CommonDatatableTD>
+          <DatatableTD>
             {{ numberFormat(row.overdue_fee, 'currency') }}
-          </CommonDatatableTD>
+          </DatatableTD>
 
-          <CommonDatatableTD>
+          <DatatableTD>
             {{ dateTimeFormat(row.due_date, 'date:compact') }}
-          </CommonDatatableTD>
+          </DatatableTD>
 
-          <CommonDatatableTD> {{ row.status }}</CommonDatatableTD>
+          <DatatableTD> {{ row.status }}</DatatableTD>
 
-          <CommonDatatableTD>
+          <DatatableTD>
             {{ dateTimeFormat(row.created_at, 'date:compact') }}
-          </CommonDatatableTD>
-        </CommonDatatableRow>
+          </DatatableTD>
+        </DatatableRow>
       </template>
-    </CommonDatatable>
+    </Datatable>
   </div>
 </template>

@@ -1,4 +1,4 @@
-import { Model } from '.';
+import { Model } from './';
 
 export interface Configuration extends Model {
   last_edited_by?: string;

@@ -46,9 +46,9 @@ onMounted(mapFormData);
 
 <template>
   <div class="max-w-[500px]">
-    <CommonForm @submit="submit">
+    <Form @submit="submit">
       <div class="gap-x-8 grid grid-cols-2">
-        <CommonFormGroup
+        <FormGroup
           v-model="form.fields.first_name.value"
           :form="form"
           name="first_name"
@@ -56,7 +56,7 @@ onMounted(mapFormData);
           label="First Name"
           placeholder="e.g. Antonio"
         />
-        <CommonFormGroup
+        <FormGroup
           v-model="form.fields.last_name.value"
           :form="form"
           name="last_name"
@@ -65,7 +65,7 @@ onMounted(mapFormData);
           placeholder="e.g. Okoro"
         />
         <div class="col-span-2">
-          <CommonFormGroup
+          <FormGroup
             v-model="form.fields.email.value"
             :form="form"
             name="email"
@@ -75,7 +75,7 @@ onMounted(mapFormData);
           />
         </div>
         <div class="col-span-2">
-          <CommonFormGroup
+          <FormGroup
             v-model="form.fields.phone.value"
             :form="form"
             type="phone"
@@ -87,20 +87,20 @@ onMounted(mapFormData);
         </div>
       </div>
       <div class="mb-8">
-        <CommonMessage color-scheme="green" v-if="form.success">
+        <Message color-scheme="green" v-if="form.success">
           <span class="ml-1">{{ form.success }}</span>
-        </CommonMessage>
-        <CommonMessage color-scheme="red" v-else-if="form.error">
+        </Message>
+        <Message color-scheme="red" v-else-if="form.error">
           <span class="ml-1">{{ form.error }}</span>
-        </CommonMessage>
+        </Message>
       </div>
-      <CommonButtonSubmit color-scheme="black" :form="form">
+      <ButtonSubmit color-scheme="black" :form="form">
         Submit
-      </CommonButtonSubmit>
-    </CommonForm>
+      </ButtonSubmit>
+    </Form>
 
-    <CommonModalSuccess v-model:is-open="isOpen">
+    <ModalSuccess v-model:is-open="isOpen">
       Admin Updated Successfully
-    </CommonModalSuccess>
+    </ModalSuccess>
   </div>
 </template>

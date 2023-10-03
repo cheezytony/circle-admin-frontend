@@ -10,6 +10,7 @@ import FormSplitInput from './FormSplitInput.vue';
 import FormDropzone from './FormDropzone.vue';
 import FormPhone from './FormPhone.vue';
 import FormCurrency from './FormCurrency.vue';
+import FormRange from './FormRange.vue';
 
 const emit = defineEmits(['update:modelValue']);
 const props = defineProps<{
@@ -38,6 +39,8 @@ const component = computed(() => {
       return FormDropzone;
     case 'password':
       return FormPassword;
+    case 'range':
+      return FormRange;
     case 'select':
       return FormSelect;
     case 'textarea':

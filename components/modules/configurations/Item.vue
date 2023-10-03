@@ -41,9 +41,9 @@ const handleInput = (value: string | number | boolean) => {
         <div class="mb-4 text-sm">{{ configuration.title }}</div>
         <div class="flex flex-wrap gap-8">
           <template v-for="option in configuration.options">
-            <CommonFormCheckbox>
+            <FormCheckbox>
               {{ option.title }}
-            </CommonFormCheckbox>
+            </FormCheckbox>
           </template>
         </div>
       </div>
@@ -55,38 +55,38 @@ const handleInput = (value: string | number | boolean) => {
         <div class="mb-4 text-sm">{{ configuration.title }}</div>
         <div class="flex flex-wrap gap-8">
           <template v-for="option in configuration.options">
-            <CommonFormRadio
+            <FormRadio
               :name="configuration.slug"
               :value="option.value"
               v-model="radioValue"
             >
               {{ option.title }}
-            </CommonFormRadio>
+            </FormRadio>
           </template>
         </div>
       </div>
       <div
         v-else-if="configuration.input_type === ConfigurationInputType.SWITCH"
       >
-        <CommonFormSwitch
+        <FormSwitch
           :options="(configuration.options as any)"
           :model-value="(field.value as boolean)"
           @update:model-value="handleInput"
         >
           {{ configuration.title }}
-        </CommonFormSwitch>
+        </FormSwitch>
       </div>
       <div
         v-else-if="configuration.input_type === ConfigurationInputType.RANGE"
       >
-        <CommonFormRange
+        <FormRange
           :model-value="(field.value as number)"
           @update:model-value="handleInput"
         >
           {{ configuration.title }}
-        </CommonFormRange>
+        </FormRange>
       </div>
-      <CommonFormGroup
+      <FormGroup
         v-else
         :form="form"
         :type="formGroupType"

@@ -38,6 +38,8 @@ const stats = computed<Array<DataListItem>>(() => {
 const tabs: Array<TabLink> = [
   { title: 'Profile', href: `/users/${userId.value}`, exact: true },
   { title: 'Wallet', href: `/users/${userId.value}/wallet` },
+  { title: 'Stocks', href: `/users/${userId.value}/stocks` },
+  { title: 'Subscriptions', href: `/users/${userId.value}/subscriptions` },
   // { title: 'Audit Trail', href: `/users/${userId.value}/audit-trail` },
   // { title: 'Edit', href: `/users/${userId.value}/edit` },
 ];
@@ -50,16 +52,16 @@ useHead({
 <template>
   <NuxtLayout name="default">
     <template #summary>
-      <CommonSummaryHeading>
+      <SummaryHeading>
         {{ fullName }}
-      </CommonSummaryHeading>
+      </SummaryHeading>
 
-      <CommonDataList :data="stats" />
+      <DataList :data="stats" />
     </template>
     <div>
-      <CommonTabs>
-        <CommonTabsNav :tabs="tabs" />
-      </CommonTabs>
+      <Tabs>
+        <TabsNav :tabs="tabs" />
+      </Tabs>
 
       <RouterView v-if="user" :user="user" />
     </div>

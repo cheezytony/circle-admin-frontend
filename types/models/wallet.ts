@@ -10,6 +10,8 @@ export interface Wallet extends Model {
   user?: User;
 }
 
+export const WalletEx = {} as Wallet;
+
 export interface WalletTransaction extends Model {
   user_id: string;
   wallet_id: string;
@@ -30,6 +32,8 @@ export interface WalletTransaction extends Model {
   user?: User;
   wallet?: Wallet;
 }
+
+export const WalletTransactionEx = {} as WalletTransaction;
 
 export enum WalletTransactionStatus {
   PENDING = 'PENDING',

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ComputedRef } from 'vue';
-import GroupSavingsCard from '~~/components/saving-sections/GroupSavingsCard.vue';
+import { DatatableItem } from '~/types';
 import { Saving, SavingGoalMember } from '~~/types/models';
 import { numberFormat } from '~~/utils/filters/numbers';
 import { useApiRequest } from '~~/utils/hooks/api';
@@ -34,33 +34,33 @@ useHead({
       :totalAmountSaved="data?.data?.amount_saved"
       :targetAmount="data?.data?.target_amount"
     />
-    <CommonDatatable
+    <Datatable
       :url="`savings/goals/participants/${groupSavingsId}`"
       service="SAVINGS"
       :search-columns="columns"
       :column="column"
     >
       <template #heading>
-        <CommonDatatableTH> User Name </CommonDatatableTH>
-        <CommonDatatableTH name="amount_saved">Amount Saved</CommonDatatableTH>
+        <DatatableTH> User Name </DatatableTH>
+        <DatatableTH name="amount_saved">Amount Saved</DatatableTH>
 
-        <CommonDatatableTH name="status">Status </CommonDatatableTH>
+        <DatatableTH name="status">Status </DatatableTH>
       </template>
-      <template #default="{ row }: { row: SavingGoalMember }">
-        <CommonDatatableRow>
-          <CommonDatatableTD>
+      <template #default="{ row }: DatatableItem<SavingGoalMember>">
+        <DatatableRow>
+          <DatatableTD>
             <span class="flex flex-col gap-1">
               <span>{{ row.user?.firstName }} {{ row.user?.lastName }}</span>
               <span class="text-xs opacity-50">{{ row.user_id }}</span>
             </span>
-          </CommonDatatableTD>
-          <CommonDatatableTD>
+          </DatatableTD>
+          <DatatableTD>
             {{ numberFormat(row.amount_saved, 'currency') }}
-          </CommonDatatableTD>
+          </DatatableTD>
 
-          <CommonDatatableTD> {{ row.status }}</CommonDatatableTD>
-        </CommonDatatableRow>
+          <DatatableTD> {{ row.status }}</DatatableTD>
+        </DatatableRow>
       </template>
-    </CommonDatatable>
+    </Datatable>
   </div>
 </template>

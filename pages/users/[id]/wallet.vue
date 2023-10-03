@@ -1,11 +1,8 @@
 <script lang="ts" setup>
 import { useForm } from 'vue3-form';
-import { useCountries } from '../../../store/countries';
-import { DatatableFilter, DatatableSearchColumn } from '~~/types/components';
-import { User, Wallet, WalletTransaction } from '~~/types/models';
-import { dateTimeFormat } from '~~/utils/filters/dates';
-import { numberFormat } from '~~/utils/filters/numbers';
-import { useApiRequest, useFormRequest } from '~~/utils/hooks/api';
+import { useCountries } from '~/store/countries';
+import { DatatableSearchColumn, User, Wallet, WalletEx, WalletTransaction, WalletTransactionEx } from '~~/types';
+import { dateTimeFormat, numberFormat, useFormRequest } from '~~/utils';
 
 const props = defineProps<{
   user: User;
@@ -20,15 +17,6 @@ const currencyFlagMap = computed(() => ({
   USD: findCountryByCode('US')?.flag?.emoji,
   NGN: findCountryByCode('NG')?.flag?.emoji,
 }));
-
-const { data, isLoading, error } = useApiRequest<Array<Wallet>>({
-  service: 'WALLET',
-  url: `/wallets/${props.user.id}`,
-  authorize: true,
-  autoLoad: true,
-});
-
-const wallets = computed(() => data.value?.data || []);
 
 const columns: DatatableSearchColumn[] = [
   { title: 'Reference', name: 'reference' },
@@ -55,127 +43,132 @@ const { submit } = useFormRequest(form, {
 </script>
 
 <template>
-  <div class="flex flex-col gap-4">
-    <div
-      v-if="isLoading"
-      class="bg-gray-50 grid h-[100px] place-items-center rounded md:self-start md:w-[350px]"
+  <div class="flex flex-col gap-4 md:gap-8">
+    <ServerRequest
+      service="WALLET"
+      :url="`/wallets/${props.user.id}`"
+      :authorize="true"
+      :model="[WalletEx]"
     >
-      <CommonLoaderSmall />
-    </div>
-    <div
-      v-else-if="wallets.length"
-      class="border border-gray-100 inline-block rounded md:self-start"
-    >
-      <table class="border-collapse table-fixed">
-        <thead>
-          <tr class="bg-gray-50">
-            <th
-              align="left"
-              class="font-medium text-gray-500 text-sm pl-4 md:pl-8 pr-4 md:pr-8 py-2 md:w-[100px]"
-            >
-              Currency
-            </th>
-            <th
-              align="right"
-              class="font-medium text-gray-500 text-sm pl-4 md:pl-8 pr-4 md:pr-8 py-2 md:w-[250px]"
-            >
-              Balance
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <template v-for="(wallet, index) in wallets" :key="wallet.id">
-            <tr>
-              <td
-                align="left"
-                class="border-gray-100 border-r pl-4 md:pl-8 pr-4 md:pr-8 py-2"
-                :class="{
-                  'border-b': index < wallets.length - 1,
-                  'border-t': index > 0,
-                }"
-              >
-                <div class="flex gap-2">
-                  <span
-                    v-if="currencyFlagMap[wallet.currency]"
-                    v-html="currencyFlagMap[wallet.currency]"
-                  />
-                  <span>{{ wallet.currency }}</span>
-                </div>
-              </td>
-              <td
-                align="right"
-                class="border-gray-100 pl-4 md:pl-8 pr-4 md:pr-8 py-2"
-                :class="{
-                  'border-b': index < wallets.length - 1,
-                  'border-t': index > 0,
-                }"
-              >
-                {{ numberFormat(wallet.balance, 'currency', wallet.currency) }}
-              </td>
-            </tr>
-          </template>
-        </tbody>
-      </table>
-    </div>
-    <div v-else-if="error"></div>
-    <div
-      v-else
-      class="bg-gray-50 flex flex-col gap-4 items-center px-4 py-8 rounded md:self-start md:w-[350px]"
-    >
-      <span class="text-gray-500 text-center">
-        This user doesn't have any wallets at the moment.
-      </span>
-      <CommonDropdown>
-        <CommonButton left-icon="plus" size="sm">Create Wallet</CommonButton>
-        <template #items>
-          <ul class="flex flex-col">
-            <li>
-              <button
-                class="flex gap-3 items-center px-4 py-2 whitespace-nowrap w-full hover:bg-gray-100"
-                type="button"
-                size="sm"
-              >
-                <span v-html="currencyFlagMap.NGN" />
-                <span class="text-sm">Naira Wallet</span>
-              </button>
-            </li>
-            <li>
-              <button
-                class="flex gap-3 items-center px-4 py-2 whitespace-nowrap w-full hover:bg-gray-100"
-                type="button"
-                size="sm"
-              >
-                <span v-html="currencyFlagMap.USD" />
-                <span class="text-sm">Dollar Wallet</span>
-              </button>
-            </li>
-          </ul>
-        </template>
-      </CommonDropdown>
-    </div>
+      <template #default="{ data }">
+        <div v-if="data" class="border border-gray-100 inline-block rounded md:self-start">
+          <table class="border-collapse table-fixed">
+            <thead>
+              <TableRow>
+                <TableTH align="left" class="md:w-[100px]">
+                  Currency
+                </TableTH>
+                <TableTH align="right" class="md:w-[250px]">
+                  Balance
+                </TableTH>
+              </TableRow>
+            </thead>
+            <tbody>
+              <template v-for="(wallet, index) in data" :key="wallet.id">
+                <TableRow>
+                  <TableTD
+                    align="left"
+                    class="border-r border-gray-100"
+                    :class="{
+                      'border-b': index < data.length - 1,
+                      'border-t': index > 0,
+                    }"
+                  >
+                    <div class="flex gap-2">
+                      <span
+                        v-if="currencyFlagMap[wallet.currency]"
+                        v-html="currencyFlagMap[wallet.currency]"
+                      />
+                      <span>{{ wallet.currency }}</span>
+                    </div>
+                  </TableTD>
+                  <TableTD
+                    align="right"
+                    class="border-gray-100"
+                    :class="{
+                      'border-b': index < data.length - 1,
+                      'border-t': index > 0,
+                    }"
+                  >
+                    {{
+                      numberFormat(wallet.balance, 'currency', wallet.currency)
+                    }}
+                  </TableTD>
+                </TableRow>
+              </template>
+            </tbody>
+          </table>
+        </div>
+      </template>
 
-    <CommonDatatable
-      v-if="wallets.length"
+      <template #empty>
+        <div
+          class="bg-gray-50 flex flex-col gap-4 items-center px-4 py-8 rounded md:self-start md:w-[350px]"
+        >
+          <span class="text-gray-500 text-center">
+            This user doesn't have any wallets at the moment.
+          </span>
+          <Dropdown>
+            <Button left-icon="plus" size="sm">
+              Create Wallet
+            </Button>
+            <template #items>
+              <ul class="flex flex-col">
+                <li>
+                  <button
+                    class="flex gap-3 items-center px-4 py-2 whitespace-nowrap w-full hover:bg-gray-100"
+                    type="button"
+                    size="sm"
+                  >
+                    <span v-html="currencyFlagMap.NGN" />
+                    <span class="text-sm">Naira Wallet</span>
+                  </button>
+                </li>
+                <li>
+                  <button
+                    class="flex gap-3 items-center px-4 py-2 whitespace-nowrap w-full hover:bg-gray-100"
+                    type="button"
+                    size="sm"
+                  >
+                    <span v-html="currencyFlagMap.USD" />
+                    <span class="text-sm">Dollar Wallet</span>
+                  </button>
+                </li>
+              </ul>
+            </template>
+          </Dropdown>
+        </div>
+      </template>
+
+      <template #loading>
+        <Card class="md:self-start md:w-[350px]" remove-padding>
+          <TableLoader :cols="2" :rows="2" td="h-3 w-24" />
+        </Card>
+      </template>
+    </ServerRequest>
+
+    <Datatable
       :url="`/transactions/${props.user.id}`"
       service="WALLET"
       :search-columns="columns"
       :column="column"
       order-by="created_at"
       :order-by-ascending="false"
+      :model="WalletTransactionEx"
     >
       <template #heading>
-        <CommonDatatableTH align="right" name="amount">
+        <DatatableTH align="right" name="amount">
           Amount
-        </CommonDatatableTH>
-        <CommonDatatableTH name="currency">Currency</CommonDatatableTH>
-        <CommonDatatableTH name="reference">Reference</CommonDatatableTH>
-        <CommonDatatableTH name="type">Type</CommonDatatableTH>
-        <CommonDatatableTH name="status">Status</CommonDatatableTH>
-        <CommonDatatableTH name="created_at">Date</CommonDatatableTH>
+        </DatatableTH>
+        <DatatableTH name="currency">Currency</DatatableTH>
+        <DatatableTH name="reference">Reference</DatatableTH>
+        <DatatableTH name="type">Type</DatatableTH>
+        <DatatableTH name="status">Status</DatatableTH>
+        <DatatableTH name="created_at">Date</DatatableTH>
       </template>
-      <template #default="{ row }: { row: WalletTransaction }">
-        <CommonDatatableRow>
-          <CommonDatatableTD align="right">
+      <template #default="{ row }">
+        <DatatableRow>
+          <DatatableTD align="right">
             <span
               :class="{
                 'text-green-700': row.type === 'CREDIT',
@@ -184,18 +177,18 @@ const { submit } = useFormRequest(form, {
             >
               {{ numberFormat(row.amount, 'currency', row.currency) }}
             </span>
-          </CommonDatatableTD>
-          <CommonDatatableTD>{{ row.currency }}</CommonDatatableTD>
-          <CommonDatatableTD>{{ row.reference }}</CommonDatatableTD>
-          <CommonDatatableTD>{{ row.type }}</CommonDatatableTD>
-          <CommonDatatableTD>
-            <CommonBadgeStatus :status="row.status" />
-          </CommonDatatableTD>
-          <CommonDatatableTD>
+          </DatatableTD>
+          <DatatableTD>{{ row.currency }}</DatatableTD>
+          <DatatableTD>{{ row.reference }}</DatatableTD>
+          <DatatableTD>{{ row.type }}</DatatableTD>
+          <DatatableTD>
+            <BadgeStatus :status="row.status" />
+          </DatatableTD>
+          <DatatableTD>
             {{ dateTimeFormat(row.created_at, 'date:compact:time') }}
-          </CommonDatatableTD>
-        </CommonDatatableRow>
+          </DatatableTD>
+        </DatatableRow>
       </template>
-    </CommonDatatable>
+    </Datatable>
   </div>
 </template>

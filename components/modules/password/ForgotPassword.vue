@@ -20,16 +20,16 @@ const { submit } = useFormRequest(form, {
 <template>
   <div class="w-full">
     <div class="mb-12">
-      <CommonHeading level="1" class="mb-2">
+      <Heading level="1" class="mb-2">
         Did you forget your password?
-      </CommonHeading>
+      </Heading>
       <p>Enter your email address below so we can help you reset it.</p>
     </div>
 
-    <CommonForm @submit="submit">
+    <Form @submit="submit">
       <div class="flex flex-col">
         <div class="w-full">
-          <CommonFormGroup
+          <FormGroup
             v-model="form.fields.email.value"
             type="email"
             name="email"
@@ -48,26 +48,26 @@ const { submit } = useFormRequest(form, {
         </div>
 
         <div class="w-full">
-          <CommonMessage color-scheme="green" v-if="form.success">
+          <Message color-scheme="green" v-if="form.success">
             <i class="bi bi-check-square" />
             <span class="ml-1">{{ form.success }}</span>
-          </CommonMessage>
-          <CommonMessage color-scheme="red" v-else-if="form.error">
+          </Message>
+          <Message color-scheme="red" v-else-if="form.error">
             <i class="bi bi-exclamation-square" />
             <span class="ml-1">{{ form.error }}</span>
-          </CommonMessage>
+          </Message>
 
           <div class="mb-3 mt-4">
-            <CommonButtonSubmit
+            <ButtonSubmit
               color-scheme="black"
               :disabled="!!form.success"
               :form="form"
             >
               Continue
-            </CommonButtonSubmit>
+            </ButtonSubmit>
           </div>
         </div>
       </div>
-    </CommonForm>
+    </Form>
   </div>
 </template>

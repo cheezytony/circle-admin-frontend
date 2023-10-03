@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { Admin } from '~/types/models';
+import { Admin, AdminEx } from '~/types/models';
+import { useAssetFunction } from '~/utils';
 import { DataListItem } from '~~/types/components';
 import { dateTimeFormat } from '~~/utils/filters/dates';
 
@@ -35,40 +36,49 @@ const dataList: Array<DataListItem> = [
     // href: '/admins/cldvn3fo90000yhvos9e0n3yr',
   },
 ];
+
+const getAsset = useAssetFunction();
+const getAvatar = ({ avatar, first_name, last_name }: Admin) => {
+  return avatar
+    ? getAsset(avatar)
+    : `https://ui-avatars.com/api/?background=000&color=fff&font-size=0.3&size=128&name=${first_name}+${last_name}`;
+};
 </script>
 
 <template>
   <NuxtLayout name="default">
     <template #summary>
-      <CommonSummaryHeading>Overview</CommonSummaryHeading>
+      <SummaryHeading>Overview</SummaryHeading>
 
-      <CommonDataList :data="dataList" />
+      <DataList :data="dataList" />
     </template>
     <div>
-      <CommonPageHeading>
-        <CommonHeading level="2">All Admins</CommonHeading>
-        <CommonButton left-icon="user-plus" href="/admins/create" size="sm">
+      <PageHeading>
+        <Heading level="2">All Admins</Heading>
+        <Button left-icon="user-plus" href="/admins/create" size="sm">
           <span>Create</span>
-        </CommonButton>
-      </CommonPageHeading>
+        </Button>
+      </PageHeading>
 
-      <CommonDatatable url="/admins" :search-columns="columns" :column="column">
+      <Datatable
+        url="/admins"
+        :search-columns="columns"
+        :column="column"
+        :model="AdminEx"
+      >
         <template #heading>
-          <CommonDatatableTH name="first_name">Admin</CommonDatatableTH>
-          <CommonDatatableTH name="email">Email</CommonDatatableTH>
-          <CommonDatatableTH name="phone">Phone</CommonDatatableTH>
-          <CommonDatatableTH name="created_at">Date Added</CommonDatatableTH>
+          <DatatableTH name="first_name">Admin</DatatableTH>
+          <DatatableTH name="email">Email</DatatableTH>
+          <DatatableTH name="phone">Phone</DatatableTH>
+          <DatatableTH name="created_at">Date Added</DatatableTH>
         </template>
-        <template #default="{ row }: { row: Admin }">
-          <CommonDatatableRow :to="`/admins/${row.id}`">
-            <CommonDatatableTD>
+        <template #default="{ row }">
+          <DatatableRow :to="`/admins/${row.id}`">
+            <DatatableTD>
               <div class="flex items-center gap-3">
                 <img
                   class="bg-gray-300 shrink-0 h-8 rounded-full w-8"
-                  :src="
-                    row.avatar ||
-                    `https://ui-avatars.com/api/?background=000&color=fff&font-size=0.3&size=128&name=${row.first_name}+${row.last_name}`
-                  "
+                  :src="getAvatar(row)"
                   :alt="`${row.first_name} ${row.last_name}`"
                 />
                 <span class="flex flex-col gap-1">
@@ -76,15 +86,15 @@ const dataList: Array<DataListItem> = [
                   <span class="text-xs opacity-50">{{ row.id }}</span>
                 </span>
               </div>
-            </CommonDatatableTD>
-            <CommonDatatableTD>{{ row.email }}</CommonDatatableTD>
-            <CommonDatatableTD>{{ row.phone }}</CommonDatatableTD>
-            <CommonDatatableTD>
+            </DatatableTD>
+            <DatatableTD>{{ row.email }}</DatatableTD>
+            <DatatableTD>{{ row.phone }}</DatatableTD>
+            <DatatableTD>
               {{ dateTimeFormat(row.created_at, 'date:compact') }}
-            </CommonDatatableTD>
-          </CommonDatatableRow>
+            </DatatableTD>
+          </DatatableRow>
         </template>
-      </CommonDatatable>
+      </Datatable>
     </div>
   </NuxtLayout>
 </template>

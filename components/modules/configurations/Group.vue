@@ -8,17 +8,17 @@ defineProps<{
 </script>
 
 <template>
-  <CommonCard>
-    <CommonCardHeading>
+  <Card>
+    <CardHeading>
       {{ name ?? 'General' }}
-    </CommonCardHeading>
+    </CardHeading>
     <div class="flex flex-col gap-10">
       <template
         :key="configuration.slug"
         v-for="configuration in configurations"
       >
-        <PageSectionsConfigurationItem v-bind="{ configuration }" />
+        <ConfigurationsItem v-bind="{ configuration }" />
       </template>
     </div>
-  </CommonCard>
+  </Card>
 </template>

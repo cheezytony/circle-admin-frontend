@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { User } from '~/types/models';
+import { User, UserEx } from '~/types/models';
 import { DataListItem } from '~~/types/components';
 import { dateTimeFormat } from '~~/utils/filters/dates';
 
@@ -23,36 +23,37 @@ const dataList: Array<DataListItem> = [
 <template>
   <NuxtLayout name="default">
     <template #summary>
-      <CommonSummaryHeading>Overview</CommonSummaryHeading>
+      <SummaryHeading>Overview</SummaryHeading>
 
-      <CommonDataList :data="dataList" />
+      <DataList :data="dataList" />
     </template>
     <div>
-      <CommonPageHeading>
-        <CommonHeading level="2">All Users</CommonHeading>
-        <CommonButton left-icon="user-plus" href="/users/create" size="sm">
+      <PageHeading>
+        <Heading level="2">All Users</Heading>
+        <Button left-icon="user-plus" href="/users/create" size="sm">
           <span>Create</span>
-        </CommonButton>
-      </CommonPageHeading>
+        </Button>
+      </PageHeading>
 
-      <CommonDatatable
+      <Datatable
         url="/users"
         service="USER_DATA"
         :search-columns="columns"
         order-by="created_at"
         :order-by-ascending="false"
+        :model="UserEx"
       >
         <template #heading>
-          <CommonDatatableTH name="first_name">User</CommonDatatableTH>
-          <CommonDatatableTH name="email">Email</CommonDatatableTH>
-          <CommonDatatableTH name="phone">Phone</CommonDatatableTH>
-          <CommonDatatableTH name="created_at">
+          <DatatableTH name="first_name">User</DatatableTH>
+          <DatatableTH name="email">Email</DatatableTH>
+          <DatatableTH name="phone">Phone</DatatableTH>
+          <DatatableTH name="created_at">
             Date Registered
-          </CommonDatatableTH>
+          </DatatableTH>
         </template>
-        <template #default="{ row }: { row: User }">
-          <CommonDatatableRow :to="`/users/${row._id}`">
-            <CommonDatatableTD>
+        <template #default="{ row }">
+          <DatatableRow :to="`/users/${row._id}`">
+            <DatatableTD>
               <div class="flex items-center gap-3">
                 <img
                   class="bg-gray-300 shrink-0 h-8 rounded-full w-8"
@@ -64,17 +65,17 @@ const dataList: Array<DataListItem> = [
                   <span class="text-xs opacity-50 break-words">{{ row._id }}</span>
                 </span>
               </div>
-            </CommonDatatableTD>
-            <CommonDatatableTD>{{ row.email }}</CommonDatatableTD>
-            <CommonDatatableTD>
+            </DatatableTD>
+            <DatatableTD>{{ row.email }}</DatatableTD>
+            <DatatableTD>
               {{ optional(row.phoneNumber) }}
-            </CommonDatatableTD>
-            <CommonDatatableTD>
+            </DatatableTD>
+            <DatatableTD>
               {{ dateTimeFormat(row.createdAt, 'date') }}
-            </CommonDatatableTD>
-          </CommonDatatableRow>
+            </DatatableTD>
+          </DatatableRow>
         </template>
-      </CommonDatatable>
+      </Datatable>
     </div>
   </NuxtLayout>
 </template>

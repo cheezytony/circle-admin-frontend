@@ -379,7 +379,7 @@ module.exports = {
     fontFamily: {
       sans: [
         // 'Rubik',
-        'Roboto',
+        // 'Roboto',
         'ui-sans-serif',
         'system-ui',
         '-apple-system',
@@ -413,10 +413,7 @@ module.exports = {
         '"Courier New"',
         'monospace',
       ],
-      emoji: [
-        'Noto Color Emoji',
-        'Apple Color Emoji',
-      ]
+      emoji: ['Noto Color Emoji', 'Apple Color Emoji'],
     },
     fontSize: {
       xs: ['0.75rem', { lineHeight: '1rem' }],
@@ -1003,6 +1000,7 @@ module.exports = {
     'disabled',
   ],
   plugins: [
+    require('@tailwindcss/container-queries'),
     plugin(({ addComponents, addBase, theme }) => {
       addBase({
         body: {

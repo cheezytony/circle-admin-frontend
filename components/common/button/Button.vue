@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { NuxtLinkProps } from '#app';
 import { NuxtLink } from '#components';
-import { colorsSchemes, getColorScheme } from '~~/utils/theme';
+import { ApplicationColor, getAppColor } from '~~/utils';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 const SIZES = {
@@ -13,7 +13,7 @@ const SIZES = {
 
 const props = withDefaults(
   defineProps<{
-    colorScheme?: keyof typeof colorsSchemes;
+    colorScheme?: ApplicationColor;
     disabled?: boolean;
     href?: NuxtLinkProps['href'];
     isLoading?: boolean;
@@ -44,7 +44,13 @@ const color = computed<string>(() => {
     }
   }
 
-  return getColorScheme(props.colorScheme, true);
+  return getAppColor(props.colorScheme, [
+    'bg',
+    'border',
+    'focus',
+    'hover',
+    'text',
+  ]);
 });
 
 const box = computed<string>(() => {
@@ -83,7 +89,7 @@ const is = computed(() => {
     ]"
   >
     <template v-if="isLoading">
-      <CommonLoaderSmall />
+      <LoaderSmall />
     </template>
     <template v-else>
       <span v-if="leftIcon">

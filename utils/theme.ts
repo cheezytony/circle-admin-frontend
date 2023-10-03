@@ -1,44 +1,242 @@
-export const colorsSchemes = {
-  black: 'bg-black text-white',
-  'black:ghost': 'bg-transparent text-black',
-  'black:soft': 'bg-gray-200 text-black',
-  'black:outline': 'bg-transparent border border-black text-black',
-  blue: 'bg-blue-500 text-white',
-  'blue:outline': 'bg-white border border-blue-500 text-blue-500',
-  gray: 'bg-gray-500 text-white',
-  'gray:soft': 'bg-gray-200 text-gray-600',
-  green: 'bg-green-500 text-white',
-  'green:soft': 'bg-green-50 text-green-600',
-  orange: 'bg-orange-500 text-white',
-  red: 'bg-red-500 text-white',
-  'red:soft': 'bg-red-50 text-red-600',
-  white: 'bg-white border border-gray-300 text-black',
+export const applicationColors = {
+  black: {
+    bg: 'bg-black',
+    border: 'border-black',
+    text: 'text-white',
+    focus: {
+      bg: 'focus:bg-gray-500',
+      border: 'focus:border-gray-500',
+    },
+    hover: {
+      bg: 'hover:bg-gray-700',
+      border: 'hover:border-gray-700',
+    },
+  },
+  'black:ghost': {
+    bg: 'bg-transparent',
+    border: 'border-transparent',
+    text: 'text-black',
+    focus: {
+      bg: 'focus:bg-gray-200',
+      border: 'focus:border-gray-200',
+    },
+    hover: {
+      bg: 'hover:bg-gray-100',
+      border: 'hover:border-gray-100',
+    },
+  },
+  'black:soft': {
+    bg: 'bg-gray-200',
+    border: 'border-gray-200',
+    text: 'text-black',
+    focus: {
+      bg: 'focus:bg-black',
+      border: 'focus:border-black',
+    },
+    hover: {
+      bg: 'hover:bg-gray-300',
+      border: 'hover:border-gray-300',
+    },
+  },
+  'black:outline': {
+    bg: 'bg-transparent',
+    border: 'border-black',
+    text: 'text-black',
+    focus: {
+      bg: 'focus:bg-black',
+      border: 'focus:border-black',
+    },
+    hover: {
+      bg: 'hover:bg-gray-300',
+      border: 'hover:border-gray-300',
+    },
+  },
+  blue: {
+    bg: 'bg-blue-500',
+    border: 'border-blue-500',
+    text: 'text-white',
+    focus: {
+      bg: 'focus:bg-blue-700',
+      border: 'focus:border-blue-700',
+    },
+    hover: {
+      bg: 'hover:bg-blue-600',
+      border: 'hover:border-blue-600',
+    },
+  },
+  'blue:outline': {
+    bg: 'bg-white',
+    border: 'border-blue-500',
+    text: 'text-blue-500',
+    focus: {
+      bg: 'focus:bg-blue-100',
+      border: 'focus:border-blue-100',
+    },
+    hover: {
+      bg: 'hover:bg-blue-50',
+      border: 'hover:border-blue-50',
+    },
+  },
+  gray: {
+    bg: 'bg-gray-500',
+    border: 'border-gray-500',
+    text: 'text-white',
+    focus: {
+      bg: 'focus:bg-gray-600',
+      border: 'focus:border-gray-600',
+    },
+    hover: {
+      bg: 'hover:bg-gray-400',
+      border: 'hover:border-gray-400',
+    },
+  },
+  'gray:soft': {
+    bg: 'bg-gray-200',
+    border: 'border-gray-200',
+    text: 'text-gray-600',
+    focus: {
+      bg: 'focus:bg-gray-400',
+      border: 'focus:border-gray-400',
+    },
+    hover: {
+      bg: 'hover:bg-gray-300',
+      border: 'hover:border-gray-300',
+    },
+  },
+  green: {
+    bg: 'bg-green-500',
+    border: 'border-green-500',
+    text: 'text-white',
+    focus: {
+      bg: 'focus:bg-green-700',
+      border: 'focus:border-green-700',
+    },
+    hover: {
+      bg: 'hover:bg-green-600',
+      border: 'hover:border-green-600',
+    },
+  },
+  'green:soft': {
+    bg: 'bg-green-50',
+    border: 'border-green-50',
+    text: 'text-green-600',
+    focus: {
+      bg: 'focus:bg-green-200',
+      border: 'focus:border-green-200',
+    },
+    hover: {
+      bg: 'hover:bg-green-100',
+      border: 'hover:border-green-100',
+    },
+  },
+  orange: {
+    bg: 'bg-orange-500',
+    border: 'border-orange-500',
+    text: 'text-white',
+    focus: {
+      bg: 'focus:bg-orange-700',
+      border: 'focus:border-orange-700',
+    },
+    hover: {
+      bg: 'hover:bg-orange-600',
+      border: 'hover:border-orange-600',
+    },
+  },
+  purple: {
+    bg: 'bg-purple-500',
+    border: 'border-purple-500',
+    text: 'text-white',
+    focus: {
+      bg: 'focus:bg-purple-700',
+      border: 'focus:border-purple-700',
+    },
+    hover: {
+      bg: 'hover:bg-purple-600',
+      border: 'hover:border-purple-600',
+    },
+  },
+  'purple:soft': {
+    bg: 'bg-purple-50',
+    border: 'border-purple-50',
+    text: 'text-purple-600',
+    focus: {
+      bg: 'focus:bg-purple-200',
+      border: 'focus:border-purple-200',
+    },
+    hover: {
+      bg: 'hover:bg-purple-100',
+      border: 'hover:border-purple-100',
+    },
+  },
+  red: {
+    bg: 'bg-red-500',
+    border: 'border-red-500',
+    text: 'text-white',
+    focus: {
+      bg: 'focus:bg-red-600',
+      border: 'focus:border-red-600',
+    },
+    hover: {
+      bg: 'hover:bg-red-400',
+      border: 'hover:border-red-400',
+    },
+  },
+  'red:soft': {
+    bg: 'bg-red-50',
+    border: 'border-red-50',
+    text: 'text-red-600',
+    focus: {
+      bg: 'focus:bg-red-200',
+      border: 'focus:border-red-200',
+    },
+    hover: {
+      bg: 'hover:bg-red-100',
+      border: 'hover:border-red-100',
+    },
+  },
+  white: {
+    bg: 'bg-white',
+    border: 'border-gray-300',
+    text: 'text-black',
+    focus: {
+      bg: 'focus:bg-gray-200',
+      border: 'focus:border-gray-200',
+    },
+    hover: {
+      bg: 'hover:bg-gray-100',
+      border: 'hover:border-gray-100',
+    },
+  },
 };
-
-export const controlColorsSchemes = {
-  black: 'hover:bg-gray-700 focus:bg-gray-500',
-  'black:ghost': 'hover:bg-gray-100 focus:bg-gray-200',
-  'black:soft': 'hover:bg-gray-300 focus:bg-black focus:text-white',
-  'black:outline': 'hover:bg-gray-300 focus:bg-black focus:text-white',
-  blue: 'hover:bg-blue-600 focus:bg-blue-700',
-  'blue:outline': 'hover:bg-blue-50 focus:bg-blue-100',
-  gray: 'hover:bg-gray-400 focus:bg-gray-600',
-  'gray:soft': 'hover:bg-gray-300 focus:bg-gray-400',
-  green: 'hover:bg-green-600 focus:bg-green-700',
-  'green:soft': 'hover:bg-green-100 focus:bg-green-200',
-  orange: 'hover:bg-orange-600 focus:bg-orange-700',
-  red: 'hover:bg-red-400 focus:bg-red-600',
-  'red:soft':
-    'hover:bg-red-400 hover:text-white focus:bg-red-600 focus:text-white',
-  white: 'hover:bg-gray-100 focus:bg-gray-200',
-};
-
-export const getColorScheme = (
-  colorScheme: keyof typeof colorsSchemes = 'black',
-  useControlColors = false,
+export const getAppColor = (
+  color: keyof typeof applicationColors = 'black',
+  config: GetApplicationColorConfig = []
 ) => {
-  return (
-    colorsSchemes[colorScheme] +
-    (useControlColors ? ' ' + controlColorsSchemes[colorScheme] : ' ')
-  );
+  const hasBg = config.includes('bg');
+  const hasBorder = config.includes('border');
+  const hasFocus = config.includes('focus');
+  const hasHover = config.includes('hover');
+  const hasText = config.includes('text');
+
+  const result: Array<string | undefined> = [];
+  if (hasBg) result.push(applicationColors[color].bg);
+  if (hasBorder) result.push(applicationColors[color].border);
+  if (hasText) result.push(applicationColors[color].text);
+
+  if (hasFocus) {
+    if (hasBg) result.push(applicationColors[color]?.focus?.bg);
+    if (hasBorder) result.push(applicationColors[color]?.focus?.border);
+    // if (hasText) result.push(applicationColors[color]?.focus?.text)
+  }
+  if (hasHover) {
+    if (hasBg) result.push(applicationColors[color]?.hover?.bg);
+    if (hasBorder) result.push(applicationColors[color]?.hover?.border);
+    // if (hasText) result.push(applicationColors[color]?.hover?.text)
+  }
+  return result.join(' ');
 };
+
+export type ApplicationColor = keyof typeof applicationColors;
+export type GetApplicationColorConfig = Array<
+  'bg' | 'border' | 'text' | 'focus' | 'hover'
+>;

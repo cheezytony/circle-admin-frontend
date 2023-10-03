@@ -1,6 +1,16 @@
 // eslint-disable-next-line import/named
 import { ComputedRef, Ref, reactive, ref, watch } from 'vue';
 
+export const useAssetFunction = () => {
+  const {
+    public: { assetsBaseURL },
+  } = useRuntimeConfig();
+
+  return (uri: string) => {
+    return uri.replace(/(^|^\/)/, assetsBaseURL?.replace(/($|\/$)/, '/'));
+  };
+}
+
 export const useAsset = (uri: ComputedRef<string | undefined>) => {
   const {
     public: { assetsBaseURL },
