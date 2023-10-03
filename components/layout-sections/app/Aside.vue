@@ -119,7 +119,7 @@ const handleLinkClick = ({ isLogout }: SidebarLink) => {
           @click.prevent="toggleSidebar"
         >
           <div>
-            <CommonLogoDefault class="text-[7px]" />
+            <LogoDefault class="text-[7px]" />
           </div>
           <Transition
             enter-from-class="delay-300 opacity-0"
@@ -147,7 +147,7 @@ const handleLinkClick = ({ isLogout }: SidebarLink) => {
             :class="[sectionIndex === sections.length - 1 && 'mt-auto']"
           >
             <template :key="`${title}-${link.title}`" v-for="link in links">
-              <CommonTooltip
+              <Tooltip
                 :content="link.title"
                 :is-active="isSidebarCollapsed"
                 placement="right-center"
@@ -186,7 +186,7 @@ const handleLinkClick = ({ isLogout }: SidebarLink) => {
                     <span v-else>&nbsp;</span>
                   </Transition>
                 </component>
-              </CommonTooltip>
+              </Tooltip>
             </template>
           </ul>
         </template>

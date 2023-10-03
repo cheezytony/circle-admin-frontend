@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { colorsSchemes, getColorScheme } from '~~/utils/theme';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 const colorSchemes = {
   black: ['black:soft', 'black'],
@@ -17,9 +17,9 @@ const props = withDefaults(defineProps<{
 
 const colorScheme = computed(() => {
   const [baseColor, activeColor] = colorSchemes[props.colorScheme];
-  return getColorScheme(
+  return getAppColor(
     (props.isActive ? activeColor : baseColor) as keyof typeof colorSchemes,
-    true
+    ['bg', 'border', 'hover', 'text', 'focus']
   );
 });
 </script>

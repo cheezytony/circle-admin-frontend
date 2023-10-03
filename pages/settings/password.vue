@@ -22,8 +22,8 @@ const { submit } = useFormRequest(form, {
 
 <template>
   <div>
-    <CommonForm @submit="submit">
-      <CommonFormGroup
+    <Form @submit="submit">
+      <FormGroup
         v-model="form.fields.old_password.value"
         type="password"
         name="old_password"
@@ -33,7 +33,7 @@ const { submit } = useFormRequest(form, {
         placeholder="e.g. myOldPassword-861"
         :can-toggle-password="false"
       />
-      <CommonFormGroup
+      <FormGroup
         v-model="form.fields.password.value"
         type="password"
         name="password"
@@ -43,7 +43,7 @@ const { submit } = useFormRequest(form, {
         placeholder="e.g. myNewPassword-153"
         :can-toggle-password="false"
       />
-      <CommonFormGroup
+      <FormGroup
         v-model="form.fields.password_confirmation.value"
         type="password"
         name="password_confirmation"
@@ -54,18 +54,18 @@ const { submit } = useFormRequest(form, {
         :can-toggle-password="false"
       />
 
-      <CommonMessage v-if="form.error" color-scheme="red">
+      <Message v-if="form.error" color-scheme="red">
         {{ form.error }}
-      </CommonMessage>
-      <CommonMessage v-else-if="form.success" color-scheme="green">
+      </Message>
+      <Message v-else-if="form.success" color-scheme="green">
         {{ form.success }}
-      </CommonMessage>
+      </Message>
 
-      <CommonButtonSubmit :form="form">Save Changes</CommonButtonSubmit>
-    </CommonForm>
+      <ButtonSubmit :form="form">Save Changes</ButtonSubmit>
+    </Form>
 
-    <CommonModalSuccess v-model:is-open="isOpen">
+    <ModalSuccess v-model:is-open="isOpen">
       Password Updated Successfully
-    </CommonModalSuccess>
+    </ModalSuccess>
   </div>
 </template>

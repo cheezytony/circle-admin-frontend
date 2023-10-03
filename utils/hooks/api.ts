@@ -7,7 +7,7 @@ import {
   setFormErrors,
   validateForm,
 } from 'vue3-form';
-import toastr from 'toastr';
+// import toastr from 'toastr';
 // eslint-disable-next-line import/named
 import axios, { AxiosRequestConfig, isCancel } from 'axios';
 import { HTTPError, HTTPErrorData, HTTPResponseData } from '~~/types/http';
@@ -169,12 +169,13 @@ export const useFormRequest = <T>(
     ...config,
     onSuccess: (data) => {
       form.value.success = data?.message ?? null;
-      toastr.success(data?.message ?? 'Operation Successful');
+      // toastr.success(data?.message ?? 'Operation Successful');
       onSuccess?.(data);
     },
     onError: (error) => {
       form.value.error = error.message;
       error.errors && setFormErrors(form, error.errors);
+      console.log(error.errors);
 
       onError?.(error);
     },

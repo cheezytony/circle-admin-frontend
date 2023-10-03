@@ -32,13 +32,13 @@ const { submit } = useFormRequest(form, {
   <NuxtLayout name="default">
     <template #summary> </template>
     <div class="max-w-[700px]">
-      <CommonHeading level="2" class="mb-8">
+      <Heading level="2" class="mb-8">
         Create a new admin
-      </CommonHeading>
+      </Heading>
 
-      <CommonForm @submit="submit">
+      <Form @submit="submit">
         <div class="gap-x-8 grid grid-cols-2">
-          <CommonFormGroup
+          <FormGroup
             v-model="form.fields.first_name.value"
             :form="form"
             name="first_name"
@@ -46,7 +46,7 @@ const { submit } = useFormRequest(form, {
             label="First Name"
             placeholder="e.g. Antonio"
           />
-          <CommonFormGroup
+          <FormGroup
             v-model="form.fields.last_name.value"
             :form="form"
             name="last_name"
@@ -55,7 +55,7 @@ const { submit } = useFormRequest(form, {
             placeholder="e.g. Okoro"
           />
           <div class="col-span-2">
-            <CommonFormGroup
+            <FormGroup
               v-model="form.fields.email.value"
               :form="form"
               name="email"
@@ -65,7 +65,7 @@ const { submit } = useFormRequest(form, {
             />
           </div>
           <div class="col-span-2">
-            <CommonFormGroup
+            <FormGroup
               v-model="form.fields.phone.value"
               :form="form"
               type="phone"
@@ -77,17 +77,17 @@ const { submit } = useFormRequest(form, {
           </div>
         </div>
         <div class="mb-8">
-          <CommonMessage color-scheme="green" v-if="form.success">
+          <Message color-scheme="green" v-if="form.success">
             <span class="ml-1">{{ form.success }}</span>
-          </CommonMessage>
-          <CommonMessage color-scheme="red" v-else-if="form.error">
+          </Message>
+          <Message color-scheme="red" v-else-if="form.error">
             <span class="ml-1">{{ form.error }}</span>
-          </CommonMessage>
+          </Message>
         </div>
-        <CommonButtonSubmit color-scheme="black" :form="form">
+        <ButtonSubmit color-scheme="black" :form="form">
           Submit
-        </CommonButtonSubmit>
-      </CommonForm>
+        </ButtonSubmit>
+      </Form>
     </div>
   </NuxtLayout>
 </template>

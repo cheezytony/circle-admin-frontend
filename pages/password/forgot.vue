@@ -13,7 +13,7 @@ const email = ref<string>();
 
 <template>
   <section>
-    <PageSectionsPasswordResetPassword v-if="email" :email="email" />
-    <PageSectionsPasswordForgotPassword v-else @success="email = $event" />
+    <PasswordResetPassword v-if="email" :email="email" />
+    <PasswordForgotPassword v-else @success="email = $event" />
   </section>
 </template>

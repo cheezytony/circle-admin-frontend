@@ -12,9 +12,9 @@ const { avatar, name, initials } = storeToRefs(useAuth());
   <header class="bg-white fixed left-0 px-5 py-4 md:py-16 md:sticky top-0 w-full md:w-auto z-[1001] md:px-10">
     <div class="flex gap-4 h-12 items-center md:gap-8">
       <button class="mr-auto md:hidden" @click="toggleSidebar">
-        <CommonLogoDefault class="text-[7px]" />
+        <LogoDefault class="text-[7px]" />
       </button>
-      <LayoutSectionsAppSearch />
+      <AppSearch />
 
       <button
         class="appearance-none bg-gray-100 flex-shrink-0 h-12 md:ml-auto rounded-full w-12"

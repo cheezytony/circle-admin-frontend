@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { useForm } from 'vue3-form';
-import { DatatableFilter } from '~~/types/components';
+import { DatatableFilter, DatatableItem } from '~~/types/components';
 import { Admin, Permission } from '~~/types/models';
 import {
   truncate,
@@ -17,6 +17,7 @@ useHead({
   title: () => `Manage ${props.admin.first_name}'s Permissions`,
 });
 
+const { isOpen: isConfirmationOpen, open: openConfirmation, close: closeConfirmation } = useDisclosure();
 const { isOpen, open } = useDisclosure();
 const { data, isLoading } = useApiRequest<Array<Permission>>({
   url: '/permissions',
@@ -33,7 +34,8 @@ const {
   autoLoad: true,
   onSuccess: (data) => {
     data.data && updateForm(data.data);
-  }
+  },
+  onFinish: closeConfirmation,
 });
 const form = useForm({
   permissions: {
@@ -85,7 +87,7 @@ watch(adminPermissions, (value) => (selection.value = [...value]));
 
 <template>
   <div class="flex flex-col gap-8">
-    <CommonDatatable
+    <Datatable
       v-model:selection="selection"
       v-model:active-filters="activeFilters"
       :is-loading="isLoading || isLoading2"
@@ -99,52 +101,60 @@ watch(adminPermissions, (value) => (selection.value = [...value]));
       @update:selection="updateForm"
     >
       <template #heading>
-        <CommonDatatableTH name="slug">Permission</CommonDatatableTH>
-        <CommonDatatableTH>Description</CommonDatatableTH>
-        <CommonDatatableTH align="right">Changes</CommonDatatableTH>
+        <DatatableTH name="slug">Permission</DatatableTH>
+        <DatatableTH>Description</DatatableTH>
+        <DatatableTH align="right">Changes</DatatableTH>
       </template>
-      <template #default="{ row, index }: { row: Permission, index: number }">
-        <CommonDatatableRow :index="index">
-          <CommonDatatableTD>{{ row.slug }}</CommonDatatableTD>
-          <CommonDatatableTD>
+      <template #default="{ row, index }: DatatableItem<Permission>">
+        <DatatableRow :index="index">
+          <DatatableTD>{{ row.slug }}</DatatableTD>
+          <DatatableTD>
             {{ truncate(row.description, 100) }}
-          </CommonDatatableTD>
-          <CommonDatatableTD align="right">
+          </DatatableTD>
+          <DatatableTD align="right">
             <span v-if="isChanged(row)" class="text-xl text-red-500">
               <FontAwesomeIcon icon="triangle-exclamation" />
             </span>
-          </CommonDatatableTD>
-        </CommonDatatableRow>
+          </DatatableTD>
+        </DatatableRow>
       </template>
-    </CommonDatatable>
+    </Datatable>
     <div class="flex flex-col items-start gap-2">
       <div class="flex flex-col gap-4 items-center md:flex-row">
-        <CommonButton
+        <Button
           :is-loading="form.loading"
           size="sm"
           class="flex-shrink-0"
-          @click="submit"
+          @click="openConfirmation"
         >
           Save Changes
-        </CommonButton>
+        </Button>
         <!-- <p>Quae officiis facilis culpa tempore soluta quam sint.</p> -->
       </div>
       <!-- <div class="flex flex-col gap-4 items-center md:flex-row">
-        <CommonButton size="sm" class="flex-shrink-0" color-scheme="black:soft">Reset</CommonButton>
+        <Button size="sm" class="flex-shrink-0" color-scheme="black:soft">Reset</Button>
         <p>Fugit, ut alias! Esse quos soluta cupiditate?</p>
       </div>
       <div class="flex flex-col gap-4 items-center md:flex-row">
-        <CommonButton size="sm" class="flex-shrink-0" color-scheme="black:outline">Assign All</CommonButton>
+        <Button size="sm" class="flex-shrink-0" color-scheme="black:outline">Assign All</Button>
         <p>Asperiores veritatis numquam a labore id maiores eveniet.</p>
       </div>
       <div class="flex flex-col gap-4 items-center md:flex-row">
-        <CommonButton size="sm" class="flex-shrink-0" color-scheme="red:soft">Clear All</CommonButton>
+        <Button size="sm" class="flex-shrink-0" color-scheme="purple:soft">Clear All</Button>
         <p>Voluptates ullam, fugit sequi accusamus nemo rem ratione.</p>
       </div> -->
     </div>
 
-    <CommonModalSuccess v-model:is-open="isOpen">
+    <ModalConfirm
+      v-model:is-open="isConfirmationOpen"
+      :is-loading="form.loading"
+      @submit="submit"
+    >
+      You're about to update {{ admin.first_name }}'s persmisions. Would you
+      like to proceed?
+    </ModalConfirm>
+    <ModalSuccess v-model:is-open="isOpen">
       Permissions Updated Successfully
-    </CommonModalSuccess>
+    </ModalSuccess>
   </div>
 </template>

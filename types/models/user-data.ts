@@ -24,6 +24,8 @@ export interface User {
   profile?: UserProfile;
 }
 
+export const UserEx = {} as User;
+
 export interface UserProfile {
   _id: string;
   id: string;
@@ -76,3 +78,5 @@ export interface ShareAndEarn extends Model {
   createdAt: Date;
   total_count?: number;
 }
+
+export const ShareAndEarnEx = {} as ShareAndEarn;

@@ -18,7 +18,15 @@ useHead({
 const { user } = useAuth();
 const router = useRouter();
 const form = useForm({
-  password: {},
+  password: {
+    rules: [
+      'required',
+      'alphabetsLowercase',
+      'alphabetsUppercase',
+      'numbers',
+      'specialCharacters',
+    ],
+  },
   password_confirmation: { rules: ['exact:password'] },
 });
 
@@ -38,13 +46,17 @@ const { submit } = useFormRequest(form, {
   <section class="row">
     <div class="w-full">
       <div class="mb-12">
-        <CommonHeading level="1" class="mb-2">Hi, {{ user?.first_name }}</CommonHeading>
-        <p>One final step before you're in. Please setup your a secure password for your account</p>
+        <Heading level="1" class="mb-2"
+          >Hi, {{ user?.first_name }}</Heading
+        >
+        <p>
+          One final step before you're in. Please setup your a secure password
+          for your account
+        </p>
       </div>
 
       <Form @submit="submit">
         <div class="flex flex-col">
-
           <div class="w-full">
             <FormGroup
               v-model="form.fields.password.value"
@@ -74,14 +86,14 @@ const { submit } = useFormRequest(form, {
           </div>
 
           <div class="w-full">
-            <CommonMessage color-scheme="green" v-if="form.success">
+            <Message color-scheme="green" v-if="form.success">
               <i class="bi bi-check-square" />
               <span class="ml-1">{{ form.success }}</span>
-            </CommonMessage>
-            <CommonMessage color-scheme="red" v-else-if="form.error">
+            </Message>
+            <Message color-scheme="red" v-else-if="form.error">
               <i class="bi bi-exclamation-square" />
               <span class="ml-1">{{ form.error }}</span>
-            </CommonMessage>
+            </Message>
 
             <div class="mb-3 mt-4">
               <ButtonSubmit

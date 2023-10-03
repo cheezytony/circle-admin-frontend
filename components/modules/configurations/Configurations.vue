@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ConfigurationFormProvision } from '~/types/components';
-import { Configuration, ConfigurationValueType } from '~/types/models';
+import { Configuration, ConfigurationValueType } from '~/types';
 import { ServiceNames, useDisclosure, useFormRequest } from '~/utils';
 import { FormField, useForm } from 'vue3-form';
 
@@ -85,24 +85,24 @@ provide<ConfigurationFormProvision>('CONFIGURATION_FORM', {
 </script>
 
 <template>
-  <CommonForm
+  <Form
     class="gap-4 grid grid-cols-1 md:gap-8 md:grid-cols-2"
     @submit="submitForm"
   >
     <template v-for="[name, configurations] in groups" :key="name">
-      <PageSectionsConfigurationGroup v-bind="{ name, configurations }" />
+      <ConfigurationsGroup v-bind="{ name, configurations }" />
     </template>
-    <CommonCard class="md:col-span-2">
+    <Card class="md:col-span-2">
       <div>
         <div class="flex gap-4 items-center mb-4">
-          <CommonButton
+          <Button
             :is-loading="form.loading"
             left-icon="check"
             type="submit"
           >
             Save Changes
-          </CommonButton>
-          <CommonButton
+          </Button>
+          <Button
             type="button"
             color-scheme="gray:soft"
             :disabled="form.loading"
@@ -110,7 +110,7 @@ provide<ConfigurationFormProvision>('CONFIGURATION_FORM', {
             @click="reset"
           >
             Reset
-          </CommonButton>
+          </Button>
         </div>
         <p class="mb-4 text-gray-500 text-sm">
           Making changes to the system configurations of this service can have a
@@ -123,10 +123,10 @@ provide<ConfigurationFormProvision>('CONFIGURATION_FORM', {
           the system configurations.
         </p>
       </div>
-    </CommonCard>
-  </CommonForm>
+    </Card>
+  </Form>
 
-  <CommonModalSuccess v-model:is-open="isOpen">
+  <ModalSuccess v-model:is-open="isOpen">
     Configurations Updated Successfully
-  </CommonModalSuccess>
+  </ModalSuccess>
 </template>

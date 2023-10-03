@@ -21,15 +21,15 @@ const overview: Array<DataListItem> = [
 <template>
   <NuxtLayout name="default">
     <template #summary>
-      <CommonSummaryHeading>
+      <SummaryHeading>
         Overview
-      </CommonSummaryHeading>
+      </SummaryHeading>
 
-      <CommonDataList :data="overview" />
+      <DataList :data="overview" />
     </template>
     <div class="gap-4 grid grid-cols-1 3xl:grid-cols-2">
-      <CommonChartBar />
-      <CommonChartLine />
+      <ChartBar />
+      <ChartLine />
     </div>
   </NuxtLayout>
 </template>

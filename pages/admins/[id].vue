@@ -56,16 +56,16 @@ useHead({
 <template>
   <NuxtLayout name="default">
     <template #summary>
-      <CommonSummaryHeading>
+      <SummaryHeading>
         {{ fullName }}
-      </CommonSummaryHeading>
+      </SummaryHeading>
 
-      <CommonDataList :data="dataList" />
+      <DataList :data="dataList" />
     </template>
     <div>
-      <CommonTabs>
-        <CommonTabsNav :tabs="tabs" />
-      </CommonTabs>
+      <Tabs>
+        <TabsNav :tabs="tabs" />
+      </Tabs>
 
       <RouterView v-if="admin" :admin="admin" />
     </div>

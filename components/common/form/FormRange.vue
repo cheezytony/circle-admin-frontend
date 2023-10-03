@@ -4,12 +4,14 @@ const emit = defineEmits<{
 }>();
 const props = withDefaults(
   defineProps<{
+    editable?: boolean;
     id?: string;
     max?: number;
     min?: number;
     modelValue?: number | string;
   }>(),
   {
+    editable: false,
     max: 100,
     min: 0,
     modelValue: 50,
@@ -28,7 +30,7 @@ const setMin = () => {
 const onInput = ($event: Event) => {
   emit(
     'update:modelValue',
-    (inputValue.value = ($event.target as HTMLInputElement).value)
+    (inputValue.value = ($event.target as HTMLInputElement).valueAsNumber)
   );
 };
 
@@ -44,8 +46,20 @@ watch(
       <slot />
     </label>
     <div class="inline-flex flex-col gap-2">
-      <div class="bg-gray-50 border border-gray-100 px-2 py-1 rounded self-start text-gray-700 text-center text-sm">
-        {{ inputValue }}
+      <div class="self-start text-center text-sm max-w-[3rem]">
+        <input
+          v-if="editable"
+          class="bg-gray-50 border border-gray-100 text-center px-2 py-1 rounded text-gray-700 w-full"
+          type="text"
+          :value="inputValue"
+          @input="onInput"
+        />
+        <div
+          v-else
+          class="bg-gray-50 border border-gray-100 px-2 py-1 rounded text-gray-700"
+        >
+          {{ inputValue }}
+        </div>
       </div>
       <div class="flex gap-4 items-center">
         <button
@@ -114,6 +128,11 @@ input[type='range']:focus::-webkit-slider-thumb {
   outline-offset: 0.125rem;
 }
 
+input[type='range']:read-only::-webkit-slider-thumb {
+  background-color: theme('colors.gray.100');
+  border: 1px solid theme('colors.gray.300');
+}
+
 /******** Firefox styles ********/
 /* slider track */
 input[type='range']::-moz-range-track {
@@ -140,5 +159,10 @@ input[type='range']:focus::-moz-range-thumb {
   border: 1px solid theme('colors.gray.100');
   outline: 3px solid theme('colors.gray.100');
   outline-offset: 0.125rem;
+}
+
+input[type='range']:read-only::-moz-range-thumb {
+  background-color: theme('colors.gray.100');
+  border: 1px solid theme('colors.gray.300');
 }
 </style>

@@ -35,9 +35,9 @@ const onClick = (event: MouseEvent) => {
     :class="[(to || selectable) && 'cursor-pointer group hover:bg-gray-100']"
     @click="onClick"
   >
-    <CommonDatatableTD v-if="selectable">
-      <CommonFormCheckbox class="mb-0" :model-value="item.isSelected" />
-    </CommonDatatableTD>
+    <DatatableTD v-if="selectable">
+      <FormCheckbox class="mb-0" :model-value="item.isSelected" />
+    </DatatableTD>
     <slot />
   </tr>
 </template>

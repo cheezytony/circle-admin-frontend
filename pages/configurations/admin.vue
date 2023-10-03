@@ -11,9 +11,9 @@ const configurations = computed(() => data.value?.data?.data)
 </script>
 
 <template>
-  <CommonForm class="gap-x-8 grid grid-cols-1 md:grid-cols-2">
+  <Form class="gap-x-8 grid grid-cols-1 md:grid-cols-2">
     <template :key="configuration.slug" v-for="(configuration) in configurations">
-      <PageSectionsConfigurationItem v-bind="{ configuration }" />
+      <ConfigurationsItem v-bind="{ configuration }" />
     </template>
-  </CommonForm>
+  </Form>
 </template>

@@ -38,7 +38,7 @@ const { submit } = useFormRequest<{ user: Admin; token: string }>(form, {
   <section class="row">
     <div class="w-full">
       <div class="mb-12">
-        <CommonHeading level="1" class="mb-2">Hi, Welcome Back.</CommonHeading>
+        <Heading level="1" class="mb-2">Hi, Welcome Back.</Heading>
         <p>Login to your account to resume your progress.</p>
       </div>
 
@@ -78,14 +78,14 @@ const { submit } = useFormRequest<{ user: Admin; token: string }>(form, {
           </div>
 
           <div class="w-full">
-            <CommonMessage color-scheme="green" v-if="form.success">
+            <Message color-scheme="green" v-if="form.success">
               <i class="bi bi-check-square" />
               <span class="ml-1">{{ form.success }}</span>
-            </CommonMessage>
-            <CommonMessage color-scheme="red" v-else-if="form.error">
+            </Message>
+            <Message color-scheme="red" v-else-if="form.error">
               <i class="bi bi-exclamation-square" />
               <span class="ml-1">{{ form.error }}</span>
-            </CommonMessage>
+            </Message>
 
             <div class="mb-3 mt-4">
               <ButtonSubmit

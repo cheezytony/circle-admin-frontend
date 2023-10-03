@@ -1,4 +1,5 @@
-<script lang="ts" setup>
+<script lang="ts" setup generic="TModel extends Record<string, any>">
+import { ref } from 'vue';
 import {
   DatatableProvision,
   DataTableSearch,
@@ -6,29 +7,28 @@ import {
   DatatableFilter,
   DatatableMeta,
   DatatableSort,
+  DatatableItem,
 } from '~~/types/components';
-import {
-  ServiceNames,
-  useApiRequest,
-} from '~~/utils/hooks/api';
+import { ServiceNames, useApiRequest } from '~~/utils/hooks/api';
 
 defineExpose();
 const emit = defineEmits<{
   (e: 'update:activeFilters', value: string[]): void;
   (e: 'update:searchColumn', value: DatatableSearchColumn): void;
   (e: 'update:searchKey', value: string): void;
-  (e: 'update:selection', value: any[]): void;
+  (e: 'update:selection', value: TModel[]): void;
 }>();
 const props = withDefaults(
   defineProps<{
     activeFilters?: string[];
     baseUrl?: string;
-    data?: any[];
+    data?: TModel[];
     filterable?: boolean;
     filters?: Array<DatatableFilter>;
     isLoading?: boolean;
     limitable?: boolean;
     limit?: number;
+    model?: TModel;
     orderBy?: string;
     orderByAscending?: boolean;
     page?: number;
@@ -37,7 +37,7 @@ const props = withDefaults(
     searchColumn?: string;
     searchColumns?: Array<DatatableSearchColumn>;
     searchKey?: string;
-    selection?: any[];
+    selection?: TModel[];
     selectable?: boolean;
     service?: ServiceNames;
     showSearchColumns?: boolean;
@@ -262,11 +262,11 @@ const toggleFilter = (filterName: string) => {
 // ========================================================================================================================
 //
 // ========================================================================================================================
-const selection = ref<any[]>(props.selection ?? []);
+const selection = ref(props.selection ?? []) as Ref<TModel[]>;
 // const isAllSelected = computed(() => {
 //   // return selection.value.every();
 // });
-const getSelectionIndex = (item: any) => {
+const getSelectionIndex = (item: TModel) => {
   return selection.value.findIndex((selectedItem) => {
     if (props.uniqueKey) {
       const uniqueKey = props.uniqueKey;
@@ -280,7 +280,7 @@ const selectAll = (state: boolean) =>
   mode.value === 'server'
     ? selectAllFromServer(state)
     : selectAllFromLocal(state);
-const toggleSelection = (item: any) => {
+const toggleSelection = (item: TModel) => {
   const index = getSelectionIndex(item);
   index > -1 ? selection.value.splice(index, 1) : selection.value.push(item);
 
@@ -298,8 +298,8 @@ watch(
 // ========================================================================================================================
 // Local Data Control
 // ========================================================================================================================
-const localItems = ref<any[]>(props.data);
-const localSearch = (items: any[]) => {
+const localItems = ref(props.data) as Ref<TModel[]>;
+const localSearch = (items: TModel[]) => {
   if (!search.key || !props.searchColumns.length) return items;
   return items.filter((item) => {
     // Search with one column.
@@ -313,7 +313,7 @@ const localSearch = (items: any[]) => {
     });
   });
 };
-const localFilter = (items: any[]) => {
+const localFilter = (items: TModel[]) => {
   if (!activeFilters.value.length) return items;
   return items.filter((item) => {
     return activeFilters.value.every((filter) => {
@@ -321,7 +321,7 @@ const localFilter = (items: any[]) => {
     });
   });
 };
-const localSort = (items: any[]) => {
+const localSort = (items: TModel[]) => {
   if (!sort.column) return items;
   const column = sort.column;
   return [...items].sort((itemA, itemB) => {
@@ -375,7 +375,7 @@ onMounted(() => {
 // Server Data Control
 // ========================================================================================================================
 const controller = ref(new AbortController());
-const serverItems = ref<any[]>([]);
+const serverItems = ref([]) as Ref<TModel[]>;
 const serverPaginatedItems = computed(() => serverItems.value);
 const selectAllFromServer = (state: boolean) => {
   return emit(
@@ -393,7 +393,7 @@ const serverQuery = computed(() => {
     limit: meta.limit,
   };
 });
-const { isLoading, error, load } = useApiRequest<any[]>({
+const { isLoading, error, load } = useApiRequest<TModel[]>({
   baseURL: props.baseUrl,
   url: props.url ?? '',
   authorize: true,
@@ -432,6 +432,10 @@ onMounted(() => {
 const isDataLoading = computed(() => {
   return mode.value === 'server' ? isLoading.value : props.isLoading;
 });
+
+const getSlotRow = (row: any): DatatableItem => {
+  return row;
+};
 
 provide<DatatableProvision>('datatable', {
   getSelectionIndex,
@@ -475,7 +479,7 @@ provide<DatatableProvision>('datatable', {
           <span class="flex-shrink-0 font-medium text-gray-500 text-sm">
             Items per page:
           </span>
-          <CommonFormSelect
+          <FormSelect
             class="input-sm"
             :options="limits"
             :model-value="meta.limit"
@@ -539,18 +543,18 @@ provide<DatatableProvision>('datatable', {
       <div v-if="$slots.cta" class="md:ml-auto md:order-3">
         <slot name="cta" />
       </div>
-      <CommonDatatableSearch />
+      <DatatableSearch />
     </div>
-    <!-- <CommonDatatableFilter /> -->
+    <!-- <DatatableFilter /> -->
     <div class="flex gap-4 items-center" v-if="filterable && filters.length">
       <template v-for="filter in filters">
-        <CommonTag
+        <Tag
           :is-active="isFilterApplied(filter.name)"
           :right-icon="isFilterApplied(filter.name) ? 'close' : undefined"
           @click="toggleFilter(filter.name)"
         >
           {{ filter.title || filter.name }}
-        </CommonTag>
+        </Tag>
       </template>
       <span v-if="selectable" class="font-medium text-gray-400 text-sm">
         {{ selection.length }} Selected
@@ -562,9 +566,9 @@ provide<DatatableProvision>('datatable', {
       :is-loading="isDataLoading"
       :paginated-data="paginatedData"
     >
-      <CommonDatatableLoader v-if="isDataLoading" />
+      <DatatableLoader v-if="isDataLoading" />
       <ServerError v-else-if="error" :error="error" />
-      <CommonDatatableEmpty v-else-if="!paginatedData.length" />
+      <DatatableEmpty v-else-if="!paginatedData.length" />
       <div
         class="border border-gray-300 flex items-center justify-center min-h-[20rem] rounded-lg"
         v-else-if="!paginatedData.length"
@@ -577,18 +581,15 @@ provide<DatatableProvision>('datatable', {
         >
           <thead>
             <tr class="bg-gray-50">
-              <CommonDatatableTH v-if="selectable">
-                <CommonFormCheckbox
-                  class="mb-0"
-                  @update:modelValue="selectAll"
-                />
-              </CommonDatatableTH>
+              <DatatableTH v-if="selectable">
+                <FormCheckbox class="mb-0" @update:modelValue="selectAll" />
+              </DatatableTH>
               <slot name="heading" />
             </tr>
           </thead>
           <tbody>
             <template v-for="(row, index) in paginatedData">
-              <slot v-bind="row" />
+              <slot v-bind="getSlotRow({ ...row, loadFromServer })" />
             </template>
           </tbody>
         </table>

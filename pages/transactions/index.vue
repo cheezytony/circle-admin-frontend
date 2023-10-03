@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { WalletTransaction } from '~/types/models';
+import { WalletTransaction, WalletTransactionEx } from '~/types/models';
 import { DataListItem, DatatableSearchColumn } from '~~/types/components';
 import { dateTimeFormat } from '~~/utils/filters/dates';
 import { numberFormat } from '~~/utils/filters/numbers';
@@ -52,41 +52,42 @@ const dataList: Array<DataListItem> = [
 <template>
   <NuxtLayout name="default">
     <template #summary>
-      <CommonSummaryHeading>Overview</CommonSummaryHeading>
+      <SummaryHeading>Overview</SummaryHeading>
 
-      <CommonDataList :data="dataList" />
+      <DataList :data="dataList" />
     </template>
     <div>
-      <CommonPageHeading>
-        <CommonHeading level="2">All Transactions</CommonHeading>
-      </CommonPageHeading>
+      <PageHeading>
+        <Heading level="2">All Transactions</Heading>
+      </PageHeading>
 
-      <CommonDatatable
+      <Datatable
         url="/transactions"
         service="WALLET"
         :search-columns="columns"
         :column="column"
         order-by="created_at"
         :order-by-ascending="false"
+        :model="WalletTransactionEx"
       >
         <template #heading>
-          <CommonDatatableTH name="user_id">User</CommonDatatableTH>
-          <CommonDatatableTH align="right" name="amount">Amount</CommonDatatableTH>
-          <CommonDatatableTH name="currency">Currency</CommonDatatableTH>
-          <CommonDatatableTH name="reference">Reference</CommonDatatableTH>
-          <CommonDatatableTH name="type">Type</CommonDatatableTH>
-          <CommonDatatableTH name="status">Status</CommonDatatableTH>
-          <CommonDatatableTH name="created_at">Date</CommonDatatableTH>
+          <DatatableTH name="user_id">User</DatatableTH>
+          <DatatableTH align="right" name="amount">Amount</DatatableTH>
+          <DatatableTH name="currency">Currency</DatatableTH>
+          <DatatableTH name="reference">Reference</DatatableTH>
+          <DatatableTH name="type">Type</DatatableTH>
+          <DatatableTH name="status">Status</DatatableTH>
+          <DatatableTH name="created_at">Date</DatatableTH>
         </template>
-        <template #default="{ row }: { row: WalletTransaction }">
-          <CommonDatatableRow :to="`/users/${row.user_id}/wallet`">
-            <CommonDatatableTD>
+        <template #default="{ row }">
+          <DatatableRow :to="`/users/${row.user_id}/wallet`">
+            <DatatableTD>
               <span class="flex flex-col gap-1">
                 <span>{{ row.user?.firstName }} {{ row.user?.lastName }}</span>
                 <span class="text-xs opacity-50">{{ row.user_id }}</span>
               </span>
-            </CommonDatatableTD>
-            <CommonDatatableTD align="right">
+            </DatatableTD>
+            <DatatableTD align="right">
               <span
                 :class="{
                   'text-green-700': row.type === 'CREDIT',
@@ -95,19 +96,19 @@ const dataList: Array<DataListItem> = [
               >
                 {{ numberFormat(row.amount, 'currency', row.currency) }}
               </span>
-            </CommonDatatableTD>
-            <CommonDatatableTD>{{ row.currency }}</CommonDatatableTD>
-            <CommonDatatableTD>{{ row.reference }}</CommonDatatableTD>
-            <CommonDatatableTD>{{ row.type }}</CommonDatatableTD>
-            <CommonDatatableTD>
-              <CommonBadgeStatus :status="row.status" />
-            </CommonDatatableTD>
-            <CommonDatatableTD>
+            </DatatableTD>
+            <DatatableTD>{{ row.currency }}</DatatableTD>
+            <DatatableTD>{{ row.reference }}</DatatableTD>
+            <DatatableTD>{{ row.type }}</DatatableTD>
+            <DatatableTD>
+              <BadgeStatus :status="row.status" />
+            </DatatableTD>
+            <DatatableTD>
               {{ dateTimeFormat(row.created_at, 'date:compact:time') }}
-            </CommonDatatableTD>
-          </CommonDatatableRow>
+            </DatatableTD>
+          </DatatableRow>
         </template>
-      </CommonDatatable>
+      </Datatable>
     </div>
   </NuxtLayout>
 </template>

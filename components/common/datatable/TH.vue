@@ -21,7 +21,7 @@ const handleClick = () => {
 <template>
   <th
     align="left"
-    class="font-medium px-4 py-4 text-gray-700 md:text-sm"
+    class="font-medium px-4 py-4 text-gray-700 text-xs md:first:pl-8 md:last:pr-8 md:text-sm"
     :class="[name && 'cursor-pointer']"
     @click="handleClick"
   >

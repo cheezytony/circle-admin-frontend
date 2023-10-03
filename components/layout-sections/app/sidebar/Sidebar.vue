@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { NuxtLink } from '#components';
 import { useAuth } from '~~/store/auth';
 import { useTheme } from '~~/store/theme';
 import { storeToRefs } from 'pinia';
@@ -12,6 +10,8 @@ interface SidebarLink {
   title: string;
 
   isLogout?: boolean;
+
+  children?: Array<Omit<SidebarLink, 'icon' | 'children'>>;
 }
 
 interface SidebarSection {
@@ -22,7 +22,6 @@ interface SidebarSection {
 const route = useRoute();
 const { isSidebarCollapsed, isSmallScreen } = storeToRefs(useTheme());
 const { toggleSidebar, closeSidebar } = useTheme();
-const { logout } = useAuth();
 const sections: Array<SidebarSection> = [
   {
     title: '',
@@ -59,7 +58,15 @@ const sections: Array<SidebarSection> = [
       },
       { title: 'Loans', href: '/loans', icon: 'fas fa-money-bill' },
       { title: 'Insurance', href: '/insurance', icon: 'fas fa-shield-halved' },
-      { title: 'Subscriptions', href: '/subscriptions', icon: 'list-check' },
+      {
+        title: 'Subscriptions',
+        href: '/subscriptions',
+        icon: 'square-check',
+        children: [
+          { title: 'Subscriptions', href: '/subscriptions', exact: true },
+          { title: 'Plans', href: '/subscriptions/plans' },
+        ],
+      },
     ],
   },
   {
@@ -84,18 +91,6 @@ const sections: Array<SidebarSection> = [
     ],
   },
 ];
-const isActiveRoute = ({ href, exact = false }: SidebarLink) => {
-  const routePath = route.path;
-  return (
-    href && (exact ? href === routePath : !!routePath.match(new RegExp(`^${href}`)))
-  );
-};
-
-const handleLinkClick = ({ isLogout }: SidebarLink) => {
-  if (isLogout) {
-    logout();
-  }
-};
 
 watch(
   route,
@@ -120,53 +115,17 @@ watch(
       @click.prevent="toggleSidebar"
     >
       <div>
-        <CommonLogoDefault class="text-[7px]" />
+        <LogoDefault class="text-[7px]" />
       </div>
       <div class="font-medium text-2xl tracking-widest">CIRCLE</div>
     </button>
 
-    <nav class="flex flex-col flex-grow gap-16">
+    <nav class="flex flex-col flex-grow gap-14">
       <template
         :key="title"
         v-for="({ title, links }, sectionIndex) in sections"
       >
-        <ul
-          class="flex flex-col gap-8"
-          :class="[sectionIndex === sections.length - 1 && 'mt-auto']"
-        >
-          <template :key="`${title}-${link.title}`" v-for="link in links">
-            <CommonTooltip
-              :content="link.title"
-              :is-active="isSidebarCollapsed"
-              placement="right-center"
-            >
-              <component
-                :is="link.isLogout ? 'button' : NuxtLink"
-                :to="link.href"
-                class="appearance-none duration-300 flex gap-8 items-center relative text-sm"
-                :class="[
-                  isActiveRoute(link)
-                    ? 'text-purple-400'
-                    : 'text-gray-400 hover:text-purple-100',
-                ]"
-                :aria-title="title"
-                :title="link.title"
-                @click="handleLinkClick(link)"
-              >
-                <span class="grid place-items-center w-9">
-                  <span
-                    class="grid h-auto opacity-75 place-items-center rounded-full text-lg w-10"
-                  >
-                    <FontAwesomeIcon :icon="link.icon" />
-                  </span>
-                </span>
-                <span class="tracking-wide whitespace-nowrap">{{
-                  link.title
-                }}</span>
-              </component>
-            </CommonTooltip>
-          </template>
-        </ul>
+        <AppSidebarSection v-bind="{ title, links }" />
       </template>
     </nav>
   </aside>

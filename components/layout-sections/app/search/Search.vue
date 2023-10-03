@@ -2,13 +2,23 @@
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { useDisclosure } from '~~/utils/hooks/misc';
 
-const inputRef = ref<HTMLInputElement>();
 const { isOpen, close, open, onOpen } = useDisclosure(false);
-const tabs = ['Admins', 'Users', 'Products', 'Transactions', 'Settings'];
+const inputRef = ref<HTMLInputElement>();
+const tabs = ['All', 'Admins', 'Users', 'Products', 'Transactions', 'Settings'];
+const handleKeyUp = (event: KeyboardEvent) => {
+  switch (event.key) {
+    case '':
+      
+      break;
+  
+    default:
+      break;
+  }
+}
 
-onOpen(() => {
-  setTimeout(() => inputRef.value?.focus(), 0);
-});
+onOpen(() => nextTick(() => inputRef.value?.focus()));
+onMounted(() => window.addEventListener('keyup', handleKeyUp));
+onBeforeUnmount(() => window.removeEventListener('keyup', handleKeyUp));
 </script>
 
 <template>
@@ -16,7 +26,9 @@ onOpen(() => {
     class="bg-gray-100 h-12 max-w-full relative rounded-full text-gray-500 w-12 md:h-12 md:min-w-[300px] md:rounded"
     @click.prevent="open"
   >
-    <span class="absolute hidden md:inline left-6 top-1/2 -translate-y-1/2">Search</span>
+    <span class="absolute hidden md:inline left-6 top-1/2 -translate-y-1/2">
+      Search
+    </span>
     <span
       class="absolute right-1/2 top-1/2 translate-x-1/2 -translate-y-1/2 md:right-6 md:translate-x-0"
     >
@@ -60,9 +72,15 @@ onOpen(() => {
           </span>
         </form>
 
-        <CommonTabs>
-          <CommonTabsNav :tabs="tabs" />
-        </CommonTabs>
+        <Tabs>
+          <TabsNav :tabs="tabs" />
+        </Tabs>
+
+        <div class="gap-4 grid grid-cols-1 md:grid-cols-2">
+          <template v-for="i in 10">
+            <AppSearchResult />
+          </template>
+        </div>
       </div>
     </Transition>
   </Teleport>
