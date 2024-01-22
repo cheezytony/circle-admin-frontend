@@ -29,9 +29,12 @@ const links: Array<TabLink> = [
     <PageHeading>
       <Heading level="2">Share and Earn</Heading>
     </PageHeading>
-    <Tabs>
-      <TabsNav :tabs="links" />
-    </Tabs>
+
+    <div class="flex">
+      <Tabs>
+        <TabsNav :tabs="links" />
+      </Tabs>
+    </div>
 
     <div>
       <RouterView />

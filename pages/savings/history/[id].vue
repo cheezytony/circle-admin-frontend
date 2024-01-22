@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { DatatableItem } from '~/types';
-import { SavingsTransaction } from '~~/types/models';
+import { SavingsTransaction, SavingsTransactionEx } from '~~/types/models';
 import { dateTimeFormat } from '~~/utils/filters/dates';
 import { numberFormat } from '~~/utils/filters/numbers';
 
@@ -38,6 +38,7 @@ useHead({
       service="SAVINGS"
       :filters="filters"
       :search-columns="columns"
+      :model="SavingsTransactionEx"
     >
       <template #heading>
         <DatatableTH name="id">ID</DatatableTH>
@@ -49,7 +50,7 @@ useHead({
         <DatatableTH name="status">Status </DatatableTH>
         <DatatableTH name="created_at">Date </DatatableTH>
       </template>
-      <template #default="{ row }: DatatableItem<SavingsTransaction>">
+      <template #default="{ row }">
         <DatatableRow>
           <DatatableTD>
             <div class="flex items-center gap-3">

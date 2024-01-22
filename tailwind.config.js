@@ -1006,6 +1006,7 @@ module.exports = {
         body: {
           color: '#495057',
           lineHeight: '26px',
+          overflowX: 'clip',
           '&:has(.dialog-open)': {
             overflow: 'hidden',
           },

@@ -17,12 +17,8 @@ const {
 
 <template>
   <div>
-    <PageHeading>
-      <Heading level="2">Successful Referrals</Heading>
-    </PageHeading>
-
     <Datatable
-      :url="'referral-wallets/successful-referrals'"
+      url="referral-wallets/successful-referrals"
       service="AUTH"
       :search-columns="columns"
       :column="column"
