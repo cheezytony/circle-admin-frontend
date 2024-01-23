@@ -60,10 +60,10 @@ const goBack = () => router.push('/admins');
 
 <template>
   <div class="flex flex-col gap-4 md:gap-8">
-    <div class="flex gap-4 md:gap-8">
+    <div class="flex flex-col gap-4 md:flex-row md:gap-8">
       <Card class="w-full">
         <div class="flex flex-grow h-full gap-4 items-center md:gap-8">
-          <div class="">
+          <div class="flex-shrink-0">
             <img
               :src="avatar"
               :alt="`${admin.first_name} ${admin.last_name}`"

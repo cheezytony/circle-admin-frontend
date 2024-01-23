@@ -38,6 +38,7 @@ const stats = computed<Array<DataListItem>>(() => {
 const tabs: Array<TabLink> = [
   { title: 'Profile', href: `/users/${userId.value}`, exact: true },
   { title: 'Wallet', href: `/users/${userId.value}/wallet` },
+  { title: 'Savings', href: `/users/${userId.value}/savings` },
   { title: 'Stocks', href: `/users/${userId.value}/stocks` },
   { title: 'Subscriptions', href: `/users/${userId.value}/subscriptions` },
   // { title: 'Audit Trail', href: `/users/${userId.value}/audit-trail` },

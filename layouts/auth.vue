@@ -6,7 +6,7 @@
     <div class="bg-black flex-grow hidden md:block">
 
     </div>
-    <div class="md:w-1/2 pt-16 pb-24 px-16">
+    <div class="md:w-1/2 pt-16 pb-24 px-6 md:px-16">
       <div class="max-w-[500px]">
         <div class="flex gap-8 items-center mb-16 pb-5">
           <LogoDefault class="text-[10px]" />

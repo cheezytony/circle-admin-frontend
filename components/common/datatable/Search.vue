@@ -77,5 +77,6 @@ const reset = () => {
         <FontAwesomeIcon icon="close" />
       </button>
     </div>
+    <!-- <Button left-icon="search" size="sm" @click="searchOnServer" /> -->
   </div>
 </template>

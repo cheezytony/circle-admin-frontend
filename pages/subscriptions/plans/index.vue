@@ -9,7 +9,7 @@ definePageMeta({
 useHead({ title: 'Subscription Plans' });
 
 const columns = [{ name: 'name', title: 'Name' }];
-const display = ref<'grid' | 'list'>('list');
+const display = ref<'grid' | 'list'>('grid');
 </script>
 
 <template>

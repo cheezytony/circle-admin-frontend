@@ -9,7 +9,7 @@ const colorScheme = computed(() => getAppColor(props.colorScheme, ['bg', 'border
 </script>
 
 <template>
-  <div class="inline-flex gap-2 px-3 py-2 rounded text-sm" :class="colorScheme">
+  <div class="inline-flex gap-2 items-center px-3 py-2 rounded text-sm" :class="colorScheme">
     <slot></slot>
   </div>
 </template>

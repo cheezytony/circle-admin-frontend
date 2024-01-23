@@ -16,10 +16,6 @@ const column = ref('id');
 
 <template>
   <div>
-    <PageHeading>
-      <Heading level="2">Referees</Heading>
-    </PageHeading>
-
     <Datatable
       :url="'referral-wallets/referees'"
       service="AUTH"
@@ -31,15 +27,11 @@ const column = ref('id');
         <DatatableTH name="user_id.firstName">
           User Name
         </DatatableTH>
-
         <DatatableTH name="user_id.email">Email</DatatableTH>
-
         <DatatableTH name="referrerId._id">
           User_id(Referrer)
         </DatatableTH>
-
         <DatatableTH name="createdAt">Date Signed Up</DatatableTH>
-
         <DatatableTH name="status">Status</DatatableTH>
       </template>
 
@@ -53,22 +45,18 @@ const column = ref('id');
               <span class="text-xs opacity-50">{{ row.user_id?._id }}</span>
             </span>
           </DatatableTD>
-
           <DatatableTD>
-            {{ row.user_id?.email || 'N/A' }}
+            {{ optional(row.user_id?.email) }}
           </DatatableTD>
-
           <DatatableTD>
-            {{ row.referrer_id?._id || 'N/A' }}
+            {{ optional(row.referrer_id?._id) }}
           </DatatableTD>
-
           <DatatableTD>
-            {{
-              row.created_at ? dateTimeFormat(row.created_at, 'date') : 'N/A'
-            }}
+            {{ dateTimeFormat(row.created_at, 'date:compact') }}
           </DatatableTD>
-
-          <DatatableTD>{{ row.status }}</DatatableTD>
+          <DatatableTD>
+            <BadgeStatus :status="row.status" />
+          </DatatableTD>
         </DatatableRow>
       </template>
     </Datatable>
