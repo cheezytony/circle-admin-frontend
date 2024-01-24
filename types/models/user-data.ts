@@ -74,7 +74,7 @@ export interface ShareAndEarn extends Model {
     email: string;
     _id: string;
   };
-  status?: string;
+  status: string;
   createdAt: Date;
   total_count?: number;
 }

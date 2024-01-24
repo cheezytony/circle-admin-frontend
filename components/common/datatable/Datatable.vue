@@ -1,5 +1,6 @@
 <script lang="ts" setup generic="TModel extends Record<string, any>">
 import { ref } from 'vue';
+import { useReactiveApi } from '~/utils/hooks/api-reactive';
 import {
   DatatableProvision,
   DataTableSearch,
@@ -219,12 +220,16 @@ const setSearchColumn = (column: string) => {
   emit('update:searchColumn', (search.column = column));
 };
 const resetOnServer = () => {
+  if (!props.url) return;
+
   meta.page = 1;
   search.key = '';
   search.column = searchColumnNames.value[0];
   loadFromServer();
 };
 const searchOnServer = () => {
+  if (!props.url) return;
+
   meta.page = 1;
   loadFromServer();
 };
@@ -393,7 +398,7 @@ const serverQuery = computed(() => {
     limit: meta.limit,
   };
 });
-const { isLoading, error, load } = useApiRequest<TModel[]>({
+const { isLoading, error, config, load } = useReactiveApi<TModel[]>({
   baseURL: props.baseUrl,
   url: props.url ?? '',
   authorize: true,
@@ -418,11 +423,10 @@ const loadFromServer = async () => {
     controller.value.abort();
     controller.value = new AbortController();
   }
-  await load({ params: serverQuery.value });
-  router.replace({
-    path: route.path,
-    query: { ...route.query, ...serverQuery.value },
-  });
+
+  config.value.params = serverQuery.value;
+
+  await load();
 };
 onMounted(() => {
   if (props.url) loadFromServer();
@@ -479,12 +483,14 @@ provide<DatatableProvision>('datatable', {
           <span class="flex-shrink-0 font-medium text-gray-500 text-sm">
             Items per page:
           </span>
-          <FormSelect
-            class="input-sm"
-            :options="limits"
-            :model-value="meta.limit"
-            @update:model-value="updateLimit"
-          />
+          <div class="max-w-[100px]">
+            <FormSelect
+              size="sm"
+              :options="limits"
+              :model-value="meta.limit"
+              @update:model-value="updateLimit"
+            />
+          </div>
         </div>
         <div class="flex flex-wrap gap-2">
           <button
@@ -589,7 +595,7 @@ provide<DatatableProvision>('datatable', {
           </thead>
           <tbody>
             <template v-for="(row, index) in paginatedData">
-              <slot v-bind="getSlotRow({ ...row, loadFromServer })" />
+              <slot v-bind="{ ...row, loadFromServer }" />
             </template>
           </tbody>
         </table>

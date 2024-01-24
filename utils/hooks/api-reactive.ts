@@ -1,30 +1,16 @@
-// eslint-disable-next-line import/named
-import { ComputedRef, Ref } from 'vue';
+import type { Ref } from 'vue';
 import {
-  Form,
   getFormData,
   getRawFormData,
   setFormErrors,
   validateForm,
+  type Form,
 } from 'vue3-form';
-// import toastr from 'toastr';
-// eslint-disable-next-line import/named
-import axios, { AxiosRequestConfig, isCancel } from 'axios';
-import { HTTPError, HTTPErrorData, HTTPResponseData } from '~~/types/http';
-import { useAuth } from '~~/store/auth';
+import axios, { isCancel, type AxiosRequestConfig } from 'axios';
+import type { HTTPError, HTTPErrorData, HTTPResponseData } from '~~/types/http';
+import { useAuth } from '~/store/auth';
 
-export type ServiceNames =
-  | 'ADMIN'
-  | 'AUTH'
-  | 'LOANS'
-  | 'SAVINGS'
-  | 'SHARE_AND_EARN'
-  | 'STOCKS'
-  | 'SUBSCRIPTIONS'
-  | 'USER_DATA'
-  | 'WALLET';
-
-export type APIRequestConfig<T> = {
+type APIRequestConfig<T> = {
   method?: string;
   headers?: object;
 
@@ -41,41 +27,7 @@ export type APIRequestConfig<T> = {
   onFinish?: () => void;
 } & AxiosRequestConfig;
 
-export const useServiceBaseUrl = (service?: ServiceNames) => {
-  const {
-    public: {
-      apiBaseUrl,
-      authServiceBaseUrl,
-      loanBaseUrl,
-      savingsBaseUrl,
-      stocksBaseUrl,
-      subscriptionsBaseUrl,
-      userDataBaseUrl,
-      walletBaseUrl,
-    },
-  } = useRuntimeConfig();
-
-  switch (service) {
-    case 'AUTH':
-      return authServiceBaseUrl;
-    case 'LOANS':
-      return loanBaseUrl;
-    case 'SAVINGS':
-      return savingsBaseUrl;
-    case 'SUBSCRIPTIONS':
-      return subscriptionsBaseUrl;
-    case 'STOCKS':
-      return stocksBaseUrl;
-    case 'USER_DATA':
-      return userDataBaseUrl;
-    case 'WALLET':
-      return walletBaseUrl;
-    default:
-      return apiBaseUrl;
-  }
-};
-
-export const useApiRequest = <T>(baseConfig: APIRequestConfig<T>) => {
+export const useReactiveApi = <T>(baseConfig: APIRequestConfig<T>) => {
   const config = ref(baseConfig);
 
   const { logout, token } = useAuth();
@@ -136,7 +88,7 @@ export const useApiRequest = <T>(baseConfig: APIRequestConfig<T>) => {
   return { isLoading, data, error, config, load };
 };
 
-export const useFormRequest = <T>(
+export const useReactiveFormRequest = <T>(
   form: Ref<Form>,
   {
     useFormData,
@@ -144,7 +96,7 @@ export const useFormRequest = <T>(
     ...baseConfig
   }: APIRequestConfig<T> & { useFormData?: boolean; wrapperKey?: string }
 ) => {
-  const { load, config, ...data } = useApiRequest<T>({
+  const { load, config, ...data } = useReactiveApi<T>({
     ...baseConfig,
     onSuccess: (data) => {
       form.value.success = data?.message ?? null;
@@ -162,6 +114,8 @@ export const useFormRequest = <T>(
   });
 
   const submit = async () => {
+    console.log('hello?');
+    
     if (!validateForm(form)) return;
 
     form.value.loading = true;
@@ -172,7 +126,7 @@ export const useFormRequest = <T>(
 
     config.value.data = wrapperKey ? { [wrapperKey]: data } : data;
 
-    await load();
+    // await load();
   };
 
   return { ...data, submit };

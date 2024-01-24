@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: process.env.NODE_ENV !== 'production',
+  // devtools: process.env.NODE_ENV !== 'production',
   ssr: false,
 
   css: [

@@ -37,7 +37,10 @@ const updatePopperOptions = () => {
 };
 const updatePosition = () => popperInstance.value?.update();
 
-onMounted(createPopperInstance);
+onMounted(() => {
+  // Added timeout to prevent overflow in some cases on mobile.
+  setTimeout(createPopperInstance, 100);
+});
 onBeforeUnmount(destroyPopperInstance);
 watch([() => props.placement, () => props.offset], updatePopperOptions);
 
@@ -48,7 +51,7 @@ defineExpose({ updatePosition });
   <div class="inline" ref="referenceRef">
     <slot />
     <Teleport to="body">
-      <div class="inline" ref="popperRef" :style="{ zIndex }">
+      <div class="inline pointer-events-none" ref="popperRef" :style="{ zIndex }">
         <slot name="popper" />
       </div>
     </Teleport>

@@ -4,9 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { useAuth } from '~~/store/auth';
 import { useTheme } from '~~/store/theme';
 
-const props = defineProps<{
-  pageHasSummary: boolean;
-}>();
+const props = defineProps<{ pageHasSummary: boolean }>();
 
 const { toggleSidebar, toggleSummary } = useTheme();
 const { isSidebarCollapsed, isSummaryOpen, isSmallScreen } = storeToRefs(
@@ -28,15 +26,9 @@ const width = computed(() => {
   return `calc(100% - ${difference}px)`;
 });
 
-const handleScroll = () => {
-  isSticky.value = window.scrollY > 0;
-};
-onMounted(() => {
-  window.addEventListener('scroll', handleScroll)
-});
-onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll);
-});
+const handleScroll = () => (isSticky.value = window.scrollY > 0);
+onMounted(() => window.addEventListener('scroll', handleScroll));
+onUnmounted(() => window.removeEventListener('scroll', handleScroll));
 </script>
 
 <template>
@@ -62,45 +54,40 @@ onUnmounted(() => {
           :icon="isSummaryOpen ? 'chevron-left' : 'chevron-right'"
         />
       </Button>
-      <AppSearch />
+      <!-- <AppSearch /> -->
 
-      <button
-        class="appearance-none bg-gray-100 flex-shrink-0 h-12 md:ml-auto rounded-full w-12"
-        type="button"
-      >
-        <FontAwesomeIcon icon="fa-regular fa-bell" />
-      </button>
-
-      <Dropdown
-        placement="bottom-end"
-        :items="[
-          { title: 'My Profile', href: '/settings' },
-          { title: 'Logout', onClick: logout },
-        ]"
-      >
-        <button
-          class="flex flex-shrink-0 gap-3 items-center text-gray-600 text-sm"
-          type="button"
+      <div class="md:ml-auto">
+        <Dropdown
+          placement="bottom-end"
+          :items="[
+            { title: 'My Profile', href: '/settings' },
+            { title: 'Logout', onClick: logout },
+          ]"
         >
-          <span
-            class="h-10 bg-black flex-shrink-0 grid overflow-hidden place-items-center rounded-full text-white w-10"
+          <button
+            class="flex flex-shrink-0 gap-3 items-center text-gray-600 text-sm"
+            type="button"
           >
-            <img
-              v-if="avatar"
-              :src="avatar"
-              :alt="name"
-              class="h-full object-cover w-full"
-            />
-            <template v-else>
-              {{ initials }}
-            </template>
-          </span>
-          <span class="hidden md:block">
-            {{ name }}
-          </span>
-          <FontAwesomeIcon icon="chevron-down" />
-        </button>
-      </Dropdown>
+            <span
+              class="h-10 bg-black flex-shrink-0 grid overflow-hidden place-items-center rounded-full text-white w-10"
+            >
+              <img
+                v-if="avatar"
+                :src="avatar"
+                :alt="name"
+                class="h-full object-cover w-full"
+              />
+              <template v-else>
+                {{ initials }}
+              </template>
+            </span>
+            <span class="hidden md:block">
+              {{ name }}
+            </span>
+            <FontAwesomeIcon icon="chevron-down" />
+          </button>
+        </Dropdown>
+      </div>
     </div>
   </header>
 </template>
